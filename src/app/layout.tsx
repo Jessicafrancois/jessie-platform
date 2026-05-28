@@ -1,55 +1,45 @@
-import type { Metadata } from 'next'
 
-import { Geist, Geist_Mono }
-from 'next/font/google'
+import type { Metadata }
+from 'next'
 
 import './globals.css'
 
-import SmoothScroll
-from '../components/SmoothScroll'
-
-import Navbar
-from '../components/Navbar'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
+import ClientLayout
+from './ClientLayout'
 
 export const metadata: Metadata = {
-  title: 'Jessie Platform',
+
+  title:
+    'Jessie Platform',
+
   description:
-    'Immersive narrative platform',
+    'Creative operating system',
+
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
 
   return (
-    <html
-      lang="en"
 
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en">
 
-      <body className="min-h-full flex flex-col">
+<body suppressHydrationWarning={true}>
 
-        <SmoothScroll />
 
-        <Navbar />
+        <ClientLayout>
 
-        {children}
+          {children}
+
+        </ClientLayout>
 
       </body>
 
     </html>
+
   )
 }
+

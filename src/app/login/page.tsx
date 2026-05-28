@@ -1,60 +1,149 @@
+
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  'https://kpbehguoxekpfejjahcf.supabase.co',
-  'sb_publishable_FEPU3lc-DQs86oa-Q7Fl9A_pP6pDxrZ'
-)
+import { useRouter } from 'next/navigation'
+
+import { supabase } from '../../lib/supabase'
+
+import '../dashboard/dashboard.css'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
-  async function handleLogin() {
-    const { data, error } =
+  const router =
+    useRouter()
+
+  const [email, setEmail] =
+    useState('')
+
+  const [password, setPassword] =
+    useState('')
+
+  const [error, setError] =
+    useState('')
+
+  async function handleLogin(
+    e: React.FormEvent
+  ) {
+
+    e.preventDefault()
+
+    setError('')
+
+    const { error } =
       await supabase.auth.signInWithPassword({
+
         email,
         password,
+
       })
 
-    console.log(data)
-    console.log(error)
+if (error) {
+
+  console.log(error)
+
+  setError(error.message)
+
+  return
+}
+console.log('LOGIN SUCCESS') 
+router.push('/dashboard')
+
+    router.push('/dashboard')
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md flex flex-col gap-4">
 
-        <h1 className="text-3xl font-bold">
-          Admin Login
-        </h1>
+    <main className="login-page">
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-3 rounded-lg"
-        />
+      {/* LEFT */}
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-3 rounded-lg"
-        />
+      <section className="login-visual">
 
-        <button
-          onClick={handleLogin}
-          className="bg-black text-white p-3 rounded-lg"
+        <div>
+
+          <p className="login-kicker">
+            Private Workspace
+          </p>
+
+          <h1>
+            Creative
+            <br />
+            Operating
+            <br />
+            System
+          </h1>
+
+        </div>
+
+        <p className="login-description">
+
+          Enter the private workspace managing
+          essays, ventures, worlds, and systems.
+
+        </p>
+
+      </section>
+
+      {/* RIGHT */}
+
+      <section className="login-panel">
+
+        <form
+          onSubmit={handleLogin}
+          className="login-card"
         >
-          Login
-        </button>
 
-      </div>
+          <p className="login-label">
+            Dashboard Access
+          </p>
+
+          <h2>
+            Welcome Back
+          </h2>
+
+          <input
+            type="email"
+
+            placeholder="Email"
+
+            value={email}
+
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
+
+          <input
+            type="password"
+
+            placeholder="Password"
+
+            value={password}
+
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
+
+          {error && (
+
+            <p className="login-error">
+              {error}
+            </p>
+
+          )}
+
+          <button type="submit">
+            Enter Dashboard
+          </button>
+
+        </form>
+
+      </section>
+
     </main>
+
   )
 }
