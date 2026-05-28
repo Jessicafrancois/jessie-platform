@@ -31,27 +31,20 @@ export default function LoginPage() {
 
     setError('')
 
-    const { error } =
-      await supabase.auth.signInWithPassword({
-
-        email,
-        password,
-
-      })
+const { data, error } = await supabase.auth.signInWithPassword({
+  email,
+  password,
+})
 
 if (error) {
-
-  console.log(error)
-
-  setError(error.message)
-
+  console.error(error)
+  alert(error.message)
   return
 }
-console.log('LOGIN SUCCESS') 
-router.push('/dashboard')
 
-    router.push('/dashboard')
-  }
+console.log('LOGIN SUCCESS')
+
+router.push('/dashboard')
 
   return (
 

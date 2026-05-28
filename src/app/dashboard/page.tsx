@@ -1,11 +1,12 @@
 
 'use client'
 
-import DashboardEssays
-from '../../components/dashboard/DashboardEssays'
-
 import DashboardRail
 from '../../components/dashboard/DashboardRail'
+
+
+import DashboardEssays
+from '../../components/dashboard/DashboardEssays'
 
 import DashboardDock
 from '../../components/dashboard/DashboardDock'
@@ -17,7 +18,6 @@ from '../../components/dashboard/DashboardHero'
 
 import DashboardProjects
 from '../../components/dashboard/DashboardProjects'
-
 
 import { useEffect, useState }
 from 'react'
@@ -65,72 +65,44 @@ export default function DashboardPage() {
   const [projects, setProjects] =
     useState<Project[]>([])
 
-  useEffect(() => {
+const [loading, setLoading] = useState(true)
 
-    async function loadDashboard() {
+useEffect(() => {
+  async function loadDashboard() {
 
-      /* SPARKS */
-
-      const { data: sparkData } =
-        await supabase
-          .from('sparks')
-          .select('quote, author')
-
-      if (sparkData?.length) {
-
-        const currentHour =
-          new Date().getHours()
-
-        const currentSpark =
-          sparkData[
-            currentHour %
-            sparkData.length
-          ]
-
-        setSpark(currentSpark)
-      }
-
-      /* ESSAYS */
-
-      const { data: essayData } =
-        await supabase
-          .from('essays')
-          .select('title, slug')
-          .order('created_at', {
-            ascending: false,
-          })
-          .limit(3)
-
-      setEssays(essayData || [])
-
-      /* INQUIRIES */
-
-      const { data: inquiryData } =
-        await supabase
-          .from('inquiries')
-          .select('*')
-          .order('created_at', {
-            ascending: false,
-          })
-
-      setInquiries(inquiryData || [])
-
-      /* PROJECTS */
-
-      const { data: projectData } =
-        await supabase
-          .from('projects')
-          .select('*')
-          .order('created_at', {
-            ascending: false,
-          })
-
-      setProjects(projectData || [])
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) {
+      window.location.href = '/login'
+      return
     }
 
-    loadDashboard()
+    const { data: sparkData } = await supabase
+      .from('sparks').select('quote, author')
+    if (sparkData?.length) {
+      const currentHour = new Date().getHours()
+      setSpark(sparkData[currentHour % sparkData.length])
+    }
 
-  }, [])
+    const { data: essayData } = await supabase
+      .from('essays').select('title, slug')
+      .order('created_at', { ascending: false }).limit(3)
+    setEssays(essayData || [])
+
+    const { data: inquiryData } = await supabase
+      .from('inquiries').select('*')
+      .order('created_at', { ascending: false })
+    setInquiries(inquiryData || [])
+
+    const { data: projectData } = await supabase
+      .from('projects').select('*')
+      .order('created_at', { ascending: false })
+    setProjects(projectData || [])
+
+    setLoading(false)
+  }
+
+  loadDashboard()
+}, [])
 
   async function handleLogout() {
 
@@ -142,6 +114,8 @@ export default function DashboardPage() {
 
   const latestInquiry =
     inquiries[0]
+
+if (loading) return <div style={{ color: 'white', padding: '2rem' }}>Loading...</div>
 
   return (
 
