@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Jessie Platform
 
 An immersive narrative platform built with Next.js, Supabase, and cinematic editorial design principles.
@@ -124,3 +125,6 @@ The platform is evolving into a larger immersive ecosystem focused on:
 - cinematic publishing
 - modular world-building systems
 - creative operating systems
+=======
+# jessie-platform
+>>>>>>> 67dc23c0c39234b192714a6359673f42b2bbf7b2

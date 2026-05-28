@@ -5,3 +5,4 @@ export const SECTION_REGISTRY = {
 }
 
 export type SectionType = keyof typeof SECTION_REGISTRY
+export const SECTION_REGISTRY = {}
