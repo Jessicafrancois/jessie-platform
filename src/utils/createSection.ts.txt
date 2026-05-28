@@ -1,0 +1,15 @@
+import { SECTION_REGISTRY } from '@/sections/registry'
+
+export function createSection(type: string) {
+  const sectionDef = SECTION_REGISTRY[type]
+
+  if (!sectionDef) {
+    throw new Error(`Unknown section type: ${type}`)
+  }
+
+  return {
+    type,
+
+    content: structuredClone(sectionDef.defaults),
+  }
+}

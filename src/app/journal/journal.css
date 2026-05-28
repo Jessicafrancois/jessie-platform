@@ -1,0 +1,508 @@
+/* =========================================
+   JOURNAL LAYOUT
+========================================= */
+
+.journal-shell {
+  min-height: 100vh;
+
+  background: #111;
+
+  padding:
+    4rem
+    0;
+}
+
+.journal-layout {
+  width: min(1400px, 92vw);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    120px
+    1.1fr
+    0.9fr;
+
+  min-height: 88vh;
+
+  background: #f5f1eb;
+
+  color: #111;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.journal-sidebar {
+  padding: 3rem 2rem;
+
+  border-right:
+    1px solid rgba(0,0,0,0.08);
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.journal-logo {
+  font-size: 0.7rem;
+
+  letter-spacing: 0.35em;
+
+  text-transform: uppercase;
+}
+
+.journal-vertical {
+  writing-mode: vertical-rl;
+
+  transform: rotate(180deg);
+
+  margin-top: 5rem;
+
+  opacity: 0.35;
+
+  font-size: 0.7rem;
+
+  letter-spacing: 0.3em;
+
+  text-transform: uppercase;
+}
+
+.journal-sidebar-bottom {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2rem;
+}
+
+.journal-accent-block {
+  width: 50px;
+  height: 50px;
+
+  background: #111;
+}
+
+.journal-follow {
+  font-size: 0.7rem;
+
+  letter-spacing: 0.3em;
+
+  text-transform: uppercase;
+
+  opacity: 0.45;
+}
+
+/* =========================================
+   FEATURE IMAGE
+========================================= */
+
+.journal-feature-image {
+  position: relative;
+
+  overflow: hidden;
+}
+
+.journal-feature-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transform: scale(1.04);
+
+  transition:
+    transform 2s cubic-bezier(0.22,1,0.36,1);
+}
+
+.journal-feature-image:hover img {
+  transform: scale(1.08);
+}
+
+.journal-image-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,0.35),
+      transparent
+    );
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.journal-content {
+  padding:
+    5rem
+    5rem
+    4rem;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.journal-topbar {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.journal-line {
+  width: 120px;
+  height: 1px;
+
+  background:
+    rgba(0,0,0,0.2);
+}
+
+.journal-enter {
+  border: none;
+
+  background: transparent;
+
+  font-size: 0.7rem;
+
+  letter-spacing: 0.3em;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+/* =========================================
+   TOP GRID
+========================================= */
+
+.journal-top-grid {
+  display: grid;
+
+  grid-template-columns:
+    180px
+    1fr;
+
+  gap: 2rem;
+
+  margin-top: 5rem;
+}
+
+.journal-small-image {
+  overflow: hidden;
+
+  border-radius: 18px;
+}
+
+.journal-small-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transform: scale(1.04);
+
+  transition:
+    transform 2s cubic-bezier(0.22,1,0.36,1);
+}
+
+.journal-small-image:hover img {
+  transform: scale(1.08);
+}
+
+.journal-small-copy {
+  font-size: 0.95rem;
+
+  line-height: 1.9;
+
+  opacity: 0.75;
+}
+
+/* =========================================
+   FEATURED ARTICLE
+========================================= */
+
+.journal-featured {
+  display: block;
+
+  text-decoration: none;
+
+  color: inherit;
+
+  margin-top: 6rem;
+}
+
+.journal-label {
+  font-size: 0.65rem;
+
+  letter-spacing: 0.35em;
+
+  text-transform: uppercase;
+
+  opacity: 0.45;
+
+  margin-bottom: 1.5rem;
+}
+
+.journal-title {
+  font-size:
+    clamp(3.5rem, 6vw, 6.5rem);
+
+  line-height: 0.88;
+
+  letter-spacing: -0.06em;
+
+  font-weight: 300;
+
+  max-width: 8ch;
+
+  margin:
+    2rem 0;
+}
+
+.journal-intro {
+  max-width: 520px;
+
+  line-height: 2;
+
+  opacity: 0.7;
+}
+
+/* =========================================
+   ARTICLE LIST
+========================================= */
+
+.journal-article-list {
+  display: grid;
+
+  gap: 4rem;
+
+  margin-top: 8rem;
+}
+
+.journal-article-card {
+  display: grid;
+
+  grid-template-columns:
+    280px
+    1fr;
+
+  gap: 4rem;
+
+  align-items: center;
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+.journal-article-image {
+  overflow: hidden;
+
+  border-radius: 24px;
+}
+
+.journal-article-image img {
+  width: 100%;
+
+  height: 280px;
+
+  object-fit: cover;
+
+  transform: scale(1.04);
+
+  transition:
+    transform 2s cubic-bezier(0.22,1,0.36,1);
+}
+
+.journal-article-image img:hover {
+  transform: scale(1.08);
+}
+
+.journal-article-title {
+  font-size: 2rem;
+
+  line-height: 1;
+
+  font-weight: 300;
+
+  margin-bottom: 1rem;
+}
+
+.journal-article-intro {
+  line-height: 1.9;
+
+  opacity: 0.72;
+}
+
+/* =========================================
+   ESSAY PAGE
+========================================= */
+
+.essay-page {
+  background: #111;
+
+  color: #f5f1eb;
+
+  min-height: 100vh;
+}
+
+.essay-hero {
+  position: relative;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: flex-end;
+}
+
+.essay-hero-image-wrap {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+}
+
+.essay-hero-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transform: scale(1.04);
+}
+
+.essay-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,0.75),
+      rgba(0,0,0,0.25)
+    );
+}
+
+.essay-hero-content {
+  position: relative;
+
+  z-index: 2;
+
+  padding:
+    8rem
+    min(8vw, 120px);
+
+  max-width: 900px;
+}
+
+.essay-meta {
+  font-size: 0.7rem;
+
+  letter-spacing: 0.35em;
+
+  text-transform: uppercase;
+
+  opacity: 0.5;
+}
+
+.essay-title {
+  font-size:
+    clamp(4rem, 10vw, 9rem);
+
+  line-height: 0.85;
+
+  letter-spacing: -0.08em;
+
+  font-weight: 300;
+
+  margin:
+    2rem 0;
+}
+
+.essay-intro {
+  max-width: 620px;
+
+  font-size: 1.1rem;
+
+  line-height: 2;
+
+  opacity: 0.75;
+}
+
+.essay-body {
+  padding:
+    8rem
+    min(8vw, 120px);
+}
+
+.essay-grid {
+  display: grid;
+
+  gap: 8rem;
+
+  max-width: 760px;
+
+  margin: 0 auto;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 968px) {
+
+  .journal-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-sidebar {
+    display: none;
+  }
+
+  .journal-content {
+    padding: 3rem 2rem;
+  }
+
+  .journal-top-grid,
+  .journal-article-card {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-title {
+    font-size: 3rem;
+  }
+
+  .essay-title {
+    font-size: 4rem;
+  }
+
+  .essay-body {
+  padding:
+    10rem
+    min(8vw, 120px);
+}
+  .essay-paragraph {
+  font-size: 1.12rem;
+
+  line-height: 2.3;
+
+  color: rgba(255,255,255,0.78);
+
+  max-width: 720px;
+}
+}

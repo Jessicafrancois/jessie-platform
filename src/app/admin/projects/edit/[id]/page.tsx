@@ -1,0 +1,105 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  'https://kpbehguoxekpfejjahcf.supabase.co',
+  'sb_publishable_FEPU3lc-DQs86oa-Q7Fl9A_pP6pDxrZ'
+)
+
+export default function EditProjectPage({
+  params,
+}: {
+  params: { id: string }
+}) {
+
+  const [title, setTitle] = useState('')
+  const [category, setCategory] = useState('')
+  const [description, setDescription] = useState('')
+
+  useEffect(() => {
+    async function fetchProject() {
+
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('id', params.id)
+        .single()
+
+      console.log(data)
+      console.log(error)
+
+      if (data) {
+        setTitle(data.title || '')
+        setCategory(data.category || '')
+        setDescription(data.short_description || '')
+      }
+    }
+
+    fetchProject()
+  }, [params.id])
+
+  async function updateProject() {
+
+    const { data, error } = await supabase
+      .from('projects')
+      .update({
+        title,
+        category,
+        short_description: description,
+      })
+      .eq('id', params.id)
+
+    console.log(data)
+    console.log(error)
+
+    if (!error) {
+      alert('Project Updated')
+    }
+  }
+
+  return (
+    <main className="min-h-screen p-10">
+
+      <div className="max-w-xl mx-auto flex flex-col gap-4">
+
+        <h1 className="text-4xl font-bold mb-4">
+          Edit Project
+        </h1>
+
+        <input
+          type="text"
+          placeholder="Project Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="border p-3 rounded-lg"
+        />
+
+        <input
+          type="text"
+          placeholder="Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="border p-3 rounded-lg"
+        />
+
+        <textarea
+          placeholder="Short Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="border p-3 rounded-lg min-h-[150px]"
+        />
+
+        <button
+          onClick={updateProject}
+          className="bg-black text-white p-3 rounded-lg"
+        >
+          Update Project
+        </button>
+
+      </div>
+
+    </main>
+  )
+}
