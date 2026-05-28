@@ -46,6 +46,8 @@ console.log('LOGIN SUCCESS')
 
 router.push('/dashboard')
 
+  }
+
   return (
 
     <main className="login-page">
