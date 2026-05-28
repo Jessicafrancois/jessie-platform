@@ -1,10 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&family=Ms+Madi&display=swap');
 :root {
   --bg: #111111;
   --paper: #f3efe8;
   --text: #f5f1eb;
   --muted: rgba(255,255,255,0.6);
+
+  --signature-font:
+  'Ms Madi',
+  cursive;
 }
 
 * {
@@ -70,10 +73,12 @@ body {
 /* NAV */
 
 .home-nav {
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
   align-items: center;
 
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   padding-top: 1.5rem;
 
   position: relative;
@@ -338,5 +343,204 @@ body {
 
   .home-card-content h3 {
     font-size: 2.5rem;
+  }
+}
+  /* =========================================
+   MARQUEE
+========================================= */
+
+.home-marquee {
+  overflow: hidden;
+
+  border-top:
+    1px solid rgba(255,255,255,0.08);
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+
+  padding:
+    1.5rem 0;
+
+  margin-top: 10rem;
+}
+
+.home-marquee-track {
+  display: flex;
+
+  gap: 4rem;
+
+  width: max-content;
+
+  animation:
+    marqueeMove 60s linear infinite;
+}
+
+.home-marquee-track span {
+  font-size: 6rem;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  opacity: 0.5;
+}
+
+@keyframes marqueeMove {
+
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.home-footer {
+  padding:
+    8rem
+    min(6vw, 80px)
+    3rem;
+
+  background: #0d0d0d;
+
+  border-top:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.home-footer-grid {
+  display: grid;
+
+  grid-template-columns:
+    220px
+    1fr
+    220px;
+
+  gap: 4rem;
+
+  align-items: start;
+}
+
+/* LEFT */
+
+.home-footer-nav-column {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2rem;
+}
+
+.home-footer-nav {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1.25rem;
+}
+
+.home-footer-nav a {
+  font-size: 0.72rem;
+
+  letter-spacing: 0.25em;
+
+  text-transform: uppercase;
+
+  opacity: 0.68;
+}
+
+.home-footer-nav a:hover {
+  opacity: 1;
+}
+
+/* CENTER */
+
+.home-footer-signature {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+}
+
+.home-footer-signature h2 {
+  font-family: var(--signature-font);
+
+  font-size:
+    clamp(4rem, 7vw, 8rem);
+
+  line-height: 0.9;
+
+  font-weight: 400;
+
+  letter-spacing: 0;
+
+  max-width: none;
+
+  margin:
+    2rem auto;
+
+  opacity: 0.95;
+  transform: rotate(-2deg);
+}
+
+.home-footer-signature p:last-child {
+  max-width: 560px;
+
+  line-height: 2;
+
+  opacity: 0.68;
+}
+
+/* RIGHT */
+
+.home-footer-meta {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 1rem;
+
+  text-align: right;
+}
+
+.home-footer-meta p {
+  font-size: 0.7rem;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+
+  opacity: 0.45;
+}
+
+/* MOBILE */
+
+@media (max-width: 968px) {
+
+  .home-footer-grid {
+    grid-template-columns: 1fr;
+
+    gap: 5rem;
+  }
+
+  .home-footer-signature {
+    align-items: flex-start;
+
+    text-align: left;
+  }
+
+  .home-footer-meta {
+    align-items: flex-start;
+
+    text-align: left;
   }
 }

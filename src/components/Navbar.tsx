@@ -15,10 +15,21 @@ export default function Navbar() {
           Home
         </Link>
 
+        <Link href="/Introduction">
+          Introduction
+        </Link>
+
+        <Link href="/World">
+          World
+        </Link>
+
         <Link href="/journal">
           Journal
         </Link>
 
+        <Link href="/Connect">
+            Connect
+        </Link>
       </div>
 
     </nav>

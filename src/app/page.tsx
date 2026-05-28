@@ -2,8 +2,6 @@
 
 import Link from 'next/link'
 import './home.css'
-import Navbar from '../components/Navbar'
-
 
 export default function HomePage() {
   return (
@@ -15,30 +13,6 @@ export default function HomePage() {
       <section className="home-hero">
 
         <div className="home-noise" />
-
-        <div className="home-nav">
-
-          <p className="home-logo">
-            Jessie Platform
-          </p>
-
-          <div className="home-links">
-
-            <Link href="/journal">
-              Journal
-            </Link>
-
-            <Link href="/">
-              Worlds
-            </Link>
-
-            <Link href="/">
-              Projects
-            </Link>
-
-          </div>
-
-        </div>
 
         <div className="home-hero-content">
 
@@ -159,6 +133,104 @@ export default function HomePage() {
         </div>
 
       </section>
+
+          {/* MARQUEE */}
+
+      <section className="home-marquee">
+
+        <div className="home-marquee-track">
+
+          <span>
+            IMMERSIVE SYSTEMS
+          </span>
+
+          <span>
+            NARRATIVE WORLDS
+          </span>
+
+          <span>
+            EMOTIONAL INTERNET
+          </span>
+
+          <span>
+            CINEMATIC EXPERIENCES
+          </span>
+
+          <span>
+            IMMERSIVE SYSTEMS
+          </span>
+
+          <span>
+            NARRATIVE WORLDS
+          </span>
+
+          <span>
+            EMOTIONAL INTERNET
+          </span>
+
+        </div>
+
+      </section>
+
+      {/* FOOTER */}
+
+      <footer className="home-footer">
+
+  <div className="home-footer-grid">
+
+    {/* LEFT */}
+
+    <div className="home-footer-nav-column">
+
+      <p className="home-label">
+        Navigation
+      </p>
+
+      <div className="home-footer-nav">
+
+        <Link href="/">
+          Home
+        </Link>
+
+        <Link href="/journal">
+          Journal
+        </Link>
+
+        <Link href="/dashboard/journal/new">
+          Dashboard
+        </Link>
+
+      </div>
+
+    </div>
+
+    {/* CENTER */}
+
+    <div className="home-footer-signature">
+
+      <p className="home-label">
+        Best Regards.
+      </p>
+
+      <h2>
+        Jessica Francois
+      </h2>
+         
+    </div>
+
+    {/* RIGHT */}
+
+    <div className="home-footer-meta">
+      
+      <p>
+        © 2026
+      </p>
+
+    </div>
+
+  </div>
+
+    </footer>
 
     </main>
   )

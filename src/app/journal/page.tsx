@@ -29,7 +29,6 @@ export default async function JournalPage() {
   return (
     <main className="journal-shell">
 
-      <Navbar />
 
       {/* HERO */}
 
