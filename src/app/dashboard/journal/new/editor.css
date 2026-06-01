@@ -10,9 +10,75 @@
 }
 
 .editor-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 80;
+
+  width: 260px;
+  min-height: 100vh;
+
   border-right: 1px solid rgba(255,255,255,.08);
 
   padding: 2rem;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.06),
+      rgba(255,255,255,.02)
+    ),
+    rgba(5,5,5,.82);
+
+  backdrop-filter: blur(24px);
+}
+
+.sidebar-logo {
+  margin-bottom: 2rem;
+
+  color: white;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: .65rem;
+}
+
+.sidebar-nav a {
+  display: block;
+
+  padding: .85rem 1rem;
+
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+
+  background: rgba(255,255,255,.035);
+
+  color: rgba(255,255,255,.72);
+
+  font-size: .9rem;
+  text-decoration: none;
+
+  transition:
+    background .2s,
+    border-color .2s,
+    color .2s,
+    transform .2s;
+}
+
+.sidebar-nav a:hover {
+  transform: translateY(-1px);
+
+  border-color: rgba(255,255,255,.16);
+
+  background: rgba(255,255,255,.07);
+
+  color: white;
 }
 
 .editor-main {

@@ -1,16 +1,8 @@
 
-import type { Metadata }
-from 'next'
-
-import {
-  ThemeProvider,
-}
-from '../providers/ThemeProvider'
-
+import type { Metadata } from 'next'
+import { ThemeProvider } from '../providers/ThemeProvider'
 import './globals.css'
-
-import ClientLayout
-from './ClientLayout'
+import ClientLayout from './ClientLayout'
 
 export const metadata: Metadata = {
 
@@ -27,25 +19,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
   return (
-
-<html lang="en" data-scroll-behavior="smooth">
-
-<body suppressHydrationWarning={true}>
-
-<ThemeProvider>
-        <ClientLayout>
-
-          {children}
-
-        </ClientLayout>
-</ThemeProvider>
-
+    <html lang="en" data-scroll-behavior="smooth">
+      <body suppressHydrationWarning={true}>
+        <ThemeProvider>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+        </ThemeProvider>
       </body>
-
     </html>
-
-
   )
 }
