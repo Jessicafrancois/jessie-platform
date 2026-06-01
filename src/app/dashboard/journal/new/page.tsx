@@ -1,249 +1,146 @@
+
 'use client'
 
 import { useState } from 'react'
-import { supabase } from '../../../../lib/supabase'
 
-import '../../dashboard.css'
+import Sidebar from './components/Sidebar'
+import Topbar from './components/Topbar'
+import EditorCanvas from './components/EditorCanvas'
 
-type TextBlock = {
-  type: 'paragraph' | 'heading' | 'quote'
-  content: string
-}
+import TiptapEditor from './editor/TiptapEditor'
 
-type MediaBlock = {
-  type: 'image' | 'video'
-  url: string
-}
+import './editor.css'
 
-type EditorBlock = TextBlock | MediaBlock
+import type {
+  Block,
+  BlockType,
+} from './types'
+
+import { createBlock }
+  from './utils/createBlock'
 
 export default function NewJournalPage() {
-  const [title, setTitle] = useState('')
-  const [intro, setIntro] = useState('')
-  const [image, setImage] = useState('')
+  const [title, setTitle] =
+    useState('')
 
   const [blocks, setBlocks] =
-    useState<EditorBlock[]>([
+    useState<Block[]>([
       {
+        id: crypto.randomUUID(),
         type: 'paragraph',
         content: '',
       },
     ])
 
-  function addBlock(type: string) {
-    let newBlock: EditorBlock
+  const [
+    showBlockMenu,
+    setShowBlockMenu,
+  ] = useState(false)
 
-    switch (type) {
-      case 'paragraph':
-      case 'heading':
-      case 'quote':
-        newBlock = {
-          type,
-          content: '',
-        }
-        break
+  const [
+    activeBlockId,
+    setActiveBlockId,
+  ] = useState<string | null>(null)
 
-      case 'image':
-      case 'video':
-        newBlock = {
-          type,
-          url: '',
-        }
-        break
-
-      default:
-        return
-    }
-
-    setBlocks([
-      ...blocks,
-      newBlock,
-    ])
+  function updateBlock(
+    id: string,
+    content: string
+  ) {
+    setBlocks((prev) =>
+      prev.map((block) =>
+        block.id === id
+          ? {
+              ...block,
+              content,
+            }
+          : block
+      )
+    )
   }
 
-  async function handlePublish() {
-    const slug =
-      title
-        .toLowerCase()
-        .replace(/\s+/g, '-')
+      function addBlock(
+        type: BlockType
+      ) {
+        const newBlock =
+          createBlock(type)
 
-    const { error } =
-      await supabase
-        .from('essays')
-        .insert({
-          title,
-          slug,
-          intro,
-          image,
-          published: true,
-          content: JSON.stringify(blocks),
-        })
+        setBlocks((prev) => [
+          ...prev,
+          newBlock,
+        ])
 
-    if (error) {
-      console.error(error)
-      return
-    }
+        setActiveBlockId(
+          newBlock.id
+        )
 
-    alert('Essay published.')
+        setShowBlockMenu(false)
+      }
+
+  function convertBlock(
+    id: string,
+    type: BlockType
+  ) {
+    setBlocks((prev) =>
+      prev.map((block) =>
+        block.id === id
+          ? {
+              ...block,
+              type,
+            }
+          : block
+      )
+    )
   }
+
+  function handlePublish() {
+    console.log('publish')
+  }
+
+function insertBlockAfter(
+  afterId: string,
+  type: BlockType
+)
+{
+  const newBlock =
+    createBlock(type)
+
+  setBlocks((prev) => {
+    const index =
+      prev.findIndex(
+        (block) =>
+          block.id === afterId
+      )
+
+    if (index === -1)
+      return prev
+
+    const copy = [...prev]
+
+    copy.splice(
+      index + 1,
+      0,
+      newBlock
+    )
+
+    return copy
+  })
+}
+
 
   return (
-    <main className="editor-page">
-      <div className="editor-shell">
+    <div className="editor-layout">
+      <Sidebar />
 
-        <div className="editor-toolbar">
+      <main className="editor-main">
+        <Topbar
+          onPublish={handlePublish}
+        />
 
-          <button
-            onClick={() =>
-              addBlock('paragraph')
-            }
-          >
-            ¶
-          </button>
-
-          <button
-            onClick={() =>
-              addBlock('heading')
-            }
-          >
-            H
-          </button>
-
-          <button
-            onClick={() =>
-              addBlock('quote')
-            }
-          >
-            ❝
-          </button>
-
-          <div className="toolbar-divider" />
-
-          <button
-            onClick={() =>
-              addBlock('image')
-            }
-          >
-            🖼
-          </button>
-
-          <button
-            onClick={() =>
-              addBlock('video')
-            }
-          >
-            ▶
-          </button>
-
-          <div className="toolbar-divider" />
-
-          <button>
-            B
-          </button>
-
-          <button>
-            I
-          </button>
-
-          <button>
-            U
-          </button>
-
-        </div>
-
-        <div className="editor-header">
-
-          <input
-            className="editor-cover"
-            value={image}
-            onChange={(e) =>
-              setImage(e.target.value)
-            }
-            placeholder="Cover image URL"
-          />
-
-          <input
-            className="editor-title"
-            value={title}
-            onChange={(e) =>
-              setTitle(e.target.value)
-            }
-            placeholder="New Essay"
-          />
-
-          <textarea
-            className="editor-intro"
-            value={intro}
-            onChange={(e) =>
-              setIntro(e.target.value)
-            }
-            placeholder="Write the opening..."
-          />
-
-        </div>
-
-        <div className="editor-canvas">
-
-          {blocks.map((block, index) => (
-            <div
-              key={index}
-              className="editor-block"
-            >
-
-              {'content' in block && (
-                <textarea
-                  value={block.content}
-                  onChange={(e) => {
-
-                    const updated =
-                      [...blocks]
-
-                    updated[index] = {
-                      ...block,
-                      content:
-                        e.target.value,
-                    } as EditorBlock
-
-                    setBlocks(updated)
-                  }}
-                  placeholder={block.type}
-                />
-              )}
-
-              {'url' in block && (
-                <input
-                  type="text"
-                  value={block.url}
-                  onChange={(e) => {
-
-                    const updated =
-                      [...blocks]
-
-                    updated[index] = {
-                      ...block,
-                      url:
-                        e.target.value,
-                    } as EditorBlock
-
-                    setBlocks(updated)
-                  }}
-                  placeholder={`${block.type} URL`}
-                />
-              )}
-
-            </div>
-          ))}
-
-        </div>
-
-        <button
-          className="publish-button"
-          onClick={handlePublish}
-        >
-          Publish Essay
-        </button>
-
-      </div>
-    </main>
+        <TiptapEditor />
+        
+    
+      </main>
+    </div>
   )
 }
+

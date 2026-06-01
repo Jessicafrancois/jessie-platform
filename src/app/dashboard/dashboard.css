@@ -1,922 +1,687 @@
-/* =========================================
-   CREATIVE DASHBOARD
-========================================= */
-
-.creative-dashboard {
-  min-height: 100vh;
-
-  display: grid;
-
-  grid-template-columns:
-    90px
-    1fr
-    320px;
-
-  background:
-    linear-gradient(
-      to bottom right,
-      #050505,
-      #101010
-    );
-
-  color: #f5f1eb;
-}
 
 /* =========================================
-   GLASS SYSTEM
+   GOOGLE FONTS
 ========================================= */
 
-.glass-card {
-  background:
-    rgba(255,255,255,0.04);
-
-  border:
-    1px solid rgba(255,255,255,0.08);
-
-  backdrop-filter:
-    blur(20px);
-
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.3);
-}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap');
 
 /* =========================================
-   LEFT DOCK
+   ROOT TOKENS
 ========================================= */
 
-.dashboard-dock {
-  padding:
-    2rem
-    1rem;
+:root {
+  --bg: #050505;
 
-  border-right:
-    1px solid rgba(255,255,255,0.06);
+  --surface: #0E0D0B;
+  --surface-2: #141311;
+  --surface-3: #1B1915;
 
-  display: flex;
+  --border: rgba(255,255,255,0.08);
+  --border-hover: rgba(255,255,255,0.14);
 
-  flex-direction: column;
+  --text: #F5F1EB;
+  --text-muted: rgba(245,241,235,0.58);
+  --text-faint: rgba(245,241,235,0.22);
 
-  align-items: center;
-}
+  --accent: #C9A96E;
+  --accent-hover: #D6B77B;
 
-.dashboard-brand {
-  margin-bottom: 4rem;
+  --accent-dim: rgba(201,169,110,0.12);
+  --accent-glow: rgba(201,169,110,0.05);
 
-  font-size: 0.95rem;
+  --radius: 10px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
 
-  letter-spacing: 0.14em;
+  --shadow:
+    0 20px 60px rgba(0,0,0,0.35);
 
-  text-transform: uppercase;
-
-  opacity: 0.8;
-}
-
-.dashboard-dock-nav {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 1.2rem;
-}
-
-.dashboard-dock-nav a {
-  position: relative;
-
-  color:
-    rgba(245,241,235,0.58);
-
-  text-decoration: none;
-
-  font-size: 0.88rem;
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease,
-    color 0.25s ease;
-}
-
-.dashboard-dock-nav a:hover {
-  color: #f5f1eb;
-
-  transform:
-    translateY(-2px);
+  --font-body: 'DM Sans', sans-serif;
+  --font-editorial: 'Lora', serif;
+  --font-display: 'Playfair Display', serif;
 }
 
 /* =========================================
-   CENTER FEED
+   RESET
 ========================================= */
 
-.dashboard-feed {
-  padding:
-    3rem;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.dashboard-hero {
-  padding:
-    3rem;
-
-  border-radius: 32px;
-
-  margin-bottom: 2rem;
+html {
+  scroll-behavior: smooth;
 }
 
-.dashboard-label {
-  text-transform: uppercase;
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
 
-  letter-spacing: 0.12em;
-
-  font-size: 0.72rem;
-
-  opacity: 0.5;
-
-  margin-bottom: 1rem;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-.dashboard-hero h4{
-  font-size:
-    clamp(2.8rem, 5vw, 5rem);
-
-  line-height: 0.95;
-
-  font-weight: 200;
-
-  letter-spacing: -0.06em;
-
-  max-width: 10ch;
-
-  margin-bottom: 1.5rem;
+textarea,
+input,
+button,
+select {
+  font: inherit;
 }
 
-.dashboard-hero span {
-  opacity: 0.7;
-
-  line-height: 1.8;
-}
-
-/* =========================================
-   MODULE GRID
-========================================= */
-
-.dashboard-module-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(auto-fit, minmax(320px, 1fr));
-
-  gap: 2rem;
-}
-
-/* =========================================
-   MODULES
-========================================= */
-
-.dashboard-module {
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: flex-end;
-
-  min-height: 280px;
-
-  padding:
-    2rem;
-
-  border-radius: 30px;
-
-  text-decoration: none;
-
-  color: #f5f1eb;
-
-  overflow: hidden;
-
-  position: relative;
-
-  transition:
-    transform 0.35s ease,
-    background 0.35s ease,
-    border 0.35s ease;
-}
-
-.dashboard-module:hover {
-  transform:
-    translateY(-6px);
-
-  background:
-    rgba(255,255,255,0.06);
-
-  border:
-    1px solid rgba(255,255,255,0.14);
-}
-
-.dashboard-module p {
-  text-transform: uppercase;
-
-  letter-spacing: 0.12em;
-
-  font-size: 0.72rem;
-
-  opacity: 0.5;
-
-  margin-bottom: 1rem;
-}
-
-.dashboard-module h2 {
-  font-size: 2.2rem;
-
-  font-weight: 300;
-
-  letter-spacing: -0.05em;
-
-  margin-bottom: 1rem;
-}
-
-.dashboard-module span {
-  opacity: 0.7;
-
-  line-height: 1.8;
-
-  max-width: 28ch;
-}
-
-/* =========================================
-   RIGHT RAIL
-========================================= */
-
-.dashboard-rail {
-  padding:
-    3rem
-    2rem;
-
-  border-left:
-    1px solid rgba(255,255,255,0.06);
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2rem;
-}
-
-.rail-card {
-  padding:
-    2rem;
-
-  border-radius: 28px;
-}
-
-.rail-card h3 {
-  font-size: 1.5rem;
-
-  font-weight: 300;
-
-  margin-bottom: 1rem;
-}
-
-.rail-card span {
-  opacity: 0.7;
-
-  line-height: 1.8;
-}
-
-/* =========================================
-   EDITOR PAGE
-========================================= */
-
-.editor-page {
-  min-height: 100vh;
-
-  background: #050505;
-
-  color: #f5f1eb;
-
-  padding: 0 min(6vw, 80px);
-}
-
-/* =========================================
-   EDITOR SHELL
-========================================= */
-
-.editor-shell {
-  width: 100%;
-
-  max-width: 1400px;
-
-  margin: 0 auto;
-
-  padding-top: 12rem;
-
-  padding-bottom: 10rem;
-}
-
-/* =========================================
-   EDITOR HEADER
-========================================= */
-
-.editor-header {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2rem;
-
-  margin-bottom: 6rem;
-}
-
-.editor-cover {
-  width: 100%;
-
-  max-width: 520px;
-
-  background: transparent;
-
-  border: none;
-
-  border-bottom:
-    1px solid rgba(255,255,255,0.08);
-
-  outline: none;
-
-  color:
-    rgba(245,241,235,0.8);
-
-  padding-bottom: 1rem;
-
-  font-size: 0.95rem;
-}
-
-.editor-title {
-  width: 100%;
-
-  max-width: 12ch;
-
-  background: transparent;
-
-  border: none;
-
-  outline: none;
-
-  color: #f5f1eb;
-
-  font-size:
-    clamp(4rem, 8vw, 8rem);
-
-  line-height: 0.9;
-
-  letter-spacing: -0.08em;
-
-  font-weight: 200;
-}
-
-.editor-intro {
-  width: 100%;
-
-  max-width: 760px;
-
-  min-height: 180px;
-
-  background: transparent;
-
-  border: none;
-
-  outline: none;
-
-  color:
-    rgba(245,241,235,0.72);
-
-  font-size: 1.15rem;
-
-  line-height: 2;
-
-  resize: none;
-}
-
-/* =========================================
-   EDITOR TOOLBAR
-========================================= */
-
-.editor-toolbar {
-  position: fixed;
-
-  top: 1rem;
-
-  left: 50%;
-
-  transform:
-    translateX(-50%);
-
-  z-index: 500;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 0.75rem;
-
-  width: fit-content;
-
-  padding:
-    0.8rem
-    1rem;
-
-  background:
-    rgba(15,15,15,0.72);
-
-  border:
-    1px solid rgba(255,255,255,0.08);
-
-  backdrop-filter:
-    blur(20px);
-
-  border-radius: 999px;
-
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.35);
-}
-
-.editor-toolbar button {
-  width: 50px;
-
-  height: 50px;
-
-  border-radius: 50%;
-
-  border: none;
-
-  background:
-    rgba(255,255,255,0.04);
-
-  color: #f5f1eb;
-
+button {
   cursor: pointer;
-
-  transition:
-    transform 0.25s ease,
-    background 0.25s ease;
 }
 
-.editor-toolbar button:hover {
-  transform:
-    translateY(-2px);
-
-  background:
-    rgba(255,255,255,0.12);
+img {
+  max-width: 100%;
+  display: block;
 }
 
-.toolbar-divider {
-  width: 1px;
-
-  height: 24px;
-
-  background:
-    rgba(255,255,255,0.08);
-
-  margin:
-    0
-    0.5rem;
-}
-
-.toolbar-select {
-  height: 42px;
-
-  background:
-    rgba(255,255,255,0.04);
-
-  border:
-    1px solid rgba(255,255,255,0.08);
-
-  color: #f5f1eb;
-
-  padding:
-    0
-    1rem;
-
-  border-radius: 999px;
-
-  outline: none;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 /* =========================================
-   EDITOR CANVAS
+   JOURNAL EDITOR
 ========================================= */
 
-.editor-canvas {
+.journal-editor {
+  min-height: 100vh;
   width: 100%;
 
-  max-width: 760px;
+  background: var(--bg);
+  color: var(--text);
+}
 
-  margin: 0 auto;
+/* =========================================
+   TOPBAR
+========================================= */
+
+.editor-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+  height: 60px;
 
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  flex-direction: column;
+  padding: 0 2rem;
 
-  gap: 4rem;
+  background: rgba(8,8,8,0.82);
+
+  border-bottom: 1px solid var(--border);
+
+  backdrop-filter: blur(24px);
 }
 
-/* =========================================
-   EDITOR BLOCKS
-========================================= */
-
-.editor-block {
-  width: 100%;
-
-  padding:
-    2rem
-    0;
-
-  border-top:
-    1px solid rgba(255,255,255,0.04);
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.editor-block textarea,
-.editor-block input {
-  width: 100%;
+.back-btn {
+  color: var(--text-muted);
 
-  background: transparent;
+  font-size: 13px;
 
-  border: none;
-
-  outline: none;
-
-  color: #f5f1eb;
+  transition: color 0.2s;
 }
 
-.editor-block textarea {
-  min-height: 180px;
-
-  font-size: 1.15rem;
-
-  line-height: 2;
-
-  letter-spacing: -0.01em;
-
-  font-weight: 300;
-
-  resize: none;
-}
-
-.editor-block textarea::placeholder,
-.editor-block input::placeholder {
-  color:
-    rgba(255,255,255,0.2);
+.back-btn:hover {
+  color: var(--accent);
 }
 
 /* =========================================
    PUBLISH BUTTON
 ========================================= */
 
-.publish-button {
-  display: block;
+.publish-btn {
+  border: none;
 
-  margin:
-    7rem auto 0 auto;
+  background: var(--accent);
+
+  color: #111;
+
+  padding: 10px 18px;
+
+  border-radius: var(--radius-pill);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.publish-btn:hover {
+  transform: translateY(-1px);
+
+  background: var(--accent-hover);
+}
+
+.publish-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+.editor-body {
+  width: 100%;
+  max-width: 860px;
+
+  margin: 0 auto;
 
   padding:
-    1rem
+    4rem
+    2rem
+    8rem;
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.essay-title-input {
+  width: 100%;
+
+  background: transparent;
+  border: none;
+  outline: none;
+
+  resize: none;
+  overflow: hidden;
+
+  color: var(--text);
+
+  font-family: var(--font-display);
+
+  font-size: clamp(48px, 8vw, 78px);
+  line-height: 0.95;
+  font-weight: 700;
+
+  letter-spacing: -0.05em;
+
+  margin-bottom: 1.5rem;
+}
+
+.essay-title-input::placeholder {
+  color: var(--text-faint);
+}
+
+/* =========================================
+   INTRO
+========================================= */
+
+.essay-intro-input {
+  width: 100%;
+
+  background: transparent;
+  border: none;
+  outline: none;
+
+  resize: none;
+  overflow: hidden;
+
+  color: var(--text-muted);
+
+  font-family: var(--font-editorial);
+
+  font-size: 22px;
+  line-height: 1.9;
+
+  margin-bottom: 3rem;
+
+  border-bottom: 1px solid var(--border);
+
+  padding-bottom: 2rem;
+}
+
+.essay-intro-input::placeholder {
+  color: var(--text-faint);
+}
+
+/* =========================================
+   ADD BLOCK BAR
+========================================= */
+
+.add-block-bar {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 2rem 0 3rem;
+
+  opacity: 0.45;
+
+  transition: opacity 0.2s ease;
+}
+
+.add-block-bar:hover {
+  opacity: 1;
+}
+
+.add-block-btn {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.04);
+
+  border: 1px solid var(--border);
+
+  color: var(--text-muted);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.add-block-btn:hover {
+  background: var(--accent-dim);
+
+  border-color: rgba(201,169,110,0.3);
+
+  color: var(--accent);
+
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   CANVAS
+========================================= */
+
+.editor-canvas {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+/* =========================================
+   BLOCK WRAP
+========================================= */
+
+.editor-block-wrap {
+  position: relative;
+
+  padding:
+    0.75rem
+    2.5rem
+    0.75rem
     2rem;
 
-  background: #f5f1eb;
+  border-radius: 12px;
 
-  color: #111111;
+  transition:
+    background 0.15s,
+    outline 0.15s;
+}
+
+.editor-block-wrap:hover {
+  background: rgba(255,255,255,0.025);
+}
+
+.editor-block-wrap.selected {
+  background: rgba(255,255,255,0.03);
+
+  outline: 1px solid rgba(201,169,110,0.14);
+}
+
+/* =========================================
+   DRAG HANDLE
+========================================= */
+
+.block-drag-handle {
+  position: absolute;
+
+  left: 0;
+  top: 1.2rem;
+
+  color: var(--text-faint);
+
+  opacity: 0;
+
+  transition: opacity 0.15s;
+}
+
+.editor-block-wrap:hover .block-drag-handle {
+  opacity: 1;
+}
+
+/* =========================================
+   BLOCK ACTIONS
+========================================= */
+
+.block-actions {
+  position: absolute;
+
+  top: 1rem;
+  right: 0;
+
+  opacity: 0;
+
+  transition: opacity 0.15s;
+}
+
+.editor-block-wrap:hover .block-actions {
+  opacity: 1;
+}
+
+.block-actions button {
+  width: 28px;
+  height: 28px;
+
+  border-radius: 50%;
 
   border: none;
 
-  text-transform: uppercase;
+  background: rgba(255,255,255,0.06);
 
-  letter-spacing: 0.15em;
-
-  cursor: pointer;
+  color: var(--text-muted);
 
   transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
+    background 0.2s,
+    color 0.2s;
 }
 
-.publish-button:hover {
-  transform:
-    translateY(-2px);
+.block-actions button:hover {
+  background: rgba(255,255,255,0.12);
 
-  opacity: 0.9;
+  color: var(--text);
 }
 
 /* =========================================
-   ESSAY LIST
+   TEXTAREA BLOCKS
 ========================================= */
 
-.essay-list {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 1rem;
-
-  margin-top: 2rem;
-}
-
-.essay-link {
-  color:
-    rgba(245,241,235,0.72);
-
-  text-decoration: none;
-
-  padding-bottom: 1rem;
-
-  border-bottom:
-    1px solid rgba(255,255,255,0.06);
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
-}
-
-.essay-link:hover {
-  opacity: 1;
-
-  transform:
-    translateX(4px);
-}
-
-/* =========================================
-   PROJECTS
-========================================= */
-
-.project-list {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2rem;
-
-  margin-top: 2rem;
-}
-
-.project-item {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 1rem;
-}
-
-.project-top {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-}
-
-.project-top h3 {
-  font-size: 1.1rem;
-
-  font-weight: 400;
-}
-
-.project-top span {
-  font-size: 0.72rem;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.12em;
-
-  opacity: 0.5;
-}
-
-.project-item p {
-  opacity: 0.72;
-
-  line-height: 1.8;
-}
-
-.progress-bar {
+.block-textarea {
   width: 100%;
 
-  height: 8px;
+  background: transparent;
+  border: none;
+  outline: none;
 
-  background:
-    rgba(255,255,255,0.06);
-
-  border-radius: 999px;
-
+  resize: none;
   overflow: hidden;
+
+  display: block;
+
+  min-height: 1.5em;
+
+  color: var(--text);
+
+  font-family: var(--font-editorial);
+
+  font-size: 18px;
+  line-height: 1.95;
+
+  padding: 0;
+
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-.progress-fill {
-  height: 100%;
-
-  background:
-    linear-gradient(
-      to right,
-      #f5f1eb,
-      rgba(245,241,235,0.4)
-    );
-
-  border-radius: 999px;
+.block-textarea::placeholder {
+  color: var(--text-faint);
 }
-
 
 /* =========================================
-   LOGIN
+   PARAGRAPH
 ========================================= */
 
-.login-page {
-  min-height: 100vh;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  background:
-    radial-gradient(
-      circle at top,
-      #111111,
-      #050505
-    );
-
-  color: #f5f1eb;
+.block-paragraph {
+  font-size: 18px;
+  line-height: 1.95;
 }
 
-.login-card {
-  width: 100%;
+/* =========================================
+   H1
+========================================= */
 
-  max-width: 480px;
+.block-heading1 {
+  font-family: var(--font-display);
 
-  padding:
-    3rem;
+  font-size: clamp(42px, 6vw, 64px);
 
-  border-radius: 32px;
+  line-height: 1.02;
 
-  background:
-    rgba(255,255,255,0.04);
+  font-weight: 700;
 
-  border:
-    1px solid rgba(255,255,255,0.08);
+  letter-spacing: -0.04em;
 
-  backdrop-filter:
-    blur(20px);
+  margin: 2rem 0 1rem;
+}
 
+/* =========================================
+   H2
+========================================= */
+
+.block-heading2 {
+  font-family: var(--font-display);
+
+  font-size: 34px;
+
+  line-height: 1.1;
+
+  font-weight: 700;
+
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* =========================================
+   H3
+========================================= */
+
+.block-heading3 {
+  font-size: 24px;
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  margin: 1.25rem 0 0.5rem;
+}
+
+/* =========================================
+   QUOTE
+========================================= */
+
+.block-quote {
+  font-size: 28px;
+
+  line-height: 1.6;
+
+  font-style: italic;
+
+  color: var(--text-muted);
+
+  border-left: 3px solid var(--accent);
+
+  padding-left: 1.5rem;
+
+  margin: 2rem 0;
+}
+
+/* =========================================
+   STICKY
+========================================= */
+
+.block-sticky {
+  display: inline-block;
+
+  max-width: 420px;
+
+  background: #FFF59D;
+
+  color: #111;
+
+  padding: 1rem 1.25rem;
+
+  border-radius: 10px;
+
+  transform: rotate(-1deg);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.28);
+}
+
+/* =========================================
+   MEDIA
+========================================= */
+
+.block-media {
   display: flex;
-
   flex-direction: column;
 
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-.login-label {
-  text-transform: uppercase;
-
-  letter-spacing: 0.12em;
-
-  font-size: 0.72rem;
-
-  opacity: 0.5;
-}
-
-.login-card h1 {
-  font-size: 3rem;
-
-  font-weight: 200;
-
-  letter-spacing: -0.06em;
-}
-
-.login-card input {
+.block-media input {
   width: 100%;
 
-  height: 60px;
+  background: rgba(255,255,255,0.04);
 
-  background:
-    rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
 
-  border:
-    1px solid rgba(255,255,255,0.08);
+  color: var(--text);
 
-  border-radius: 18px;
+  padding: 12px 14px;
 
-  padding:
-    0
-    1.25rem;
-
-  color: #f5f1eb;
+  border-radius: 10px;
 
   outline: none;
 }
 
-.login-card button {
-  height: 60px;
-
-  border: none;
-
-  border-radius: 18px;
-
-  background: #f5f1eb;
-
-  color: #111111;
-
-  cursor: pointer;
-
-  font-weight: 600;
-
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
-}
-
-.login-card button:hover {
-  transform:
-    translateY(-2px);
-
-  opacity: 0.92;
-}
-
-.login-error {
-  color: #ff8b8b;
-
-  font-size: 0.9rem;
+.block-media input:focus {
+  border-color: var(--accent);
 }
 
 /* =========================================
-   LOGOUT
+   BUTTON BLOCK
 ========================================= */
 
-.logout-button {
-  margin-top: 2rem;
+.block-button-wrap input {
+  width: 100%;
+
+  background: rgba(255,255,255,0.04);
+
+  border: 1px solid var(--border);
+
+  color: var(--text);
+
+  padding: 12px 14px;
+
+  border-radius: 10px;
+
+  outline: none;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+  .editor-body {
+    padding:
+      3rem
+      1.25rem
+      6rem;
+  }
+
+  .essay-title-input {
+    font-size: 52px;
+  }
+
+  .essay-intro-input {
+    font-size: 20px;
+  }
+
+  .block-heading1 {
+    font-size: 46px;
+  }
+
+  .block-quote {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .editor-topbar {
+    padding: 0 1rem;
+  }
+
+  .editor-body {
+    padding:
+      2rem
+      1rem
+      5rem;
+  }
+
+  .essay-title-input {
+    font-size: 42px;
+  }
+
+  .essay-intro-input {
+    font-size: 18px;
+  }
+
+  .block-textarea {
+    font-size: 17px;
+  }
+
+  .block-heading1 {
+    font-size: 38px;
+  }
+
+  .block-heading2 {
+    font-size: 30px;
+  }
+
+  .block-quote {
+    font-size: 22px;
+  }
+}
+.block-input,
+.block-heading1,
+.block-quote {
+  width: 100%;
 
   background: transparent;
 
   border: none;
 
-  color:
-    rgba(245,241,235,0.5);
+  outline: none;
 
-  cursor: pointer;
+  resize: none;
 
-  font-size: 0.85rem;
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
-}
-
-.logout-button:hover {
-  opacity: 1;
-
-  transform:
-    translateY(-2px);
-}
-
-.login-page {
-  background:
-    radial-gradient(
-      circle at top left,
-      rgba(180,180,255,0.12),
-      transparent 30%
-    ),
-
-    radial-gradient(
-      circle at bottom right,
-      rgba(255,255,255,0.06),
-      transparent 30%
-    ),
-
-    #050505;
-
-  position: relative;
-}
-
-.login-page::before {
-  content: '';
-
-  position: absolute;
-
-  inset: 0;
-
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,0.03) 1px,
-      transparent 1px
-    ),
-
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0.03) 1px,
-      transparent 1px
-    );
-
-  background-size:
-    80px 80px;
-
-  mask-image:
-    radial-gradient(
-      circle at center,
-      black,
-      transparent 80%
-    );
-
-  pointer-events: none;
+  overflow: hidden;
 }

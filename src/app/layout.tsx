@@ -2,6 +2,11 @@
 import type { Metadata }
 from 'next'
 
+import {
+  ThemeProvider,
+}
+from '../providers/ThemeProvider'
+
 import './globals.css'
 
 import ClientLayout
@@ -25,21 +30,22 @@ export default function RootLayout({
 
   return (
 
-    <html lang="en">
+<html lang="en" data-scroll-behavior="smooth">
 
 <body suppressHydrationWarning={true}>
 
-
+<ThemeProvider>
         <ClientLayout>
 
           {children}
 
         </ClientLayout>
+</ThemeProvider>
 
       </body>
 
     </html>
 
+
   )
 }
-

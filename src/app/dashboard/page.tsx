@@ -4,6 +4,7 @@
 import DashboardRail
 from '../../components/dashboard/DashboardRail'
 
+import './dashboard.css'
 
 import DashboardEssays
 from '../../components/dashboard/DashboardEssays'
@@ -21,8 +22,6 @@ from '../../components/dashboard/DashboardProjects'
 
 import { useEffect, useState }
 from 'react'
-
-import './dashboard.css'
 
 import { supabase }
 from '../../lib/supabase'

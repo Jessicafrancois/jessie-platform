@@ -1,0 +1,368 @@
+
+.editor-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+
+  min-height: 100vh;
+
+  background: #050505;
+  color: white;
+}
+
+.editor-sidebar {
+  border-right: 1px solid rgba(255,255,255,.08);
+
+  padding: 2rem;
+}
+
+.editor-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-topbar {
+  height: 60px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 2rem;
+
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.editor-canvas {
+  max-width: 800px;
+
+  width: 100%;
+
+  margin: 0 auto;
+
+  padding: 4rem 2rem;
+}
+
+.title-input {
+  width: 100%;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+
+  font-size: 64px;
+
+  outline: none;
+}
+
+.block-input {
+  width: 100%;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  resize: none;
+
+  overflow: hidden;
+
+  color: white;
+
+  font-size: 18px;
+
+  line-height: 1.8;
+}
+
+.block-heading1 {
+  width: 100%;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  resize: none;
+
+  overflow: hidden;
+
+  color: white;
+
+  font-size: 42px;
+
+  font-weight: 700;
+}
+
+.block-heading2 {
+  width: 100%;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  resize: none;
+
+  overflow: hidden;
+
+  color: white;
+
+  font-size: 28px;
+
+  font-weight: 600;
+}
+
+.block-quote {
+  width: 100%;
+
+  background: transparent;
+
+  border-left: 3px solid #666;
+
+  padding-left: 16px;
+
+  color: #ccc;
+
+  resize: none;
+
+  outline: none;
+}
+.callout-block {
+  display: flex;
+
+  gap: 12px;
+
+  padding: 16px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.05);
+}
+
+.editor-divider {
+  border: none;
+
+  border-top:
+    1px solid rgba(255,255,255,.08);
+
+  margin: 2rem 0;
+}
+.editor-empty {
+  color: rgba(255,255,255,.4);
+
+  padding: 2rem 0;
+}
+.slash-menu {
+  position: absolute;
+
+  width: 280px;
+
+  background: #111;
+
+  border: 1px solid
+    rgba(255,255,255,.08);
+
+  border-radius: 12px;
+
+  padding: 8px;
+}
+
+/* =========================================
+   TIPTAP EDITOR
+========================================= */
+
+.ProseMirror {
+  min-height: 600px;
+
+  outline: none;
+
+  color: white;
+
+  font-size: 18px;
+
+  line-height: 1.8;
+}
+
+.ProseMirror p {
+  margin-bottom: 1.25rem;
+}
+
+.ProseMirror h1 {
+  font-size: 3rem;
+
+  font-weight: 700;
+
+  margin: 2rem 0 1rem;
+}
+
+.ProseMirror h2 {
+  font-size: 2rem;
+
+  font-weight: 600;
+
+  margin: 1.5rem 0 1rem;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid
+    rgba(255,255,255,.15);
+
+  padding-left: 1rem;
+
+  margin: 1.5rem 0;
+
+  color:
+    rgba(255,255,255,.75);
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 2rem;
+
+  margin-bottom: 1rem;
+}
+
+.ProseMirror li {
+  margin-bottom: .5rem;
+}
+
+.ProseMirror a {
+  color: #4ea1ff;
+
+  text-decoration: underline;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+
+  border-radius: 12px;
+
+  margin: 2rem 0;
+}
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.editor-toolbar {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  padding: 12px;
+
+  margin-bottom: 24px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+}
+
+.editor-toolbar button {
+  border: none;
+
+  background:
+    rgba(255,255,255,.06);
+
+  color: white;
+
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.editor-toolbar button:hover {
+  background:
+    rgba(255,255,255,.12);
+}
+
+/* =========================================
+   COVER IMAGE
+========================================= */
+
+.cover-image-section {
+  margin-bottom: 2rem;
+}
+
+.cover-image-url {
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  background:
+    rgba(255,255,255,.03);
+
+  color: white;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-sidebar {
+    display: none;
+  }
+
+  .editor-canvas {
+    padding: 2rem 1.25rem;
+  }
+
+  .title-input {
+    font-size: 42px;
+  }
+}
+
+
+.editor-actions {
+  display: flex;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.editor-actions button {
+  border: none;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+.journal-editor {
+  padding: 2rem;
+
+  border-radius: 16px;
+
+  background:
+    rgba(255,255,255,.02);
+
+  border:
+    1px solid rgba(255,255,255,.06);
+}
