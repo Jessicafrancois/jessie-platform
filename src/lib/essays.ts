@@ -27,15 +27,29 @@ export async function getEssayBySlug(
     data,
     error,
   } = await supabase
-    .from('essays')
+
+    .from('entries')
+
     .select('*')
-    .eq('slug', slug)
+
+    .eq(
+      'slug',
+      slug
+    )
+
     .single()
 
   if (error) {
-    console.error(error)
+
+    console.log(
+      'Entry Lookup Error:',
+      error
+    )
+
     return null
+
   }
 
   return data
+
 }

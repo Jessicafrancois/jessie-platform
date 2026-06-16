@@ -1,47 +1,23 @@
 'use client'
 
-import { useEffect, useState }
-from 'react'
+import DashboardSidebar from '../../components/dashboard/DashboardSidebar'
 
-import { useRouter }
-from 'next/navigation'
-
-import { supabase }
-from '../../lib/supabase'
+import './dashboard.css'
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  return (
+    <div className="dashboard-shell">
 
-  const router = useRouter()
+      <DashboardSidebar />
 
-  const [loading, setLoading] =
-    useState(true)
+      <div className="dashboard-page">
+        {children}
+      </div>
 
-  useEffect(() => {
-
-    async function checkUser() {
-
-      const {
-        data,
-      } = await supabase.auth.getUser()
-
-      if (!data.user) {
-        router.push('/login')
-      }
-
-      setLoading(false)
-    }
-
-    checkUser()
-
-  }, [])
-
-  if (loading) {
-    return null
-  }
-
-  return children
+    </div>
+  )
 }

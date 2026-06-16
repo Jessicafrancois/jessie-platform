@@ -1,0 +1,129 @@
+.world-detail { background: #050505; color: white; min-height: 100vh; }
+
+.world-detail-hero {
+  position: relative; min-height: 80vh;
+  display: flex; align-items: flex-end;
+}
+
+.world-detail-cover { position: absolute; inset: 0; overflow: hidden; }
+.world-detail-cover img { width: 100%; height: 100%; object-fit: cover; }
+.world-detail-cover--empty { background: rgba(255,255,255,.03); }
+.world-detail-cover-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.3) 60%, transparent 100%);
+}
+
+.world-detail-hero-content {
+  position: relative; z-index: 2;
+  max-width: 900px; margin: 0 auto; width: 100%;
+  padding: 80px 80px;
+}
+
+.world-detail-type {
+  display: block; font-size: .72rem; text-transform: uppercase;
+  letter-spacing: .18em; color: #d8bc6e; margin-bottom: 16px;
+}
+
+.world-detail-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800; line-height: 1; margin-bottom: 20px;
+  letter-spacing: -.03em;
+}
+
+.world-detail-intro {
+  font-size: 1.1rem; line-height: 1.7;
+  color: rgba(255,255,255,.7); max-width: 600px;
+}
+
+.world-detail-narrative {
+  max-width: 900px; margin: 0 auto;
+  padding: 80px 80px;
+  display: flex; flex-direction: column; gap: 60px;
+}
+
+.world-detail-section-label {
+  display: block; font-size: .72rem;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: #d8bc6e; margin-bottom: 16px;
+}
+
+.world-detail-section p {
+  font-size: 1.05rem; line-height: 1.8;
+  color: rgba(255,255,255,.7); max-width: 700px;
+}
+
+.world-detail-related-label {
+  font-size: .72rem; text-transform: uppercase;
+  letter-spacing: .14em; color: rgba(255,255,255,.4); margin-bottom: 10px;
+}
+
+.world-detail-projects, .world-detail-entries {
+  max-width: 900px; margin: 0 auto;
+  padding: 0 80px 80px;
+}
+
+.world-detail-projects h2, .world-detail-entries h2 {
+  font-size: 1.8rem; margin-bottom: 32px;
+}
+
+.world-detail-projects-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
+}
+
+.world-detail-project-card {
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  background: #0b0b0b; text-decoration: none; color: white;
+  display: flex; flex-direction: column;
+  transition: border-color .2s;
+}
+.world-detail-project-card:hover { border-color: rgba(255,255,255,.16); }
+
+.world-detail-project-cover { width: 100%; height: 160px; object-fit: cover; }
+.world-detail-project-cover--empty { height: 160px; background: rgba(255,255,255,.04); }
+
+.world-detail-project-body { padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.world-detail-project-body h3 { font-size: .95rem; font-weight: 600; }
+.world-detail-project-body p { font-size: .82rem; color: rgba(255,255,255,.5); line-height: 1.5; }
+.world-detail-project-body span { font-size: .78rem; color: #d8bc6e; margin-top: auto; }
+
+.world-detail-entries-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
+}
+
+.world-detail-entry-card {
+  padding: 22px; border-radius: 12px;
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.07);
+  text-decoration: none; color: white;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: border-color .2s;
+}
+.world-detail-entry-card:hover { border-color: rgba(255,255,255,.14); }
+.world-detail-entry-type { font-size: .68rem; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .08em; }
+.world-detail-entry-card h3 { font-size: .95rem; font-weight: 600; }
+.world-detail-entry-card p { font-size: .85rem; color: rgba(255,255,255,.5); line-height: 1.5; flex: 1; }
+.world-detail-entry-cta { font-size: .8rem; color: #d8bc6e; margin-top: auto; }
+
+.world-detail-signature {
+  padding: 80px;
+  text-align: center;
+}
+.world-detail-signature p {
+  font-size: 1.8rem; color: rgba(255,255,255,.6);
+  font-style: italic; margin-bottom: 32px;
+}
+.world-detail-back-link {
+  font-size: .82rem; color: rgba(255,255,255,.4);
+  text-decoration: none; text-transform: uppercase; letter-spacing: .1em;
+  transition: color .15s;
+}
+.world-detail-back-link:hover { color: white; }
+
+@media (max-width: 768px) {
+  .world-detail-hero-content,
+  .world-detail-narrative,
+  .world-detail-projects,
+  .world-detail-entries,
+  .world-detail-signature { padding-left: 24px; padding-right: 24px; }
+}

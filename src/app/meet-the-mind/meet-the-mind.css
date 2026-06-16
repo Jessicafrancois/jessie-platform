@@ -1,0 +1,510 @@
+
+
+.mind-shell {
+  position: relative;
+
+  min-height: 1800px;
+
+  background: #111;
+
+  overflow: hidden;
+
+  color: #f5ecec;
+}
+
+.mind-hero {
+  position: relative;
+
+  min-height: 90vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  padding:
+    8rem
+    6rem;
+}
+
+
+.mind-background-word {
+  position: absolute;
+
+  top: 50px;
+
+  left: -150px;
+
+  font-family: 'Cormorant Garamond', serif;
+
+  font-size: 24rem;
+
+  font-weight: 300;
+
+  color: #564870;
+
+  opacity: .18;
+
+  filter: blur(1px);
+
+  transform: rotate(-10deg);
+
+  z-index: 0;
+
+  pointer-events: none;
+}
+
+.mind-title {
+  position: relative;
+
+  z-index: 2;
+
+  font-family: 'Cormorant Garamond', serif;
+
+  font-size:
+    clamp(10rem, 18vw, 18rem);
+
+  line-height: .75;
+
+  font-weight: 300;
+
+  max-width: 1000px;
+}
+
+.mind-card {
+  position: absolute;
+
+  transition:
+    transform .5s ease;
+}
+
+.mind-card:hover {
+  transform:
+    translateY(-12px)
+    rotate(0deg);
+}
+
+.mind-card img {
+  width: 100%;
+
+  display: block;
+
+  box-shadow:
+    0 30px 60px rgba(0,0,0,.4);
+}
+
+
+.mind-back-link {
+  color: rgba(255,255,255,.6);
+
+  text-decoration: none;
+
+  font-size: .85rem;
+
+  letter-spacing: .15rem;
+
+  text-transform: uppercase;
+
+  transition: all .3s ease;
+}
+
+.mind-back-link:hover {
+  color: rgba(255,255,255,1);
+
+  transform: translateX(-4px);
+}
+
+.mind-note {
+  max-width: 650px;
+
+  margin-top: 1rem;
+
+  color: rgba(255,255,255,.65);
+
+  font-size: 16px;
+
+  line-height: 1.8;
+
+  font-weight: 400;
+}
+
+.mind-introduction {
+  display: grid;
+
+  grid-template-columns:
+    500px
+    minmax(600px, 1fr);
+
+  gap: 8rem;
+
+  align-items: start;
+
+  max-width: 1600px;
+
+  margin: 0 auto;
+
+  padding:
+    10rem
+    6rem;
+}
+
+.mind-intro-image img {
+  width: 100%;
+
+  display: block;
+
+  transform:
+    rotate(-4deg);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.35);
+}
+
+.mind-divider {
+  text-align: center;
+
+  padding:
+    8rem
+    0;
+}
+
+.mind-divider span {
+  font-size: .8rem;
+
+  letter-spacing: .5rem;
+
+  opacity: .5;
+}
+
+.card-student {
+  width: 380px;
+
+  top: 0;
+  left: 15%;
+
+  transform: rotate(-6deg);
+}
+
+.card-builder {
+  width: 320px;
+
+  top: 300px;
+  right: 10%;
+
+  transform: rotate(3deg);
+}
+
+.card-explorer {
+  width: 360px;
+
+  top: 650px;
+  left: 5%;
+
+  transform: rotate(-2deg);
+}
+
+.card-storyteller {
+  width: 420px;
+
+  top: 900px;
+  right: 25%;
+
+  transform: rotate(7deg);
+}
+
+.card-strategist {
+  width: 350px;
+
+  top: 1300px;
+  left: 35%;
+
+  transform: rotate(-4deg);
+}
+
+.mind-caption {
+  margin-top: 1rem;
+}
+
+.mind-caption h2 {
+  font-family: 'Cormorant Garamond', serif;
+
+  font-size: 2rem;
+
+  font-weight: 300;
+}
+
+.mind-caption p {
+  opacity: .7;
+
+  line-height: 1.7;
+}
+
+.mind-top-left {
+  position: absolute;
+
+  top: 50px;
+
+  left: 40px;
+
+  font-size: .7rem;
+
+  line-height: 1.6;
+
+  letter-spacing: .1rem;
+
+  opacity: .7;
+}
+
+.mind-back {
+  position: fixed;
+
+  top: 40px;
+
+  right: 40px;
+
+  z-index: 9999;
+
+  font-size: .7rem;
+
+  letter-spacing: .15rem;
+}
+
+.mind-gallery {
+  position: relative;
+
+  min-height: 1800px;
+
+  max-width: 1800px;
+
+  margin: 0 auto;
+
+  padding:
+    6rem
+    4rem
+    12rem;
+}
+
+.mind-intro-image {
+  position: relative;
+}
+
+.mind-intro-image::before {
+  content: '001';
+
+  position: absolute;
+
+  top: -40px;
+
+  left: -40px;
+
+  font-size: 6rem;
+
+  opacity: .08;
+
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.mind-card:hover {
+  transform:
+    translateY(-12px)
+    scale(1.03);
+}
+
+.mind-connections {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: .15;
+}
+
+.word-1 {
+  top: 100px;
+}
+
+.word-2 {
+  top: 700px;
+
+  left: 300px;
+}
+
+.word-3 {
+  top: 1300px;
+
+  left: -100px;
+}
+
+.mind-intro-content {
+  max-width: 700px;
+}
+
+.mind-intro-content blockquote {
+  font-size: 1.1rem;
+
+  line-height: 2;
+
+  opacity: .75;
+
+  margin-bottom: 1rem;
+
+  padding-left: 2rem;
+
+  border-left:
+    1px solid rgba(255,255,255,.15);
+}
+
+.mind-intro-content h2 {
+  font-family:
+    'Cormorant Garamond',
+    serif;
+
+  font-size:
+    clamp(3.5rem, 5vw, 5rem);
+
+  font-weight: 300;
+
+  line-height: .9;
+
+  margin-bottom: 2rem;
+}
+
+.mind-intro-content p {
+  font-size: 1.1rem;
+
+  line-height: 2;
+
+  opacity: .8;
+
+  margin-bottom: 2rem;
+
+  max-width: 650px;
+}
+
+.mind-intro-content blockquote span {
+  display: block;
+
+  margin-top: 1rem;
+
+  opacity: .5;
+
+  font-size: .9rem;
+}
+
+
+
+.mind-quote-author {
+  display: block;
+
+  margin-bottom: 4rem;
+
+  opacity: .5;
+
+  font-size: .9rem;
+}
+
+.mind-epigraph {
+  max-width: 1000px;
+
+  margin: 0 auto 8rem;
+
+  text-align: left;
+}
+
+.mind-intro-layout {
+  display: grid;
+
+  grid-template-columns: 500px 1fr;
+
+  gap: 8rem;
+
+  align-items: center;
+}
+
+.mind-transition {
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 8rem 2rem;
+
+  text-align: center;
+}
+
+.mind-transition p {
+  font-family: 'Cormorant Garamond', serif;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+
+  line-height: 1.2;
+
+  margin-bottom: 1rem;
+
+  opacity: .85;
+}
+
+.mind-content {
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding:
+    12rem
+    4rem;
+}
+
+.mind-content-section {
+  padding:
+    8rem
+    0;
+
+  border-top:
+    1px solid rgba(255,255,255,.08);
+}
+
+.mind-content-section span {
+  font-size: .8rem;
+
+  letter-spacing: .3rem;
+
+  opacity: .4;
+}
+
+.mind-content-section h2 {
+  font-family:
+    'Cormorant Garamond',
+    serif;
+
+  font-size:
+    clamp(4rem, 8vw, 6rem);
+
+  font-weight: 300;
+
+  margin:
+    1rem 0
+    2rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.mind-ending {
+  text-align: center;
+
+  padding:
+    12rem
+    2rem;
+}
+
+.mind-ending-script {
+  font-family:
+    'Imperial Script';
+
+  font-size:
+    clamp(4rem, 8vw, 7rem);
+
+  color: #cea4d7;
+}

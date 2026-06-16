@@ -5,16 +5,21 @@ type Inquiry = {
   company: string
 }
 
-type Props = {
+type DashboardRailProps = {
   inquiries: Inquiry[]
+  projects: any[]
+  entries: any[]
 }
 
 export default function DashboardRail({
   inquiries,
-}: Props) {
+  projects,
+  entries,
+}: DashboardRailProps) {
 
   const latestInquiry =
     inquiries[0]
+    
 
   return (
 
@@ -22,41 +27,145 @@ export default function DashboardRail({
 
       <div className="glass-card rail-card">
 
-        <p className="dashboard-label">
-          Inquiries
-        </p>
+  <p className="dashboard-label">
+    Today's Focus
+  </p>
 
-        <h3>
-          {inquiries.length} Active Leads
-        </h3>
+  <div className="focus-stat">
 
-        <span>
+    <strong>
+      {projects.length}
+    </strong>
 
-          {latestInquiry
-            ? latestInquiry.name
-            : 'No inquiries yet.'}
+    <span>
+      Active Projects
+    </span>
 
-        </span>
+  </div>
 
-      </div>
+  <div className="focus-stat">
+
+    <strong>
+      {
+        entries.filter(
+          (entry: any) =>
+            entry.status?.toLowerCase() === 'draft'
+        ).length
+      }
+    </strong>
+
+    <span>
+      Draft Entries
+    </span>
+
+  </div>
+
+  <div className="focus-stat">
+
+    <strong>
+      {inquiries.length}
+    </strong>
+
+    <span>
+      Open Leads
+    </span>
+
+  </div>
+
+</div>
 
       <div className="glass-card rail-card">
 
-        <p className="dashboard-label">
-          Latest Contact
-        </p>
+  <p className="dashboard-label">
+    Active Projects
+  </p>
 
-        <h3>
-          {latestInquiry?.company || 'Waiting'}
-        </h3>
+  {projects.slice(0, 3).map((project: any) => (
 
-        <span>
-          {latestInquiry?.email || 'No recent lead'}
-        </span>
+    <div
+      key={project.id}
+      className="rail-item"
+    >
 
-      </div>
+      <strong>
+        {project.title}
+      </strong>
 
-    </aside>
+      <span>
+        {project.status}
+      </span>
 
+    </div>
+
+  ))}
+
+</div>
+
+<div className="glass-card rail-card">
+
+  <p className="dashboard-label">
+    Recent Entries
+  </p>
+
+  {entries.slice(0, 5).map((entry: any) => (
+
+    <div
+      key={entry.slug}
+      className="rail-item"
+    >
+
+      <strong>
+        {entry.title}
+      </strong>
+
+      <span>
+        {entry.status}
+      </span>
+
+    </div>
+
+  ))}
+
+</div>
+
+<div className="glass-card rail-card">
+
+  <p className="dashboard-label">
+    Open Inquiries
+  </p>
+
+  <h3>
+    {inquiries.length} Active Leads
+  </h3>
+
+  {latestInquiry ? (
+
+    <div className="rail-item">
+
+      <strong>
+        {latestInquiry.name}
+      </strong>
+
+      <span>
+        {latestInquiry.company}
+      </span>
+
+      <span>
+        {latestInquiry.email}
+      </span>
+
+    </div>
+
+  ) : (
+
+    <p>
+      No inquiries yet.
+    </p>
+
+  )}
+
+</div>
+</aside>
   )
+
 }

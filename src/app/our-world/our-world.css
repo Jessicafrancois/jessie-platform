@@ -1,0 +1,344 @@
+/* =========================================
+   WORLD PAGE
+========================================= */
+
+.world-shell {
+  min-height: 100vh;
+
+  background: #0f0f0f;
+
+  color: #f5f1eb;
+}
+
+.world-page {
+  background: #f8f6f2;
+  color: #111;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.world-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 10%;
+}
+
+.world-bg-word {
+  position: absolute;
+  font-size: 12rem;
+  opacity: 0.04;
+  font-weight: 700;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.world-hero-content h1 {
+  font-size: clamp(4rem, 10vw, 9rem);
+  line-height: 0.9;
+  margin: 0;
+}
+
+.world-hero-content p {
+  max-width: 500px;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.world-section,
+.ecosystem-section,
+.future-section {
+  padding: 8rem 10%;
+}
+
+.world-label {
+  font-size: .75rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: .4rem;
+
+  opacity: .5;
+
+  margin-bottom: 2rem;
+}
+
+.world-title {
+  font-size:
+    clamp(5rem, 10vw, 10rem);
+
+  line-height: .85;
+
+  font-weight: 300;
+
+  margin-bottom: 2rem;
+}
+
+.world-intro {
+  max-width: 700px;
+
+  line-height: 2;
+
+  opacity: .75;
+
+  font-size: 1.1rem;
+}
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+world-section,
+.ecosystem-section,
+.future-section {
+  padding: 8rem 10%;
+}
+
+.section-header {
+  margin-bottom: 4rem;
+}
+
+.section-header span {
+  opacity: .5;
+}
+
+.section-header h2 {
+  font-size: 3rem;
+  margin-top: .5rem;
+}
+
+/* =========================================
+   WORLD - CARD
+========================================= */
+
+.world-card-overlay {
+  position: absolute;
+
+  width: 75%;
+
+  left: 40px;
+  bottom: 40px;
+
+  background: rgba(255,255,255,.97);
+
+  border-radius: 32px;
+
+  padding: 2.5rem;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.15);
+}
+
+
+
+.world-card-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: 36px;
+
+  display: block;
+}
+
+.world-card-overlay {
+  position: absolute;
+
+  width: 75%;
+
+  left: 40px;
+  bottom: 40px;
+
+  background: rgba(255,255,255,.97);
+
+  border-radius: 32px;
+
+  padding: 2.5rem;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.15);
+}
+
+.world-card-category {
+  display: block;
+
+  color: #666;
+
+  font-size: .95rem;
+
+  margin-bottom: .75rem;
+}
+
+.world-card-overlay h3 {
+  font-size: 3rem;
+
+  font-weight: 400;
+
+  margin-bottom: 1rem;
+
+  line-height: 1;
+}
+
+.world-card-overlay a {
+  text-decoration: none;
+
+  color: #556b2f;
+
+  font-weight: 600;
+
+  letter-spacing: .05em;
+}
+
+.ecosystem-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* =========================================
+   NODE
+========================================= */
+
+.node-row {
+  display: flex;
+  gap: 3rem;
+}
+
+.node {
+  padding: 1rem 2rem;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 999px;
+}
+
+/* =========================================
+   SIGNATURE
+========================================= */
+
+.world-signature {
+  padding: 12rem 2rem;
+  text-align: center;
+}
+
+.world-signature p {
+  font-size: 5rem;
+  font-family: 'Imperial Script', cursive;
+}
+
+/* ========================================
+   CURRENT WORLDS
+======================================== */
+
+.worlds-section {
+  padding: 8rem 0;
+}
+
+.section-header {
+  padding: 0 10%;
+  margin-bottom: 4rem;
+}
+
+.section-header span {
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.section-header h2 {
+  font-size: clamp(3rem, 5vw, 5rem);
+  margin-top: 1rem;
+  font-weight: 400;
+}
+
+
+/* ========================================
+   WORLDS SLIDERS
+======================================== */
+
+
+.world-slide-inner {
+  height: 750px;
+
+  transition: transform .6s ease;
+}
+
+.worlds-slider {
+  overflow: hidden;
+}
+
+.worlds-slider-container {
+  display: flex;
+}
+
+.world-slide {
+  flex: 0 0 60%;
+  min-width: 0;
+
+  position: relative;
+  height: 750px;
+
+  margin-right: 2rem;
+
+  transition:
+    transform 600ms cubic-bezier(.22,.61,.36,1),
+    opacity 600ms ease,
+    filter 600ms ease;
+}
+
+.world-slide-active {
+  transform: scale(1.05);
+}
+
+.world-slide-inactive {
+  transform: scale(.85);
+}
+
+.world-slide {
+  background: rgba(255,255,255,.96);
+  border-radius: 32px;
+  padding: .5rem;
+  box-shadow:
+    0 25px 20px rgba(0,0,0,.12);
+}
+
+    /* ========================================
+   WORLDS ARROWS
+======================================== */
+
+.world-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.5);
+
+  backdrop-filter: blur(20px);
+
+  z-index: 10;
+}
+
+.world-arrow.prev {
+  left: 40px;
+}
+
+.world-arrow.next {
+  right: 40px;
+}
+
+.world-arrow:hover {
+  background: rgba(255,255,255,.85);
+
+  transform: translateY(-2px);
+}

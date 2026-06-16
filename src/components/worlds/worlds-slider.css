@@ -1,0 +1,228 @@
+.worlds-section { padding: 80px 0; }
+
+.worlds-slider-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 80px;
+  margin-bottom: 40px;
+}
+
+.worlds-slider-meta { max-width: 600px; }
+
+.worlds-counter {
+  font-size: .72rem;
+  letter-spacing: .18em;
+  color: rgba(255,255,255,.4);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.worlds-slider-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 14px;
+  line-height: 1.1;
+}
+
+.worlds-slider-description {
+  font-size: 1rem;
+  color: rgba(255,255,255,.65);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.worlds-slider-type {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: #d8bc6e;
+}
+
+.worlds-slider-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.worlds-arrow {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.2);
+  background: transparent;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s ease;
+}
+
+.worlds-arrow:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.4);
+}
+
+/* SLIDER */
+.worlds-slider {
+  overflow: hidden;
+  cursor: grab;
+}
+
+.worlds-slider:active { cursor: grabbing; }
+
+.worlds-slider-container {
+  display: flex;
+  user-select: none;
+}
+
+.world-slide {
+  flex: 0 0 70%;
+  min-width: 0;
+  padding: 0 16px;
+  transition: opacity .3s ease;
+  opacity: .5;
+}
+
+.world-slide.is-active { opacity: 1; }
+
+.world-card {
+  position: relative;
+  display: block;
+  border-radius: 32px;
+  overflow: hidden;
+  text-decoration: none;
+  aspect-ratio: 16/9;
+}
+
+.world-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+
+.world-slide.is-active .world-card-image { transform: scale(1.03); }
+
+.world-card-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: rgba(255,255,255,.1);
+  font-weight: 700;
+}
+
+.world-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.8) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 40px;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.world-slide.is-active .world-card-overlay { opacity: 1; }
+
+.world-card-type {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: #d8bc6e;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.world-card-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.world-card-cta {
+  color: rgba(255,255,255,.8);
+  font-size: .9rem;
+  letter-spacing: .06em;
+}
+
+/* FILMSTRIP */
+.worlds-filmstrip {
+  display: flex;
+  gap: 10px;
+  padding: 28px 80px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.worlds-filmstrip::-webkit-scrollbar { display: none; }
+
+.worlds-filmstrip-thumb {
+  width: 80px;
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color .2s;
+  padding: 0;
+  background: none;
+}
+
+.worlds-filmstrip-thumb.is-active { border-color: #d8bc6e; }
+
+.worlds-filmstrip-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.worlds-filmstrip-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,.06);
+}
+
+.worlds-loading {
+  padding: 80px;
+  text-align: center;
+  color: rgba(255,255,255,.4);
+}
+
+.world-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 32px 48px;
+
+  width: 100%;
+}
+
+.world-brand {
+  text-decoration: none;
+}
+
+.world-nav-links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 32px;
+}
+
+.world-nav-links a {
+  text-decoration: none;
+}
+
+.world-nav-links a.active {
+  opacity: 1;
+}

@@ -1,0 +1,491 @@
+/* ── SHELL ───────────────────────────────────────────────────── */
+
+.new-form-page {
+  min-height: 100vh;
+  background: #050505;
+  color: white;
+  padding: 48px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ──────────────────────────────────────────────────── */
+
+.new-form-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+
+.new-form-back:hover {
+  color: white;
+}
+
+.new-form-header {
+  margin-bottom: 48px;
+}
+
+.new-form-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.new-form-header p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── BODY LAYOUT ─────────────────────────────────────────────── */
+
+.new-form-body {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── MAIN FIELDS ─────────────────────────────────────────────── */
+
+.new-form-main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.new-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.new-form-field label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.new-form-field-hint {
+  font-size: 0.7rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.new-form-field input,
+.new-form-field textarea,
+.new-form-field select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: white;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.new-form-field input:focus,
+.new-form-field textarea:focus,
+.new-form-field select:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.new-form-field input::placeholder,
+.new-form-field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.new-form-field textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.new-form-field select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.new-form-field select option {
+  background: #111;
+  color: white;
+}
+
+/* SLUG INPUT — prefix + input inline */
+.new-form-slug-input {
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.new-form-slug-input:focus-within {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.new-form-slug-prefix {
+  padding: 14px 0 14px 16px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
+}
+
+.new-form-slug-input input {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 14px 16px 14px 4px;
+}
+
+.new-form-slug-input input:focus {
+  border-color: transparent;
+}
+
+/* ROW — side-by-side fields */
+.new-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+/* IMAGE PREVIEW */
+.new-form-image-preview {
+  margin-top: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-height: 200px;
+}
+
+.new-form-image-preview img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* PROGRESS RANGE */
+.new-form-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+}
+
+.new-form-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d8bc6e;
+  cursor: pointer;
+}
+
+.new-form-progress-track {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.new-form-progress-fill {
+  height: 100%;
+  background: #d8bc6e;
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+/* ── WORLD TYPE GRID ─────────────────────────────────────────── */
+
+.new-form-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.new-form-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.new-form-type-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.new-form-type-card.is-selected {
+  border-color: #d8bc6e;
+  background: rgba(216, 188, 110, 0.08);
+  color: #d8bc6e;
+}
+
+.new-form-type-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────── */
+
+.new-form-sidebar {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.new-form-sidebar-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── PREVIEW CARD — Projects ────────────────────────────────── */
+
+.new-form-preview-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0b0b0b;
+}
+
+.new-form-preview-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.new-form-preview-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.new-form-preview-cover-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.08);
+}
+
+/* World preview overlay */
+.new-form-preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.new-form-preview-type {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #d8bc6e;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.new-form-preview-overlay h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.new-form-preview-cta {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.new-form-preview-body {
+  padding: 16px;
+}
+
+.new-form-preview-body h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.new-form-preview-body p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.55;
+}
+
+.new-form-preview-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.new-form-preview-meta span {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.new-form-preview-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.new-form-preview-slug {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: monospace;
+}
+
+/* ── STATUS BADGES ───────────────────────────────────────────── */
+
+.new-form-status {
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.new-form-status--active { background: rgba(80, 200, 120, 0.12); color: #50c878; }
+.new-form-status--in-progress { background: rgba(216, 188, 110, 0.12); color: #d8bc6e; }
+.new-form-status--in-development { background: rgba(216, 188, 110, 0.12); color: #d8bc6e; }
+.new-form-status--on-hold { background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.45); }
+.new-form-status--completed { background: rgba(100, 180, 255, 0.1); color: #64b4ff; }
+.new-form-status--archived { background: rgba(255, 255, 255, 0.04); color: rgba(255, 255, 255, 0.25); }
+
+/* ── ERROR ───────────────────────────────────────────────────── */
+
+.new-form-error {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(255, 80, 80, 0.08);
+  border: 1px solid rgba(255, 80, 80, 0.2);
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+
+/* ── ACTIONS ─────────────────────────────────────────────────── */
+
+.new-form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.new-form-btn {
+  flex: 1;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.new-form-btn--primary {
+  background: #d8bc6e;
+  color: #050505;
+  font-weight: 700;
+  border-color: #d8bc6e;
+}
+
+.new-form-btn--primary:hover {
+  background: #c9ad5f;
+}
+
+.new-form-btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.new-form-btn--ghost {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.new-form-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .new-form-page {
+    padding: 32px 24px;
+  }
+
+  .new-form-body {
+    grid-template-columns: 1fr;
+  }
+
+  .new-form-sidebar {
+    position: static;
+    order: -1;
+  }
+}

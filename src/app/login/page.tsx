@@ -9,6 +9,8 @@ import { supabase } from '../../lib/supabase'
 
 import '../dashboard/dashboard.css'
 
+import PageBackLink from '@/components/navigation/PageBackLink'
+
 export default function LoginPage() {
 
   const router =
@@ -51,6 +53,7 @@ router.push('/dashboard')
   return (
 
     <main className="login-page">
+      <PageBackLink />
 
       {/* LEFT */}
 

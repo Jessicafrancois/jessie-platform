@@ -1,32 +1,34 @@
-
-import type { Metadata } from 'next'
-import { ThemeProvider } from '../providers/ThemeProvider'
 import './globals.css'
-import ClientLayout from './ClientLayout'
 
-export const metadata: Metadata = {
+import WorldNavigation from '@/components/navigation/WorldNavigation'
+import { Inter, Playfair_Display } from 'next/font/google'
 
-  title:
-    'Jessie Platform',
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
 
-  description:
-    'Creative operating system',
-
-}
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+})
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  
   return (
-    <html lang="en" data-scroll-behavior="smooth">
-      <body suppressHydrationWarning={true}>
-        <ThemeProvider>
-          <ClientLayout>
-            {children}
-          </ClientLayout>
-        </ThemeProvider>
+    <html lang="en">
+      <body
+        className={`
+          ${inter.variable}
+          ${playfair.variable}
+        `}
+      >
+        {children}
       </body>
     </html>
   )

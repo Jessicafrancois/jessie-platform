@@ -1,0 +1,212 @@
+.library-shell {
+  min-height: 100vh;
+
+  background: #111;
+
+  color: #f5f1eb;
+}
+.library-hero {
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding:
+    12rem
+    4rem
+    8rem;
+}
+.library-label {
+  font-size: .75rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: .4rem;
+
+  opacity: .5;
+
+  margin-bottom: 2rem;
+}
+.library-title {
+  font-size:
+    clamp(5rem, 10vw, 10rem);
+
+  line-height: .85;
+
+  font-weight: 300;
+
+  margin-bottom: 2rem;
+}
+.library-intro {
+  max-width: 700px;
+
+  line-height: 2;
+
+  opacity: .75;
+
+  font-size: 1.1rem;
+}
+.library-overview {
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding:
+    4rem;
+
+  border-top:
+    1px solid rgba(255,255,255,.08);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+}
+.library-stat {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: .75rem;
+}
+.library-stat-label {
+  font-size: .7rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: .25rem;
+
+  opacity: .5;
+}
+.library-stat strong {
+  font-size: 2rem;
+
+  font-weight: 300;
+}
+.library-collections {
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding:
+    8rem
+    4rem;
+}
+.library-collections-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 2rem;
+
+  margin-top: 4rem;
+}
+.library-card {
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  padding: 3rem;
+
+  min-height: 280px;
+
+  text-decoration: none;
+
+  color: inherit;
+
+  display: flex;
+
+  flex-direction: column;
+}
+.library-card:hover {
+  background:
+    rgba(255,255,255,.03);
+}
+.library-card span {
+  font-size: .75rem;
+
+  letter-spacing: .25rem;
+
+  text-transform: uppercase;
+
+  opacity: .5;
+}
+.library-card h3 {
+  font-size: 3rem;
+
+  font-weight: 300;
+
+  margin:
+    2rem 0;
+}
+.library-card p {
+  line-height: 1.8;
+
+  opacity: .75;
+
+  margin-top: auto;
+}
+.library-worlds-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 2rem;
+
+  margin-top: 4rem;
+}
+.library-worlds-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 2rem;
+
+  margin-top: 4rem;
+}
+.library-world-card {
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  padding: 3rem;
+}
+.library-world-card {
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  padding: 3rem;
+}
+.library-world-card {
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  padding: 3rem;
+}
+.library-signature {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 1.5rem;
+
+  padding-bottom: 8rem;
+}
+.library-signoff-line {
+  width: 120px;
+
+  height: 1px;
+
+  background:
+    rgba(255,255,255,.25);
+}
+.library-signature p {
+  letter-spacing: .15rem;
+
+  opacity: .8;
+}

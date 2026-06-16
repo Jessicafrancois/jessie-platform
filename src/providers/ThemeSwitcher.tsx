@@ -1,28 +1,23 @@
-
 'use client'
 
-import {
-  useTheme,
-} from '@/providers/ThemeProvider'
+import { useTheme } from '@/providers/ThemeProvider'
 
 export default function ThemeSwitcher() {
-
-  const {
-    theme,
-    setTheme,
-  } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   return (
-
     <select
+      className="theme-switcher"
       value={theme}
       onChange={(e) =>
         setTheme(
-          e.target.value as any
+          e.target.value as
+            | 'system'
+            | 'light'
+            | 'dark'
         )
       }
     >
-
       <option value="system">
         System
       </option>
@@ -34,9 +29,6 @@ export default function ThemeSwitcher() {
       <option value="dark">
         Dark
       </option>
-
     </select>
-
   )
 }
-

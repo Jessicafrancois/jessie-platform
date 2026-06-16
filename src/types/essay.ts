@@ -55,16 +55,11 @@ export type EssayBlock =
 
 export interface Essay {
   id: string
-
-  slug: string
-
   title: string
-
   intro: string
-
-  image: string
-
-  content: EssayBlock[]
-
-  published: boolean
+  slug: string
+  status: string
+  image?: string
+  tags?: string[]
+  created_at: string
 }

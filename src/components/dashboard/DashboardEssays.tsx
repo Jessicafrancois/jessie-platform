@@ -1,54 +1,26 @@
-import { essays } from "@/src/data/essays"
+import { getPublishedEssays } from '@/lib/essays'
 
-<DashboardEssays
-  essays={essays}
-/>
+export default async function DashboardEssays() {
+const essays = await getPublishedEssays()
 
-type Essay = {
-  title: string
-  slug: string
+return ( <div className="dashboard-module glass-card"> <p>Recent Essays</p>
+
+
+  <h2>Latest Writing</h2>
+
+  <div className="essay-list">
+    {essays.map((essay: any) => (
+      <a
+        key={essay.slug}
+        href={`/journal/${essay.slug}`}
+        className="essay-link"
+      >
+        {essay.title}
+      </a>
+    ))}
+  </div>
+</div>
+
+
+)
 }
-
-type Props = {
-  essays: Essay[]
-}
-
-export default function DashboardEssays({
-  essays,
-}: Props) {
-
-  return (
-
-    <div className="dashboard-module glass-card">
-
-      <p>
-        Recent Essays
-      </p>
-
-      <h2>
-        Latest Writing
-      </h2>
-
-      <div className="essay-list">
-
-        {essays.map((essay) => (
-
-          <a
-            key={essay.slug}
-            href={`/journal/${essay.slug}`}
-            className="essay-link"
-          >
-
-            {essay.title}
-
-          </a>
-
-        ))}
-
-      </div>
-
-    </div>
-
-  )
-}
-

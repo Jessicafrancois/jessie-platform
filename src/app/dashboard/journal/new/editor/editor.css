@@ -1,0 +1,1134 @@
+/* ============================================================
+   JESSIE PLATFORM — EDITOR STYLESHEET
+   Organized: June 2026
+   Sections:
+     1.  Variables
+     2.  Layout
+     3.  Sidebar
+     4.  Topbar
+     5.  Cover Selector
+     6.  Document Shell
+     7.  Title & Excerpt
+     8.  Meta Bar
+     9.  Toolbar
+     10. Editor Content
+     11. Tags
+     12. Settings Dropdown
+     13. Dashboard
+     14. Journal / Publishing
+     15. Projects
+     16. Worlds
+     17. Collections
+     18. Media Library
+     19. Drafts / Ideas / Archive
+     20. Editor Stats Card
+     21. Feature Checkbox
+     22. Responsive
+============================================================ */
+
+
+/* ============================================================
+   1. VARIABLES
+============================================================ */
+
+:root {
+  --bg:           #050505;
+  --panel:        #0b0b0b;
+  --panel-2:      #101010;
+  --card-bg:      #0c0c0c;
+
+  --border:       rgba(255, 255, 255, .08);
+  --border-light: rgba(255, 255, 255, .05);
+
+  --text:         #ffffff;
+  --text-soft:    rgba(255, 255, 255, .65);
+  --text-muted:   rgba(255, 255, 255, .45);
+
+  --accent:       #d8bc6e;
+}
+
+
+/* ============================================================
+   2. LAYOUT
+============================================================ */
+
+.editor-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.editor-main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.editor-workspace {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.editor-content-column {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.editor-document {
+  width: 100%;
+}
+
+
+/* ============================================================
+   3. SIDEBAR
+============================================================ */
+
+.editor-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 24px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-nav a {
+  text-decoration: none;
+  color: var(--text-soft);
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition: .2s ease;
+}
+
+.sidebar-nav a:hover {
+  color: white;
+  background: rgba(255, 255, 255, .05);
+}
+
+
+/* ============================================================
+   4. TOPBAR
+============================================================ */
+
+.editor-topbar {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.topbar-title {
+  font-size: .85rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-button {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .04);
+  color: white;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.topbar-button:hover {
+  background: rgba(255, 255, 255, .08);
+}
+
+.topbar-icon-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.topbar-icon-button:hover {
+  background: rgba(255, 255, 255, .05);
+}
+
+.publish-button {
+  height: 42px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #050505;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   5. COVER SELECTOR
+============================================================ */
+
+.cover-selector {
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  background: var(--card-bg);
+  margin-bottom: 40px;
+}
+
+.cover-empty {
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.cover-empty:hover {
+  background: rgba(255, 255, 255, .03);
+}
+
+.cover-empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.cover-icon {
+  font-size: 32px;
+}
+
+.cover-empty-content h3 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.cover-empty-content p {
+  font-size: 15px;
+  opacity: .7;
+}
+
+.cover-options {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.cover-preview {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.cover-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cover-overlay {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.cover-button,
+.cover-primary-button {
+  height: 42px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.cover-button {
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, .55);
+  color: white;
+  padding: 0 18px;
+}
+
+.cover-primary-button {
+  border: none;
+  background: var(--accent);
+  color: #050505;
+  padding: 0 18px;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   6. DOCUMENT SHELL
+============================================================ */
+
+.editor-document {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.editor-document-header {
+  padding: 48px 64px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+
+/* ============================================================
+   7. TITLE & EXCERPT
+============================================================ */
+
+.editor-title {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: white;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.editor-excerpt {
+  width: 100%;
+  min-height: 120px;
+  resize: none;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--text-soft);
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+
+/* ============================================================
+   8. META BAR
+============================================================ */
+
+.editor-meta-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 24px 40px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, .02);
+}
+
+.meta-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.meta-chip span {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+}
+
+.meta-chip select,
+.meta-chip input {
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #111;
+  color: white;
+  padding: 0 12px;
+}
+
+/* Fix: status dropdown option text */
+.meta-chip select option {
+  color: #111111;
+  background-color: #ffffff;
+}
+
+.meta-tags {
+  flex: 1;
+  min-width: 320px;
+}
+
+.meta-featured {
+  min-width: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+/* ============================================================
+   9. TOOLBAR
+============================================================ */
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: 16px;
+  z-index: 50;
+}
+
+.editor-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Groups */
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 10px;
+  margin-right: 4px;
+  border-right: 1px solid var(--border);
+}
+
+.toolbar-group:last-child {
+  border-right: none;
+}
+
+/* Buttons */
+.toolbar-button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.toolbar-button:hover {
+  background: rgba(255, 255, 255, .06);
+}
+
+.toolbar-button.active {
+  background: rgba(216, 188, 110, .18);
+  color: rgb(216, 188, 110);
+}
+
+.toolbar-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Font Picker */
+.toolbar-fonts {
+  gap: 8px;
+}
+
+.toolbar-font-picker {
+  min-width: 180px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .03);
+  color: white;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.toolbar-font-picker:hover {
+  background: rgba(255, 255, 255, .05);
+}
+
+.current-font {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toolbar-chevron {
+  opacity: .6;
+}
+
+/* Font Size Stepper */
+.toolbar-size-wrapper {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: rgba(255, 255, 255, .03);
+}
+
+.toolbar-size-input {
+  width: 52px;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+}
+
+.size-stepper {
+  width: 30px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.size-stepper:hover {
+  background: rgba(255, 255, 255, .06);
+}
+
+/* Color Button */
+.toolbar-color-button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.toolbar-color-button:hover {
+  background: rgba(255, 255, 255, .05);
+}
+
+.toolbar-color-preview {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .12);
+}
+
+/* Light theme overrides */
+[data-theme='light'] .editor-toolbar {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+
+[data-theme='light'] .toolbar-button:hover,
+[data-theme='light'] .size-stepper:hover,
+[data-theme='light'] .toolbar-color-button:hover,
+[data-theme='light'] .toolbar-font-picker:hover {
+  background: rgba(0, 0, 0, .05);
+}
+
+
+/* ============================================================
+   10. EDITOR CONTENT
+============================================================ */
+
+.editor-content {
+  padding: 48px 64px 120px;
+  min-height: 800px;
+}
+
+.ProseMirror {
+  min-height: 1200px;
+  outline: none;
+  color: white;
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
+.ProseMirror h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.ProseMirror h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.ProseMirror p {
+  margin-bottom: 1.2rem;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 2rem;
+}
+
+.ProseMirror blockquote {
+  margin: 2rem 0;
+  padding-left: 24px;
+  border-left: 3px solid var(--accent);
+  color: var(--text-soft);
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+
+/* ============================================================
+   11. TAGS
+============================================================ */
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tag-pill {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, .08);
+  color: white;
+  cursor: pointer;
+  font-size: .85rem;
+}
+
+.tag-input input {
+  width: 100%;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: white;
+  padding: 0 12px;
+}
+
+
+/* ============================================================
+   12. SETTINGS DROPDOWN
+============================================================ */
+
+.settings-menu {
+  position: relative;
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 320px;
+  max-height: 75vh;
+  overflow-y: auto;
+  background: #0f0f10;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+  z-index: 999;
+}
+
+.settings-section {
+  padding: 14px;
+}
+
+.settings-section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.settings-dropdown button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s ease;
+  text-align: left;
+}
+
+.settings-dropdown button:hover {
+  background: rgba(255, 255, 255, .05);
+}
+
+.settings-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.dropdown-heading {
+  padding: 10px 14px;
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.dropdown-section {
+  padding: 6px 0;
+}
+
+.theme-selector {
+  width: 100%;
+}
+
+.theme-selector select {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .03);
+  color: white;
+  padding: 0 12px;
+}
+
+
+/* ============================================================
+   13. DASHBOARD
+============================================================ */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.dashboard-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.dashboard-stat {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.dashboard-label {
+  color: var(--text-muted);
+}
+
+
+/* ============================================================
+   14. JOURNAL / PUBLISHING
+============================================================ */
+
+.publish-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 40px;
+}
+
+.publish-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.publish-preview {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.publishing-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.publishing-header {
+  margin-bottom: 32px;
+}
+
+.publishing-header h1 {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.publishing-header p {
+  opacity: .7;
+}
+
+.publishing-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.publishing-card h2 {
+  margin-bottom: 20px;
+}
+
+.publishing-card label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.publishing-card input,
+.publishing-card textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: white;
+}
+
+.publishing-card textarea {
+  min-height: 120px;
+}
+
+
+/* ============================================================
+   15. PROJECTS
+============================================================ */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 32px;
+}
+
+.project-card {
+  overflow: hidden;
+  border-radius: 30px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  transition: transform .3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+}
+
+.project-cover {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.project-content {
+  padding: 24px;
+}
+
+
+/* ============================================================
+   16. WORLDS
+============================================================ */
+
+.world-slider {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 40px 0;
+}
+
+.world-card {
+  width: 500px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+}
+
+.world-card img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+
+.world-card:hover img {
+  transform: scale(1.08);
+}
+
+
+/* ============================================================
+   17. COLLECTIONS
+============================================================ */
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 28px;
+}
+
+.collection-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.collection-cover {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+.collection-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .7));
+}
+
+
+/* ============================================================
+   18. MEDIA LIBRARY
+============================================================ */
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.media-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  transition: border-color .2s ease;
+}
+
+.media-item:hover {
+  border-color: rgba(255, 255, 255, .15);
+}
+
+.media-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.media-meta {
+  padding: 14px;
+  color: var(--text-muted);
+  font-size: .85rem;
+}
+
+
+/* ============================================================
+   19. DRAFTS / IDEAS / ARCHIVE
+============================================================ */
+
+.content-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.content-card {
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  transition: border-color .2s ease;
+}
+
+.content-card:hover {
+  border-color: rgba(255, 255, 255, .15);
+}
+
+.content-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.content-meta {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: .85rem;
+}
+
+
+/* ============================================================
+   20. EDITOR STATS CARD
+============================================================ */
+
+.editor-stats-card {
+  display: flex;
+  gap: 32px;
+  margin-top: 24px;
+  margin-bottom: 40px;
+  padding: 18px 24px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .02);
+  border: 1px solid var(--border);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+
+/* ============================================================
+   21. FEATURE CHECKBOX
+============================================================ */
+
+.notion-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+}
+
+.notion-checkbox input {
+  display: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, .15);
+  color: transparent;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.notion-checkbox input:checked + .checkmark {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #050505;
+}
+
+/* Menu icon */
+.menu-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.menu-lines span {
+  width: 16px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+
+/* ============================================================
+   22. RESPONSIVE
+============================================================ */
+
+@media (max-width: 1200px) {
+  .toolbar-font-picker {
+    min-width: 140px;
+  }
+
+  .publish-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .editor-toolbar {
+    padding: 8px;
+    top: 8px;
+  }
+
+  .toolbar-font-picker {
+    min-width: 120px;
+  }
+
+  .editor-document-header,
+  .editor-content {
+    padding: 32px 24px;
+  }
+
+  .editor-meta-bar {
+    padding: 20px 24px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .world-card {
+    width: 360px;
+  }
+}

@@ -1,0 +1,75 @@
+Folder PATH listing for volume Windows
+Volume serial number is 0000026E 24D7:5C13
+C:\USERS\JESSI\JESSIE-PLATFORM\SRC
++---app
+¦   +---admin
+¦   ¦   +---Analytics
+¦   ¦   +---cms
+¦   ¦   +---Navigation
+¦   ¦   +---Sections
+¦   ¦   +---Site Settings
+¦   +---collections
+¦   +---connect
+¦   +---content
+¦   +---dashboard
+¦   ¦   +---fonts
+¦   ¦   +---inquiries
+¦   ¦   +---journal
+¦   ¦   ¦   +---archive
+¦   ¦   ¦   +---collections
+¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   +---drafts
+¦   ¦   ¦   +---edit
+¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   +---history
+¦   ¦   ¦   +---ideas
+¦   ¦   ¦   +---new
+¦   ¦   ¦   ¦   +---components
+¦   ¦   ¦   ¦   +---editor
+¦   ¦   ¦   ¦   ¦   +---extensions
+¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   +---publish
+¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   +---publishing
+¦   ¦   ¦   +---series
+¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   +---tags
+¦   ¦   ¦   +---[id]
+¦   ¦   +---media
+¦   ¦   +---projects
+¦   ¦   ¦   +---[id]
+¦   ¦   +---worlds
+¦   ¦       +---new
+¦   ¦       +---[id]
+¦   +---journal
+¦   ¦   +---search
+¦   ¦   +---[slug]
+¦   +---library
+¦   ¦   +---thoughts
+¦   ¦   ¦   +---[slug]
+¦   ¦   +---[collection]
+¦   +---login
+¦   +---meet-the-mind
+¦   +---our-world
+¦   +---projects
+¦   +---start-here
+¦   +---worlds
+¦       +---new
++---components
+¦   +---admin
+¦   ¦   +---cms
+¦   +---dashboard
+¦   +---editors
+¦   +---essay
+¦   +---journal
+¦   +---layout
+¦   +---media
+¦   +---navigation
+¦   +---public
+¦   +---worlds
++---constants
++---data
++---lib
++---providers
++---styles
++---types

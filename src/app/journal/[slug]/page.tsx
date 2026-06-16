@@ -4,27 +4,48 @@ import Navbar from '../../../components/Navbar'
 
 import '../journal.css'
 
+import Link from 'next/link'
+
 import { getEssayBySlug } from '../../../lib/essays'
 
 import EssayRenderer from '../../../components/essay/EssayRenderer'
+import { supabase } from '@/lib/supabase'
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export default async function EssayPage({
   params,
 }: Props) {
 
-  const essay = await getEssayBySlug(
-    params.slug
+const { slug } =
+  await params
+
+console.log(
+  'Slug:',
+  slug
+)
+
+const essay =
+  await getEssayBySlug(
+    slug
   )
 
   if (!essay) {
     notFound()
   }
+
+  const { data: relatedEntries } = await supabase
+    .from('entries')
+    .select('*')
+.eq(
+  'collection',
+  essay.collection || ''
+)
+  const relatedEssays = (relatedEntries?.filter((related: any) => related.slug !== essay.slug) || []).slice(0, 3)
 
   return (
     <main className="essay-page">
@@ -37,11 +58,13 @@ export default async function EssayPage({
 
         <div className="essay-hero-image-wrap">
 
-          <img
-            src={essay.image}
-            alt={essay.title}
-            className="essay-hero-image"
-          />
+          {essay.image && (
+  <img
+    src={essay.image}
+    alt={essay.title}
+    className="essay-hero-image"
+  />
+)}
 
           <div className="essay-overlay" />
 
@@ -52,6 +75,27 @@ export default async function EssayPage({
           <p className="essay-meta">
             Immersive Essay
           </p>
+        <div className="article-breadcrumbs">
+
+            <Link href="/journal">
+              Journal
+            </Link>
+
+            <span>→</span>
+
+            <Link
+              href={`/library/${essay.collection.toLowerCase()}`}
+            >
+              {essay.collection}
+            </Link>
+
+            <span>→</span>
+
+            <span>
+              {essay.title}
+            </span>
+
+          </div>
 
           <h1 className="essay-title">
             {essay.title}
@@ -78,6 +122,46 @@ export default async function EssayPage({
         </div>
 
       </section>
+
+      <section className="related-reading">
+
+  <p className="related-kicker">
+    Continue Exploring
+  </p>
+
+  <h2>
+    More From The {essay.collection} Collection
+  </h2>
+
+  <div className="related-grid">
+
+    {relatedEssays.map((related: any) => (
+
+      <Link
+        key={related.id}
+        href={`/journal/${related.slug}`}
+        className="related-card"
+      >
+
+        <span className="related-type">
+          {related.type || 'Essay'}
+        </span>
+
+        <h3>
+          {related.title}
+        </h3>
+
+        <p>
+          {related.intro}
+        </p>
+
+      </Link>
+
+    ))}
+
+  </div>
+
+</section>
 
     </main>
   )

@@ -2,33 +2,46 @@ import Link from 'next/link'
 
 const editorNavItems = [
   {
-    label: 'Back to Dashboard',
+    label: 'Dashboard',
     href: '/dashboard',
+  },
+  {
+    label: 'Journal',
+    href: '/dashboard/journal',
   },
   {
     label: 'Drafts',
     href: '/dashboard/journal/drafts',
   },
   {
-    label: 'Archives',
+    label: 'Ideas',
+    href: '/dashboard/journal/ideas',
+  },
+  {
+    label: 'Archive',
     href: '/dashboard/journal/archive',
   },
   {
-    label: 'Ideas',
-    href: '/dashboard/journal/ideas',
+    label: 'Projects',
+    href: '/admin/projects',
+  },
+  {
+    label: 'Media',
+    href: '/admin/media',
+  },
+  {
+    label: 'CMS',
+    href: '/admin/cms',
   },
 ]
 
 export default function EditorSidebar() {
   return (
     <aside className="editor-sidebar">
-      <div className="sidebar-logo">
-        Muse
-      </div>
 
       <nav
         className="sidebar-nav"
-        aria-label="Journal editor"
+        aria-label="Editor Navigation"
       >
         {editorNavItems.map((item) => (
           <Link
@@ -39,6 +52,7 @@ export default function EditorSidebar() {
           </Link>
         ))}
       </nav>
+
     </aside>
   )
 }

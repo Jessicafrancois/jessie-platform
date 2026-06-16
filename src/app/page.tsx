@@ -2,47 +2,80 @@
 
 import Link from 'next/link'
 import './home.css'
+import PageBackLink from '@/components/navigation/PageBackLink'
+
+import PublicLayout from '@/components/public/PublicLayout'
 
 export default function HomePage() {
-
   return (
+    <PublicLayout>
+      <PageBackLink />
 
-    <main className="home-page">
+      <main className="home-page">
+        
 
-      {/* HERO */}
+        {/* HERO */}
 
-      <section className="home-hero">
+        <section className="home-hero">
 
-        <div className="home-noise" />
-
-        <div className="home-hero-content">
-
-          <p className="home-kicker">
-            IMMERSIVE NARRATIVE SYSTEMS
+          <p className="home-label">
+            Welcome
           </p>
 
           <h1 className="home-title">
-            The future of the internet is emotional.
+            Ideas Become Worlds.
+            Worlds Become Experiences.
           </h1>
 
-          <p className="home-intro">
-            Building cinematic digital worlds,
-            immersive founder ecosystems,
-            and narrative-driven creative infrastructure.
-          </p>
+          <div className="home-hero-copy">
 
-        </div>
+            <p className="home-intro">
+              An evolving ecosystem of ventures,
+              stories, research, and experiences
+              connected through creativity,
+              psychology, and world building.
+            </p>
 
-        <div className="home-hero-image">
+          </div>
 
-          <img
-            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1800&auto=format&fit=crop"
-            alt=""
-          />
+        </section>
+        
 
-        </div>
+<div className="section-divider" />
 
-      </section>
+{/* CURRENT LOCATION */}
+
+<section className="home-status">
+
+  <div className="status-item">
+
+    <span>Currently Building</span>
+
+    <strong>Muse Studios</strong>
+
+  </div>
+
+  <div className="status-item">
+
+    <span>Research Focus</span>
+
+    <strong>World Building</strong>
+
+  </div>
+
+  <div className="status-item">
+
+    <span>Latest Entry</span>
+
+    <strong>Thoughts Collection</strong>
+
+  </div>
+
+</section>
+
+<p className="section-number">
+  001
+</p>
 
       {/* MANIFESTO */}
 
@@ -78,40 +111,268 @@ export default function HomePage() {
 
       </section>
 
+<div className="section-divider" />
+<p className="section-number">
+  002
+</p>
+
+<div className="path-meta">
+  Begin Here
+</div>
+
       {/* LINKS */}
 
-      <section className="home-links-section">
+      <section className="home-paths">
 
-        <Link
-          href="/journal"
-          className="home-card"
-        >
+  <Link
+    href="/start-here"
+    className="home-path-card"
+  >
+    <span>01</span>
 
-          <div className="home-card-image">
+    <h3>Start Here</h3>
 
-            <img
-              src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1800&auto=format&fit=crop"
-              alt=""
-            />
+    <p>
+      Begin your journey through
+      the ecosystem.
+    </p>
+  </Link>
 
-          </div>
+  <Link
+    href="/our-world"
+    className="home-path-card"
+  >
+    <span>02</span>
 
-          <div className="home-card-content">
+    <h3>Our World</h3>
 
-            <p className="home-label">
-              Journal
-            </p>
+    <p>
+      Explore the ventures,
+      stories,
+      and experiences.
+    </p>
+  </Link>
 
-            <h3>
-              Essays on immersive storytelling
-              and emotional systems.
-            </h3>
+  <Link
+    href="/library"
+    className="home-path-card"
+  >
+    <span>03</span>
 
-          </div>
+    <h3>The Library</h3>
 
-        </Link>
+    <p>
+      Enter the archive of ideas,
+      research,
+      and campaign breakdowns.
+    </p>
+  </Link>
 
-      </section>
+  <Link
+    href="/journal"
+    className="home-path-card"
+  >
+    <span>04</span>
+
+    <h3>Journal</h3>
+
+    <p>
+      Essays,
+      observations,
+      and reflections.
+    </p>
+  </Link>
+
+</section>
+
+<p className="section-number">
+  003
+</p>
+
+<div className="section-divider" />
+
+      {/* FOCUS */}
+
+<section className="home-focus">
+
+  <p className="home-label">
+    Current Focus
+  </p>
+
+  <h2>
+    Muse Studios
+  </h2>
+
+  <p>
+
+    Building a creative ecosystem
+    designed for creators,
+    founders,
+    and communities.
+
+    A place where ideas become
+    experiences and experiences
+    become opportunities.
+
+  </p>
+
+</section>
+
+<p className="section-number">
+  004
+</p>
+
+<div className="section-divider" />
+
+     {/* HOME FEATURED */}
+
+
+<section className="home-featured">
+
+  <p className="home-label">
+    From The Archive
+  </p>
+
+  <h2>
+
+    Why Great Campaigns
+    Become Cultural Moments
+
+  </h2>
+
+  <p>
+
+    A framework for understanding
+    how campaigns move beyond
+    marketing and become part
+    of culture.
+
+  </p>
+
+  <Link
+    href="/library/thoughts/campaign-framework"
+  >
+    Open Case File
+  </Link>
+
+</section>
+
+     {/* RECENT DISCOVERIES */}
+
+<p className="section-number">
+  005
+</p>
+
+<div className="section-divider" />
+
+<section className="home-discoveries">
+
+  <p className="home-label">
+    Recent Discoveries
+  </p>
+
+  <div className="discoveries-list">
+
+    <Link
+      href="/library/thoughts/barbie"
+      className="discovery-row"
+    >
+
+      <span className="discovery-number">
+        001
+      </span>
+
+      <div className="discovery-content">
+
+        <h3>
+          Barbie
+        </h3>
+
+        <p>
+          Cultural movement disguised
+          as a movie launch.
+        </p>
+
+      </div>
+
+    </Link>
+
+    <Link
+      href="/library/thoughts/duolingo"
+      className="discovery-row"
+    >
+
+      <span className="discovery-number">
+        002
+      </span>
+
+      <div className="discovery-content">
+
+        <h3>
+          Duolingo
+        </h3>
+
+        <p>
+          Turning a mascot into media.
+        </p>
+
+      </div>
+
+    </Link>
+
+    <Link
+      href="/library/thoughts/liquid-death"
+      className="discovery-row"
+    >
+
+      <span className="discovery-number">
+        003
+      </span>
+
+      <div className="discovery-content">
+
+        <h3>
+          Liquid Death
+        </h3>
+
+        <p>
+          Narrative as a competitive
+          advantage.
+        </p>
+
+      </div>
+
+    </Link>
+
+  </div>
+
+</section>
+
+<p className="section-number">
+  006
+</p>
+
+<div className="section-divider" />
+
+<section className="home-closing">
+
+  <h2>
+
+    Not everything here
+    is finished.
+
+    That's the point.
+
+  </h2>
+
+  <p>
+
+    This ecosystem is being built
+    in public, one idea at a time.
+
+  </p>
+
+</section>
 
       {/* MARQUEE */}
 
@@ -130,80 +391,57 @@ export default function HomePage() {
         </div>
 
       </section>
-
+    
       {/* FOOTER */}
 
-      <footer className="home-footer">
+  <footer className="home-footer">
 
-        <div className="home-footer-grid">
+  <div className="home-footer-line" />
 
-          <div className="home-footer-nav-column">
+  <h2>
 
-            <p className="home-label">
-              Navigation
-            </p>
+    Ideas become worlds.
+    Worlds become experiences.
 
-            <div className="home-footer-nav">
+  </h2>
 
-              <Link href="/">
-                Home
-              </Link>
+  <div className="home-footer-navigation">
 
-              <Link href="/journal">
-                Journal
-              </Link>
+    <Link href="/start-here">
+      Start Here
+    </Link>
 
-              <Link href="/contact">
-                Contact
-              </Link>
+    <Link href="/our-world">
+      Our World
+    </Link>
 
-              <Link href="/dashboard">
-                Dashboard
-              </Link>
+    <Link href="/library">
+      Library
+    </Link>
 
-            </div>
+    <Link href="/journal">
+      Journal
+    </Link>
 
-          </div>
+    <Link href="/connect">
+      Connect
+    </Link>
 
-          <div className="home-footer-signature">
+  </div>
 
-            <p className="home-label">
-              Signature
-            </p>
+  <div className="home-footer-meta">
 
-            <h2>
-              Building worlds that emotionally linger.
-            </h2>
+    <p>Jessica Francois</p>
 
-            <p>
-              Jessie Platform is an evolving ecosystem
-              focused on immersive storytelling,
-              cinematic digital experiences,
-              and emotional infrastructure.
-            </p>
+    <p>Creative Strategist</p>
 
-          </div>
+    <p>World Builder</p>
 
-          <div className="home-footer-meta">
+  </div>
 
-            <p>
-              Jessie Platform
-            </p>
-
-            <p>
-              © 2026
-            </p>
-
-            <p>
-              Emotional Systems
-            </p>
-
-          </div>
-
-        </div>
-
-      </footer>
+</footer>
 
     </main>
+ </PublicLayout>
   )
 }

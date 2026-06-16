@@ -6,19 +6,11 @@ from '../../components/dashboard/DashboardRail'
 
 import './dashboard.css'
 
-import DashboardEssays
-from '../../components/dashboard/DashboardEssays'
+import QuickCreate
+from '../../components/dashboard/QuickCreate'
 
-import DashboardDock
-from '../../components/dashboard/DashboardDock'
-
-
-import DashboardHero
-from '../../components/dashboard/DashboardHero'
-
-
-import DashboardProjects
-from '../../components/dashboard/DashboardProjects'
+import RecentActivity
+from '../../components/dashboard/RecentActivity'
 
 import { useEffect, useState }
 from 'react'
@@ -43,11 +35,20 @@ type Inquiry = {
 }
 
 type Project = {
-  id: number
+  id: string
   title: string
-  description: string
+  short_description: string | null
   status: string
   progress: number
+  created_at: string
+}
+
+type Entry = {
+  title: string
+  slug: string
+  status: string
+  type: string
+  updated_at: string
 }
 
 export default function DashboardPage() {
@@ -55,8 +56,8 @@ export default function DashboardPage() {
   const [spark, setSpark] =
     useState<Spark | null>(null)
 
-  const [essays, setEssays] =
-    useState<Essay[]>([])
+  const [entries, setEntries] =
+    useState<Entry[]>([])
 
   const [inquiries, setInquiries] =
     useState<Inquiry[]>([])
@@ -82,10 +83,19 @@ useEffect(() => {
       setSpark(sparkData[currentHour % sparkData.length])
     }
 
-    const { data: essayData } = await supabase
-      .from('essays').select('title, slug')
-      .order('created_at', { ascending: false }).limit(3)
-    setEssays(essayData || [])
+const { data: entryData } = await supabase
+
+  .from('entries')
+
+    .select('title,slug,status,type,updated_at')
+
+  .order('updated_at', {
+    ascending: false,
+  })
+
+  .limit(5)
+
+setEntries(entryData || [])
 
     const { data: inquiryData } = await supabase
       .from('inquiries').select('*')
@@ -93,9 +103,19 @@ useEffect(() => {
     setInquiries(inquiryData || [])
 
     const { data: projectData } = await supabase
-      .from('projects').select('*')
-      .order('created_at', { ascending: false })
-    setProjects(projectData || [])
+  .from('projects')
+ .select(`
+  id,
+  title,
+  short_description,
+  status,
+  progress,
+  created_at
+`)
+.order('created_at', {
+  ascending: false,
+})
+  setProjects(projectData || [])
 
     setLoading(false)
   }
@@ -111,57 +131,18 @@ useEffect(() => {
       '/login'
   }
 
-  const latestInquiry =
-    inquiries[0]
+   const heroImage =
+  'https://kpbehguoxekpfejjahcf.supabase.co/storage/v1/object/public/assets/dashboard/hero.jpg'
+
 
 if (loading) return <div style={{ color: 'white', padding: '2rem' }}>Loading...</div>
 
   return (
 
-    <main className="creative-dashboard">
-
+    <main className="dashboard-home">
       {/* LEFT DOCK */}
 
-      <aside className="dashboard-dock">
-
-        <div className="dashboard-brand">
-          Jessie
-        </div>
-
-        <nav className="dashboard-dock-nav">
-
-          <a href="/dashboard">
-            Home
-          </a>
-
-          <a href="/dashboard/journal/new">
-            Journal
-          </a>
-
-          <a href="/dashboard/projects">
-            Projects
-          </a>
-
-          <a href="/dashboard/inquiries">
-            Inquiries
-          </a>
-
-          <a href="/">
-            Site
-          </a>
-
-          <button
-            onClick={handleLogout}
-            className="logout-button"
-          >
-
-            Logout
-
-          </button>
-
-        </nav>
-
-      </aside>
+      
 
       {/* CENTER */}
 
@@ -169,143 +150,178 @@ if (loading) return <div style={{ color: 'white', padding: '2rem' }}>Loading...<
 
         <div className="dashboard-hero glass-card">
 
-          <p className="dashboard-label">
-            Today's Spark
-          </p>
+  <div className="dashboard-hero-overlay" />
 
-          <h1>
-            {spark?.quote}
-          </h1>
+      <img
+        src={heroImage}
+        alt=""
+        className="dashboard-hero-image"
+    />
 
-          <span>
-            {spark?.author}
-          </span>
+  <div className="dashboard-hero-content">
 
-        </div>
+    <p className="dashboard-label">
+      Today's Spark
+    </p>
+
+    <h1>
+      {spark?.quote}
+    </h1>
+
+    <span>
+      {spark?.author}
+    </span>
+
+  </div>
+
+</div>
+
+            <QuickCreate />
+
+          <RecentActivity />
+
 
         <div className="dashboard-module-grid">
 
           {/* JOURNAL */}
 
-          <a
-            href="/dashboard/journal/new"
-            className="dashboard-module glass-card"
-          >
+         <a
+          href="/dashboard/worlds"
+          className="dashboard-module glass-card"
+        >
 
-            <p>
-              Journal
-            </p>
+          <p>
+            Worlds
+          </p>
 
-            <h2>
-              Writing Space
-            </h2>
+          <h2>
+            Living Universes
+          </h2>
 
-            <span>
-              Draft cinematic essays and visual stories.
-            </span>
+          <span>
+            Build characters,
+            locations,
+            histories,
+            and systems.
+          </span>
 
-          </a>
-
-          {/* PROJECTS */}
-
-          <div className="dashboard-module glass-card">
-
-            <p>
-              Active Projects
-            </p>
-
-            <h2>
-              Venture Worlds
-            </h2>
-
-            <div className="project-list">
-
-              {projects.map((project) => (
-
-                <div
-                  key={project.id}
-                  className="project-item"
-                >
-
-                  <div className="project-top">
-
-                    <h3>
-                      {project.title}
-                    </h3>
-
-                    <span>
-                      {project.status}
-                    </span>
-
-                  </div>
-
-                  <p>
-                    {project.description}
-                  </p>
-
-                  <div className="progress-bar">
-
-                    <div
-                      className="progress-fill"
-                      style={{
-                        width:
-                          `${project.progress}%`
-                      }}
-                    />
-
-                  </div>
-
-                </div>
-
-              ))}
-
-            </div>
-
-          </div>
-
-          {/* ESSAYS */}
-
-          <div className="dashboard-module glass-card">
-
-            <p>
-              Recent Essays
-            </p>
-
-            <h2>
-              Latest Writing
-            </h2>
-
-            <div className="essay-list">
-
-              {essays.map((essay) => (
-
-                <a
-                  key={essay.slug}
-                  href={`/journal/${essay.slug}`}
-                  className="essay-link"
-                >
-
-                  {essay.title}
-
-                </a>
-
-              ))}
-
-            </div>
-
-          </div>
+        </a>
 
         </div>
 
-      </section>
+       <div className="dashboard-focus glass-card">
+
+          <p className="dashboard-label">
+            Command Center
+          </p>
+
+          <h2>
+            Today's Priorities
+          </h2>
+
+          <div className="command-grid">
+
+            <div className="command-card">
+
+              <span>
+                Active Projects
+              </span>
+
+              <strong>
+                {projects.length}
+              </strong>
+
+            </div>
+
+            <div className="command-card">
+
+              <span>
+                Draft Entries
+              </span>
+
+              <strong>
+                {
+                  entries.filter(
+                    (entry: any) =>
+                      entry.status?.toLowerCase() === 'draft'
+                  ).length
+                }
+              </strong>
+
+            </div>
+
+            <div className="command-card">
+
+              <span>
+                Open Leads
+              </span>
+
+              <strong>
+                {inquiries.length}
+              </strong>
+
+            </div>
+          </div>
+
+            {/* CREATIVE QUEUE — from projects table */}
+          <div className="creative-queue glass-card">
+            <p className="dashboard-label">Creative Queue</p>
+            <h2>Waiting For Attention</h2>
+            <div className="queue-list">
+              {projects.slice(0, 3).map((project) => (
+                <a
+                  key={project.id}
+                  href={`/dashboard/projects/${project.id}`}
+                  className="queue-item"
+                >
+                  <span className="queue-item-title">{project.title}</span>
+                  <span className={`queue-status queue-status--${project.status?.toLowerCase().replace(' ', '-')}`}>
+                    {project.status}
+                  </span>
+                </a>
+              ))}
+              {projects.length === 0 && (
+                <div className="queue-item queue-item--empty">
+                  No active projects yet.{' '}
+                  <a href="/dashboard/projects/new">Create one →</a>
+                </div>
+              )}
+            </div>
+          </div>
+
+          </div>
+
+{/* SUGGESTED NEXT ACTION — from most recently updated project */}
+{projects[0] && (
+  <div className="next-action glass-card">
+    <p className="dashboard-label">Suggested Next Action</p>
+    <h2>Continue {projects[0].title}</h2>
+    <p>
+      Last updated{' '}
+      {new Date(projects[0].created_at).toLocaleDateString('en-US', {
+        month: 'long', day: 'numeric'
+      })}.
+      {projects[0].progress > 0 && ` Progress at ${projects[0].progress}%.`}
+    </p>
+    <a href={`/dashboard/projects/${projects[0].id}`} className="action-button">
+      Open Project
+    </a>
+  </div>
+)}
+        
+
+        </section>
+  
 
       {/* RIGHT RAIL */}
 
-      <DashboardRail
-        inquiries={inquiries}
-      />
+     <DashboardRail
+  inquiries={inquiries}
+  projects={projects}
+  entries={entries}
+/>
+
 
     </main>
   )
 }
-

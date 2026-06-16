@@ -1,0 +1,86 @@
+.collection-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.collection-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.collection-bg-word {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  font-size: clamp(8rem, 15vw, 14rem);
+  font-weight: 700;
+
+  color: rgba(255,255,255,.08);
+
+  line-height: 1;
+
+  pointer-events: none;
+  user-select: none;
+
+  z-index: 2;
+}
+
+.collection-kicker {
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  font-size: .75rem;
+}
+
+.collection-hero h1 {
+  font-size: clamp(4rem, 8vw, 8rem);
+}
+
+.collection-count {
+  color: #888;
+}
+
+.collection-feed {
+  display: grid;
+  gap: 2rem;
+}
+
+.collection-card {
+  padding: 2rem;
+
+  border: 1px solid rgba(0,0,0,.08);
+
+  border-radius: 24px;
+
+  text-decoration: none;
+  color: inherit;
+}
+
+.collection-cover img {
+  width: 100%;
+  height: 500px;
+
+  object-fit: cover;
+
+  border-radius: 32px;
+
+  margin-top: 3rem;
+}
+
+.collection-stat {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.collection-featured {
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+
+  padding: 3rem;
+
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 32px;
+}

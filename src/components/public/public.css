@@ -1,0 +1,168 @@
+/*
+  public.css additions
+  Merge these into your existing src/components/public/public.css
+  ─────────────────────────────────────────────────────────────────
+*/
+
+/* ── NAVBAR ──────────────────────────────────────────────────── */
+
+.public-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.navbar-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.navbar-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Wordmark / Home link */
+.public-navbar-wordmark {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: white;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.public-navbar-wordmark:hover {
+  opacity: 0.7;
+}
+
+/* Nav links cluster */
+.public-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.public-nav-links a {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.public-nav-links a:hover,
+.public-nav-links a.active {
+  color: white;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────────── */
+
+.public-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 60px 80px;
+  background: #050505;
+  color: white;
+}
+
+.public-footer-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.public-footer-brand h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.public-footer-brand p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+}
+
+.public-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.public-footer-links a {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.public-footer-links a:hover {
+  color: white;
+}
+
+.public-footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.public-footer-portal {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #d8bc6e;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.public-footer-portal:hover {
+  opacity: 0.7;
+}
+
+.public-footer-copy {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 768px) {
+  .public-navbar {
+    padding: 0 20px;
+  }
+
+  .public-nav-links {
+    gap: 16px;
+  }
+
+  .public-nav-links a {
+    font-size: 0.7rem;
+  }
+
+  .public-footer {
+    padding: 40px 24px;
+  }
+
+  .public-footer-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .public-footer-bottom {
+    align-items: flex-start;
+  }
+}

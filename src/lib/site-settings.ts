@@ -1,25 +1,20 @@
-import { supabase }
-from './supabase'
+import { supabase } from './supabase'
 
-export async function getSiteSettings() {
+type SettingsMap = Record<string, string>
 
-  const {
-    data,
-    error,
-  } = await supabase
+export async function getPageSettings(page: string): Promise<SettingsMap> {
+  const { data } = await supabase
     .from('site_settings')
-    .select('*')
-    .single()
+    .select('section, key, value')
+    .eq('page', page)
 
-  if (error) {
+  const map: SettingsMap = {}
+  ;(data || []).forEach(s => {
+    map[`${s.section}.${s.key}`] = s.value || ''
+  })
+  return map
+}
 
-    console.error(error)
-
-    return {
-      signature_font:
-        'Cormorant Garamond',
-    }
-  }
-
-  return data
+export function get(map: SettingsMap, section: string, key: string, fallback = '') {
+  return map[`${section}.${key}`] || fallback
 }
