@@ -1,6 +1,7 @@
 import './globals.css'
 
 import WorldNavigation from '@/components/navigation/WorldNavigation'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Inter, Playfair_Display } from 'next/font/google'
 
 const inter = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
         `}
       >
         {children}
+        <SpeedInsights />
       </body>
     </html>
   )
