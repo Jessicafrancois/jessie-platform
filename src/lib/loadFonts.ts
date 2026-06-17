@@ -1,36 +1,48 @@
-import { supabase } from '@/lib/supabase'
+// src/lib/loadFonts.ts
 
-export async function loadFonts() {
-  const { data: fonts, error } = await supabase
-    .from('font_library')
-    .select('*')
-    .eq('active', true)
+import { supabase } from './supabase'
 
-  if (error) {
-    console.error(error)
-    return
-  }
+export async function loadFont(
+  fontFile: string
+) {
+  const {
+    data: { publicUrl },
+  } = supabase
+    .storage
+    .from('fonts')
+    .getPublicUrl(fontFile)
 
-  for (const font of fonts) {
-    const { data } = supabase.storage
-      .from('fonts')
-      .getPublicUrl(
-        font.bucket_path.replace('fonts/', '')
-      )
-
-    const fontFace = new FontFace(
-      font.family,
-      `url(${data.publicUrl})`
+  const fontName =
+    fontFile.replace(
+      /\.(ttf|otf|woff|woff2)$/i,
+      ''
     )
 
-    try {
-      await fontFace.load()
-      document.fonts.add(fontFace)
-    } catch (err) {
-      console.error(
-        `Failed to load ${font.family}`,
-        err
-      )
-    }
+  if (
+    !document.querySelector(
+      `[data-font="${fontName}"]`
+    )
+  ) {
+
+    const style =
+      document.createElement('style')
+
+    style.setAttribute(
+      'data-font',
+      fontName
+    )
+
+    style.innerHTML = `
+      @font-face {
+        font-family: '${fontName}';
+        src: url('${publicUrl}');
+      }
+    `
+
+    document.head.appendChild(
+      style
+    )
   }
+
+  return fontName
 }

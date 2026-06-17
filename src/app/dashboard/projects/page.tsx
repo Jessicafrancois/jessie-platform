@@ -1,119 +1,87 @@
 import { supabase } from '@/lib/supabase'
-import Link from 'next/link'
-import DashboardHeader from '@/components/dashboard/DashboardHeader'
 
-export const dynamic = 'force-dynamic'
-
-import '../dashboard.css'
-
-export default async function ProjectsDashboardPage() {
-const {
-  data: projects,
-  error,
-} = await supabase
-  .from('projects')
-  .select(`
-    id,
-    title,
-    short_description,
-    cover_image,
-    category,
-    year,
-    status,
-    created_at
-  `)
-  .order('created_at', {
-    ascending: false,
-  })
-
-console.log('PROJECTS ERROR:', error)
-console.log('PROJECTS COUNT:', projects?.length)
-
-if (error) {
-return ( <pre>
-{JSON.stringify(error, null, 2)} </pre>
-)
+// Local fallback for StackedCardCarousel and CarouselProject type to avoid
+// module resolution errors. Kept simple and self-contained so this page
+// continues to work if the original component can't be resolved.
+export type CarouselProject = {
+  id: string
+  number: string
+  year: string
+  category: string
+  type: string
+  title: string
+  description: string
+  slug: string
+  image?: string | null
 }
 
-return ( <main className="projects-dash-page"> <DashboardHeader
-     title="Projects"
-     subtitle="Every venture, case study, and build — tracked and organized."
-   />
-
-  <div className="projects-dash-header">
-    <Link
-      href="/dashboard/projects/new"
-      className="projects-dash-new"
-    >
-      + New Project
-    </Link>
-  </div>
-
-  <div className="projects-dash-grid">
-    {!projects?.length && (
-      <div className="projects-dash-empty">
-        <h3>No projects yet.</h3>
-
-        <Link href="/dashboard/projects/new">
-          Create your first project →
-        </Link>
+function StackedCardCarousel({
+  projects,
+  headline,
+  section,
+}: {
+  projects: CarouselProject[]
+  headline: string
+  section?: string
+}) {
+  return (
+    <main className="stacked-card-carousel">
+      {section && <div className="section">{section}</div>}
+      <h2 className="headline">{headline}</h2>
+      <div className="cards">
+        {projects.map((p) => (
+          <article key={p.id} className="card">
+            {p.image && <img src={p.image} alt={p.title} />}
+            <div className="meta">
+              <div className="number">{p.number}</div>
+              <h3>{p.title}</h3>
+              <p className="desc">{p.description}</p>
+            </div>
+          </article>
+        ))}
       </div>
-    )}
+    </main>
+  )
+}
 
-    {projects?.map((project, index) => (
-      <Link
-        key={project.id}
-        href={`/dashboard/projects/${project.id}`}
-        className="projects-dash-card"
-      >
-        <div className="projects-dash-card-number">
-          {String(index + 1).padStart(2, '0')}
-        </div>
+export const revalidate = 0
 
-        {project.cover_image ? (
-          <div className="projects-dash-card-cover">
-            <img
-              src={project.cover_image}
-              alt={project.title}
-            />
-          </div>
-        ) : (
-          <div className="projects-dash-card-cover projects-dash-card-cover--empty" />
-        )}
+export default async function ProjectsDashboardPage() {
+  const { data: projects, error } = await supabase
+    .from('projects')
+    .select('id, title, slug, description, category, year, cover_image')
+    .order('sort_order', { ascending: true })
 
-        <div className="projects-dash-card-body">
-          <div className="projects-dash-card-meta">
-            {project.year && (
-              <span>{project.year}</span>
-            )}
+  if (error) console.error('PROJECTS DASHBOARD ERROR:', error)
 
-            {project.category && (
-              <span>{project.category}</span>
-            )}
+  const projectsList = projects ?? []
 
-            {project.status && (
-              <span
-                className={`projects-dash-status projects-dash-status--${project.status
-                  .toLowerCase()
-                  .replace(' ', '-')}`}
-              >
-                {project.status}
-              </span>
-            )}
-          </div>
+  if (projectsList.length === 0) {
+    return (
+      <main className="projects-dashboard-empty">
+        <h1>No projects yet</h1>
+        <p>Create a project to see it appear here as a card.</p>
+      </main>
+    )
+  }
 
-          <h2 className="projects-dash-card-title">
-            {project.title}
-          </h2>
+  const cards: CarouselProject[] = projectsList.map((p, i) => ({
+    id: p.id,
+    number: String(i + 1).padStart(2, '0'),
+    year: p.year || '2026',
+    category: p.category || 'Brand',
+    type: 'Case Study',
+    title: p.title,
+    description: p.description || '',
+    slug: p.slug || p.id,
+    image: p.cover_image ?? undefined,
+  }))
 
-          <p className="projects-dash-card-desc">
-            {project.short_description}
-          </p>
-        </div>
-      </Link>
-    ))}
-  </div>
-</main>
-
-)
+  return (
+    <StackedCardCarousel
+      projects={cards}
+      headline={'Designs That Blend\nCreativity & Functionality'}
+      section="PROJECTS"
+    />
+  )
 }

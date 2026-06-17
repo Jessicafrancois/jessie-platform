@@ -1,0 +1,654 @@
+/* ============================================================
+   JOURNAL DASHBOARD — Editorial Cinematic UI
+   Vogue · Kinfolk · A24 · Apple Editorial
+   ============================================================ */
+
+/* ── Root shell ──────────────────────────────────────────── */
+
+.jd-root {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background: #050505;
+  color: #f5f1eb;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Film grain ──────────────────────────────────────────── */
+
+.jd-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  animation: grain 0.6s steps(2) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0,   0  ); }
+  10%       { transform: translate(-2%, -3%); }
+  20%       { transform: translate(3%,  1% ); }
+  30%       { transform: translate(-1%, 4% ); }
+  40%       { transform: translate(4%, -2% ); }
+  50%       { transform: translate(-3%, 3% ); }
+  60%       { transform: translate(2%, -4% ); }
+  70%       { transform: translate(-4%, 2% ); }
+  80%       { transform: translate(1%, -1% ); }
+  90%       { transform: translate(3%, -3% ); }
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+
+.jd-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  background: transparent;
+}
+
+.jd-topbar-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 235, 0.5);
+}
+
+.jd-topbar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.jd-topbar-menu span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: rgba(245, 241, 235, 0.5);
+  transition: background 0.2s;
+}
+
+.jd-topbar-menu:hover span {
+  background: #f5f1eb;
+}
+
+/* ── Main area ───────────────────────────────────────────── */
+
+.jd-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-top: 64px;
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+
+.jd-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 1.5rem;
+  padding: 4rem;
+  text-align: center;
+}
+
+.jd-empty p {
+  font-size: 1rem;
+  color: rgba(245, 241, 235, 0.35);
+  letter-spacing: 0.06em;
+}
+
+.jd-empty-cta {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.35);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.jd-empty-cta:hover {
+  color: #d6b77b;
+  border-color: rgba(214, 183, 123, 0.6);
+}
+
+/* ============================================================
+   CAROUSEL LAYOUT
+   ============================================================ */
+
+.jc-layout {
+  display: grid;
+  grid-template-columns: 160px 1fr 340px;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  height: calc(100vh - 144px);
+  padding: 0 1rem;
+}
+
+/* ── Column base ─────────────────────────────────────────── */
+
+.jc-col {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.jc-col--left {
+  justify-content: flex-end;
+  padding-right: 1.5rem;
+}
+
+.jc-col--center {
+  justify-content: center;
+  position: relative;
+}
+
+.jc-col--right {
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 3.5rem;
+  padding-right: 2rem;
+  position: relative;
+  gap: 0;
+}
+
+/* ── Side preview buttons ────────────────────────────────── */
+
+.jc-side-preview {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0;
+}
+
+.jc-side-img-wrap {
+  width: 100%;
+}
+
+.jc-side-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 235, 0.2);
+  transition: color 0.2s;
+}
+
+.jc-side-preview:hover .jc-side-label {
+  color: rgba(245, 241, 235, 0.5);
+}
+
+/* Right side next preview lives inside the right column */
+.jc-side-preview--right {
+  position: absolute;
+  right: -110px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 90px;
+}
+
+/* ── Feature frame ───────────────────────────────────────── */
+
+.jc-feature-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.jc-feature-frame {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  max-height: 780px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.jc-feature-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s ease;
+}
+
+.jc-feature-frame:hover .jc-feature-media {
+  transform: scale(1.015);
+}
+
+.jc-feature-placeholder {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(
+      ellipse at 40% 40%,
+      rgba(201, 169, 110, 0.06) 0%,
+      rgba(5, 5, 5, 0.95) 70%
+    );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jc-feature-placeholder span {
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 235, 0.18);
+}
+
+/* Subtle ambient glow behind image */
+.jc-feature-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(201, 169, 110, 0.07) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Entry counter ───────────────────────────────────────── */
+
+.jc-counter {
+  position: absolute;
+  bottom: -2rem;
+  left: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: rgba(245, 241, 235, 0.2);
+  font-variant-numeric: tabular-nums;
+}
+
+.jc-counter-current {
+  color: rgba(245, 241, 235, 0.55);
+}
+
+.jc-counter-sep {
+  opacity: 0.3;
+}
+
+/* ── Right column: entry info ────────────────────────────── */
+
+.jc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.jc-type {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 110, 0.7);
+  margin-bottom: 1.25rem;
+}
+
+.jc-title {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  font-weight: 600;
+  line-height: 0.97;
+  letter-spacing: -0.01em;
+  color: #f5f1eb;
+  margin: 0 0 2rem;
+  text-transform: uppercase;
+}
+
+.jc-intro {
+  font-size: clamp(0.8rem, 1.2vw, 0.92rem);
+  line-height: 1.75;
+  color: rgba(245, 241, 235, 0.55);
+  margin: 0 0 1.75rem;
+  max-width: 340px;
+}
+
+.jc-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 2rem;
+}
+
+.jc-meta span {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: rgba(245, 241, 235, 0.28);
+  text-transform: uppercase;
+}
+
+.jc-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 235, 0.45);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245, 241, 235, 0.15);
+  padding-bottom: 2px;
+  margin-bottom: 2.5rem;
+  transition: color 0.2s, border-color 0.2s;
+  align-self: flex-start;
+}
+
+.jc-read-link:hover {
+  color: #c9a96e;
+  border-color: rgba(201, 169, 110, 0.4);
+}
+
+/* ============================================================
+   JOURNAL PREVIEW (side thumbnails)
+   ============================================================ */
+
+.jp-root {
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.jp-root--small {
+  width: 130px;
+  height: 200px;
+}
+
+.jp-root--medium {
+  width: 160px;
+  height: 240px;
+}
+
+.jp-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(25%) brightness(0.7);
+  transition: filter 0.4s ease;
+}
+
+.jp-root:hover .jp-img {
+  filter: grayscale(0%) brightness(0.85);
+}
+
+.jp-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jp-placeholder span {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 235, 0.2);
+}
+
+.jp-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.35) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* ============================================================
+   JOURNAL NAVIGATION (arrows)
+   ============================================================ */
+
+.jn-root {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.jn-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 241, 235, 0.15);
+  background: transparent;
+  color: rgba(245, 241, 235, 0.6);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.jn-btn:hover:not(:disabled) {
+  border-color: rgba(245, 241, 235, 0.4);
+  color: #f5f1eb;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.jn-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   JOURNAL DOCK (bottom fixed navigation)
+   ============================================================ */
+
+.dock-root {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  padding: 0 0 2rem;
+  pointer-events: none;
+}
+
+.dock-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3.5rem;
+  pointer-events: all;
+}
+
+.dock-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  padding: 0.5rem 0;
+}
+
+.dock-item-label {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 235, 0.28);
+  transition: color 0.2s, opacity 0.2s;
+}
+
+.dock-item:hover .dock-item-label {
+  color: rgba(245, 241, 235, 0.7);
+}
+
+.dock-item--active .dock-item-label {
+  color: rgba(245, 241, 235, 0.75);
+}
+
+.dock-item-dot {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #c9a96e;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* ── Tablet: 1024px ──────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .jc-layout {
+    grid-template-columns: 120px 1fr 280px;
+    gap: 0;
+  }
+
+  .jc-col--right {
+    padding-left: 2rem;
+    padding-right: 1rem;
+  }
+
+  .jc-title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .jc-side-preview--right {
+    display: none;
+  }
+
+  .dock-inner {
+    gap: 2.5rem;
+  }
+}
+
+/* ── Mobile: 768px ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .jc-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+    padding: 1rem 1.5rem;
+    gap: 2rem;
+  }
+
+  .jc-col--left {
+    display: none;
+  }
+
+  .jc-col--center {
+    grid-row: 1;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .jc-col--right {
+    grid-row: 2;
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .jc-feature-frame {
+    height: 55vw;
+    min-height: 280px;
+    max-height: 440px;
+  }
+
+  .jc-title {
+    font-size: clamp(2rem, 7vw, 3rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .jc-intro {
+    max-width: 100%;
+  }
+
+  .jc-side-preview--right {
+    display: none;
+  }
+
+  .dock-inner {
+    gap: 1.5rem;
+  }
+
+  .dock-item-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+  }
+
+  .jd-topbar {
+    padding: 0 1.25rem;
+  }
+}
+
+/* ── Small mobile: 480px ─────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .jc-layout {
+    padding: 0.75rem 1rem;
+  }
+
+  .jc-feature-frame {
+    height: 65vw;
+    min-height: 240px;
+  }
+
+  .jc-title {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+
+  .dock-inner {
+    gap: 1.25rem;
+  }
+
+  .dock-item-label {
+    font-size: 0.5rem;
+    letter-spacing: 0.14em;
+  }
+}

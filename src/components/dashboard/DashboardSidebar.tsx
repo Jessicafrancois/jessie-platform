@@ -8,9 +8,9 @@ const PRIMARY_ITEMS = [
 { href: '/dashboard', label: 'Home' },
 { href: '/dashboard/journal', label: 'Journal' },
 { href: '/dashboard/projects', label: 'Projects' },
-{ href: '/dashboard/worlds', label: 'Worlds' },
+{ href: '/dashboard/[id]/worlds', label: 'Worlds' },
 { href: '/dashboard/media', label: 'Media' },
-{ href: '/dashboard/journal/site', label: 'Site Editor' },
+{ href: '/dashboard/site', label: 'Site Editor' },
 { href: '/dashboard/inquiries', label: 'Inquiries' },
 ]
 

@@ -1,215 +1,64 @@
-import { supabase } from '@/lib/supabase'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import PageBackLink from '@/components/navigation/PageBackLink'
-import './world-detail.css'
+import type { Metadata } from 'next'
+
+import { supabase } from '@/lib/supabase'
+import WorldViewer from '@/components/worlds/WorldViewer'
+
+import './world-viewer.css'
+
 
 export const revalidate = 60
 
-type Props = {
-params: Promise<{
-slug: string
-}>
+type Props = { params: Promise<{ slug: string }> }
+
+export async function generateMetadata(
+  { params }: Props
+): Promise<Metadata> {
+  const { slug } = await params
+  const { data: world } = await supabase
+    .from('worlds')
+    .select('title, description, hero_poster')
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single()
+
+  if (!world) return {}
+  return {
+    title: world.title,
+    description: world.description,
+    openGraph: {
+      title: world.title,
+      description: world.description ?? undefined,
+      images: world.hero_poster ? [world.hero_poster] : [],
+    },
+  }
 }
 
-export default async function WorldDetailPage({
-params,
-}: Props) {
-const { slug } = await params
+export default async function WorldPage({ params }: Props) {
+  const { slug } = await params
 
-const { data: world } = await supabase
-.from('worlds')
-.select('*')
-.or(`slug.eq.${slug},id.eq.${slug}`)
-.single()
+  const { data: world, error: worldError } = await supabase
+    .from('worlds')
+    .select('*')
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single()
 
-if (!world) {
-notFound()
-}
+  if (worldError) console.error('world error:', worldError)
+  if (!world) notFound()
 
-const { data: entries } = await supabase
-.from('entries')
-.select(`       id,
-      title,
-      slug,
-      intro,
-      type,
-      published_at
-    `)
-.eq('status', 'published')
-.order('published_at', {
-ascending: false,
-})
-.limit(6)
+  const { data: slides, error: slidesError } = await supabase
+    .from('world_slides')
+    .select('*')
+    .eq('world_id', world.id)
+    .order('sort_order', { ascending: true })
 
-const { data: projects } = await supabase
-.from('projects')
-.select(`       id,
-      title,
-      slug,
-      short_description,
-      cover_image
-    `)
-.order('created_at', {
-ascending: false,
-})
-.limit(3)
+  if (slidesError) console.error('slides error:', slidesError)
 
-return ( <main className="world-detail"> <PageBackLink />
-
-  <section className="world-detail-hero">
-    {world.cover_image ? (
-      <div className="world-detail-cover">
-        <img
-          src={world.cover_image}
-          alt={world.title}
-        />
-
-        <div className="world-detail-cover-overlay" />
-      </div>
-    ) : (
-      <div className="world-detail-cover world-detail-cover--empty" />
-    )}
-
-    <div className="world-detail-hero-content">
-      <span className="world-detail-type">
-        {world.type}
-      </span>
-
-      <h1 className="world-detail-title">
-        {world.title}
-      </h1>
-
-      <p className="world-detail-intro">
-        {world.description}
-      </p>
-    </div>
-  </section>
-
-  {(world.philosophy ||
-    world.narrative ||
-    world.vision) && (
-    <section className="world-detail-narrative">
-      {world.philosophy && (
-        <div className="world-detail-section">
-          <span className="world-detail-section-label">
-            Philosophy
-          </span>
-
-          <p>{world.philosophy}</p>
-        </div>
-      )}
-
-      {world.narrative && (
-        <div className="world-detail-section">
-          <span className="world-detail-section-label">
-            The Story
-          </span>
-
-          <p>{world.narrative}</p>
-        </div>
-      )}
-
-      {world.vision && (
-        <div className="world-detail-section">
-          <span className="world-detail-section-label">
-            The Vision
-          </span>
-
-          <p>{world.vision}</p>
-        </div>
-      )}
-    </section>
-  )}
-
-  {projects && projects.length > 0 && (
-    <section className="world-detail-projects">
-      <p className="world-detail-related-label">
-        Projects
-      </p>
-
-      <h2>Built Inside This World</h2>
-
-      <div className="world-detail-projects-grid">
-        {projects.map((project) => (
-          <Link
-            key={project.id}
-            href={`/projects/${project.slug || project.id}`}
-            className="world-detail-project-card"
-          >
-            {project.cover_image ? (
-              <img
-                src={project.cover_image}
-                alt={project.title}
-                className="world-detail-project-cover"
-              />
-            ) : (
-              <div className="world-detail-project-cover world-detail-project-cover--empty" />
-            )}
-
-            <div className="world-detail-project-body">
-              <h3>{project.title}</h3>
-
-              <p>
-                {project.short_description}
-              </p>
-
-              <span>
-                View Project →
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  )}
-
-  {entries && entries.length > 0 && (
-    <section className="world-detail-entries">
-      <p className="world-detail-related-label">
-        From The Archive
-      </p>
-
-      <h2>Related Writing</h2>
-
-      <div className="world-detail-entries-grid">
-        {entries.map((entry) => (
-          <Link
-            key={entry.id}
-            href={`/journal/${entry.slug}`}
-            className="world-detail-entry-card"
-          >
-            <span className="world-detail-entry-type">
-              {entry.type || 'Essay'}
-            </span>
-
-            <h3>{entry.title}</h3>
-
-            <p>{entry.intro}</p>
-
-            <span className="world-detail-entry-cta">
-              Read →
-            </span>
-          </Link>
-        ))}
-      </div>
-    </section>
-  )}
-
-  <section className="world-detail-signature">
-    <p>
-      Worlds are built long before they are seen.
-    </p>
-
-    <Link
-      href="/our-world"
-      className="world-detail-back-link"
-    >
-      ← All Worlds
-    </Link>
-  </section>
-</main>
-
-
-)
+  return (
+    <WorldViewer
+      world={world}
+      slides={slides ?? []}
+    />
+  )
 }

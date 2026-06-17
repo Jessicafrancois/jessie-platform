@@ -1,13 +1,26 @@
-import { supabase } from '@/lib/supabase'
+// src/lib/getFonts.ts
+
+import { supabase } from './supabase'
 
 export async function getFonts() {
   const { data, error } = await supabase
-    .from('font_library')
-    .select('*')
-    .eq('active', true)
-    .order('family')
+    .storage
+    .from('fonts')
+    .list()
 
-  if (error) throw error
+  if (error) {
+    console.error(error)
+    return []
+  }
 
   return data
+    .filter(file =>
+      /\.(ttf|otf|woff|woff2)$/i.test(file.name)
+    )
+    .map(file => ({
+      name: file.name
+        .replace(/\.(ttf|otf|woff|woff2)$/i, '')
+        .replace(/-/g, ' '),
+      file: file.name,
+    }))
 }

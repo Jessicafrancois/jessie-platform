@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import {
   Undo2,
   Redo2,
@@ -19,8 +21,10 @@ import {
   StickyNote,
   Heading1,
   Heading2,
-  ChevronDown,
 } from 'lucide-react'
+
+import { getFonts } from '@/lib/getFonts'
+import { loadFont } from '@/lib/loadFonts'
 
 type ToolbarProps = {
   editor: any
@@ -29,6 +33,39 @@ type ToolbarProps = {
 export default function Toolbar({
   editor,
 }: ToolbarProps) {
+
+  const [fonts, setFonts] = useState<
+    {
+      name: string
+      file: string
+    }[]
+  >([])
+
+  const [selectedFont, setSelectedFont] =
+    useState('')
+
+  useEffect(() => {
+
+    async function fetchFonts() {
+
+      const fontList =
+        await getFonts()
+
+      setFonts(fontList)
+
+      if (fontList.length > 0) {
+
+        setSelectedFont(
+          fontList[0].file
+        )
+
+      }
+
+    }
+
+    fetchFonts()
+
+  }, [])
 
   if (!editor) return null
 
@@ -64,42 +101,84 @@ export default function Toolbar({
 
       <div className="toolbar-group toolbar-fonts">
 
-        <button
-          type="button"
-          className="toolbar-font-picker"
-        >
-          <span className="current-font">
-            Inter
-          </span>
+        <div className="toolbar-group toolbar-fonts">
+<select
+  className="toolbar-font-picker"
+  value={selectedFont}
+  onChange={async (e) => {
 
-          <ChevronDown size={14} />
-        </button>
+    const fontFile =
+      e.target.value
 
-        <div className="toolbar-size-wrapper">
+    setSelectedFont(
+      fontFile
+    )
 
-          <button
-            type="button"
-            className="size-stepper"
-          >
-            −
-          </button>
+    const fontName =
+      await loadFont(
+        fontFile
+      )
 
-          <input
-            type="text"
-            defaultValue="16"
-            className="toolbar-size-input"
-          />
+    editor
+      .chain()
+      .focus()
+      .setMark(
+        'textStyle',
+        {
+          fontFamily:
+            fontName,
+        }
+      )
+      .run()
 
-          <button
-            type="button"
-            className="size-stepper"
-          >
-            +
-          </button>
+  }}
+>
 
-        </div>
+  {fonts.map(font => (
+
+    <option
+      key={font.file}
+      value={font.file}
+      style={{
+        fontFamily:
+          font.name,
+      }}
+    >
+      {font.name}
+    </option>
+
+  ))}
+
+</select>
+
+  <div className="toolbar-size-wrapper">
+
+    <button
+      type="button"
+      className="size-stepper"
+    >
+      −
+    </button>
+
+    <input
+      type="text"
+      defaultValue="16"
+      className="toolbar-size-input"
+    />
+
+    <button
+      type="button"
+      className="size-stepper"
+    >
+      +
+    </button>
+
+  </div>
+
+</div>
 
       </div>
+
 
       {/* Text Formatting */}
 

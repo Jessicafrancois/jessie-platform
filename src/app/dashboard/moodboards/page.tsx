@@ -6,15 +6,14 @@ import './moodboards.css'
 export const revalidate = 0
 
 export default async function MoodboardsPage() {
-  const [moodboardsRes, projectsRes] = await Promise.all([
-    supabase
-      .from('moodboards')
-      .select('*, projects(id, title)')
-      .order('updated_at', { ascending: false }),
-    supabase.from('projects').select('id, title').order('title'),
-  ])
+  const { data: moodboards, error } = await supabase
+    .from('moodboards')
+    .select('*, projects(id, title)')
+    .order('updated_at', { ascending: false })
 
-  const moodboards = moodboardsRes.data || []
+  if (error) console.error('MOODBOARDS ERROR:', error)
+
+  const moodboardsList = moodboards ?? []
 
   return (
     <main className="moodboards-page">
@@ -30,14 +29,14 @@ export default async function MoodboardsPage() {
       </div>
 
       <div className="moodboards-grid">
-        {moodboards.length === 0 && (
+        {moodboardsList.length === 0 && (
           <div className="moodboards-empty">
             <h3>No moodboards yet.</h3>
             <p>Build your first strategy presentation.</p>
             <Link href="/dashboard/moodboards/new">Create one →</Link>
           </div>
         )}
-        {moodboards.map(mb => (
+        {moodboardsList.map(mb => (
           <div key={mb.id} className="moodboard-card">
             {mb.cover_image ? (
               <div className="moodboard-card-cover">
