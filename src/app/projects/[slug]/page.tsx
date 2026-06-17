@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import PageBackLink from '@/components/navigation/PageBackLink'
@@ -6,26 +6,40 @@ import './project-detail.css'
 
 export const revalidate = 60
 
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  {
+    global: {
+      fetch: (url: RequestInfo | URL, options?: RequestInit) =>
+        fetch(url, { ...options, next: { revalidate: 60 } } as RequestInit),
+    },
+  }
+)
+
 type Props = { params: Promise<{ slug: string }> }
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params
 
-  const { data: project } = await supabase
+  const { data: project, error: projectError } = await supabase
     .from('projects')
     .select('*')
     .or(`slug.eq.${slug},id.eq.${slug}`)
     .single()
 
+  if (projectError) console.error('project error:', projectError)
   if (!project) notFound()
 
   // Related entries
-  const { data: entries } = await supabase
+  const { data: entries, error: entriesError } = await supabase
     .from('entries')
-    .select('id, title, slug, excerpt, entry_type, published_at')
+    .select('id, title, slug, intro, type, published_at')
     .eq('status', 'published')
     .order('published_at', { ascending: false })
     .limit(4)
+
+  if (entriesError) console.error('entries error:', entriesError)
 
   return (
     <main className="project-detail">
@@ -33,9 +47,9 @@ export default async function ProjectDetailPage({ params }: Props) {
 
       {/* HERO */}
       <section className="project-detail-hero">
-        {project.cover_image ? (
+        {project.image ? (
           <div className="project-detail-cover">
-            <img src={project.cover_image} alt={project.title} />
+            <img src={project.image} alt={project.title} />
             <div className="project-detail-cover-overlay" />
           </div>
         ) : (
@@ -46,7 +60,11 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="project-detail-meta">
             {project.year && <span>{project.year}</span>}
             {project.category && <span>{project.category}</span>}
-            <span className={`project-detail-status project-detail-status--${project.status?.toLowerCase().replace(' ', '-') || 'active'}`}>
+            <span
+              className={`project-detail-status project-detail-status--${
+                project.status?.toLowerCase().replace(/\s+/g, '-') || 'active'
+              }`}
+            >
               {project.status || 'Active'}
             </span>
           </div>
@@ -101,10 +119,10 @@ export default async function ProjectDetailPage({ params }: Props) {
                 className="project-detail-entry-card"
               >
                 <span className="project-detail-entry-type">
-                  {entry.entry_type || 'Essay'}
+                  {entry.type || 'Essay'}
                 </span>
                 <h3>{entry.title}</h3>
-                <p>{entry.excerpt}</p>
+                <p>{entry.intro}</p>
                 <span>Read →</span>
               </Link>
             ))}

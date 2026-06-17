@@ -1,321 +1,182 @@
-import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import PageBackLink from '@/components/navigation/PageBackLink'
 import './cms.css'
 
 export const revalidate = 60
 
-export default async function JournalPage() {
+type Props = {
+params: Promise<{
+slug: string
+}>
+}
 
-  const [entriesRes, collectionsRes] = await Promise.all([
-    supabase
-      .from('entries')
-      .select('id, title, slug, excerpt, cover_image, tags, published_at, entry_type, reading_time, collection_id')
-      .eq('status', 'published')
-      .order('published_at', { ascending: false }),
-    supabase
-      .from('collections')
-      .select('id, name, slug, description')
-      .order('name', { ascending: true }),
-  ])
+export default async function CollectionDetailPage({
+params,
+}: Props) {
+const { slug } = await params
 
-  const entries = entriesRes.data || []
-  const collections = collectionsRes.data || []
-  const featured = entries[0]
+const { data: collection } = await supabase
+.from('collections')
+.select('*')
+.or(`slug.eq.${slug},id.eq.${slug}`)
+.single()
 
-  const totalWords = entries.reduce((total, entry) => {
-    const text = typeof entry.excerpt === 'string' ? entry.excerpt : ''
-    return total + text.split(/\s+/).filter(Boolean).length
-  }, 0)
+if (!collection) {
+notFound()
+}
 
-console.log('entries error:', entriesRes.error)
-console.log('entries data:', entriesRes.data)
+const { data: entries } = await supabase
+.from('entries')
+.select(`       id,
+      title,
+      slug,
+      intro,
+      image,
+      type,
+      reading_time,
+      published_at
+    `)
+.eq('collection_id', collection.id)
+.eq('status', 'published')
+.order('published_at', {
+ascending: false,
+})
 
-console.log('collections error:', collectionsRes.error)
-console.log('collections data:', collectionsRes.data)
+return ( <main className="collection-detail"> <PageBackLink />
 
-  // Build timeline from published_at
-  const timeline = entries.reduce((acc: Record<string, Record<string, number>>, entry) => {
-    if (!entry.published_at) return acc
-    const date = new Date(entry.published_at)
-    const year = date.getFullYear().toString()
-    const month = date.toLocaleString('default', { month: 'long' })
-    if (!acc[year]) acc[year] = {}
-    acc[year][month] = (acc[year][month] || 0) + 1
-    return acc
-  }, {})
 
-  if (!featured) {
-    return (
-      <main className="journal-shell">
-        <div className="journal-empty">
-          <h2>The archive is being built.</h2>
-          <p>Check back soon.</p>
-        </div>
-      </main>
-    )
-  }
+  <section className="collection-detail-hero">
+    {collection.hero_image ? (
+      <div className="collection-detail-cover">
+        <img
+          src={collection.hero_image}
+          alt={collection.name}
+        />
 
-  return (
-    <main className="journal-shell">
-
-      {/* MASTHEAD */}
-      <div className="journal-masthead">
-        <div className="journal-hero-bg-word">ARCHIVE</div>
-        <p className="journal-masthead-byline">Jessica Francois</p>
-        <p className="journal-masthead-section">The Journal</p>
+        <div className="collection-detail-cover-overlay" />
       </div>
+    ) : (
+      <div className="collection-detail-cover collection-detail-cover--empty" />
+    )}
 
-      <section className="journal-layout">
+    <div className="collection-detail-hero-content">
+      <span className="collection-detail-label">
+        Collection
+      </span>
 
-        {/* LEFT RAIL */}
-        <aside className="journal-sidebar">
-          <div className="journal-sidebar-top">
-            <p className="journal-logo">The Journal</p>
-            <div className="journal-vertical">LIVING ARCHIVE</div>
-          </div>
-          <div className="journal-sidebar-bottom">
-            <div className="journal-accent-block" />
-            <div className="journal-sidebar-meta">
-              <span>Volume 01</span>
-              <span>2026 Edition</span>
-              <span>Collection 001</span>
-            </div>
-          </div>
-        </aside>
+      <h1 className="collection-detail-title">
+        {collection.name}
+      </h1>
 
-        {/* MAIN IMAGE */}
-        <div className="journal-feature-image">
-          {featured.cover_image && (
-            <>
-              <img src={featured.cover_image} alt={featured.title} />
-              <div className="journal-image-label">Featured Entry</div>
-            </>
-          )}
-        </div>
+      {collection.description && (
+        <p className="collection-detail-description">
+          {collection.description}
+        </p>
+      )}
 
-        {/* RIGHT COLUMN */}
-        <section className="journal-content">
+      <span className="collection-detail-count">
+        {entries?.length || 0}{' '}
+        {entries?.length === 1
+          ? 'Entry'
+          : 'Entries'}
+      </span>
+    </div>
+  </section>
 
-          {/* TOP SECTION */}
-          <div className="journal-top-grid">
-            <div className="journal-publication-note">
-              <span className="journal-kicker">Living Archive</span>
-              <p>
-                Ideas don't live in isolation. This is where strategy meets
-                story — a record of the observations, frameworks, and
-                reflections gathered while building brands, researching human
-                behavior, and designing worlds that mean something.
-              </p>
-            </div>
+  <section className="collection-detail-entries">
+    {!entries || entries.length === 0 ? (
+      <div className="collection-detail-empty">
+        <p>
+          No entries in this collection yet.
+        </p>
 
-            <div className="journal-small-image">
-              {featured.cover_image && (
-                <img src={featured.cover_image} alt={featured.title} />
+        <Link href="/journal">
+          Browse the archive →
+        </Link>
+      </div>
+    ) : (
+      <div className="collection-detail-grid">
+        {entries.map((entry, index) => (
+          <Link
+            key={entry.id}
+            href={`/journal/${entry.slug}`}
+            className="collection-detail-entry"
+          >
+            <div className="collection-detail-entry-number">
+              {String(index + 1).padStart(
+                2,
+                '0'
               )}
             </div>
 
-            <div className="obsessions-card">
-              <span className="journal-kicker">Current Obsessions</span>
-              <ul>
-                <li>Neuroscience</li>
-                <li>Brand Psychology</li>
-                <li>Worldbuilding</li>
-                <li>Creative Systems</li>
-                <li>Spanish</li>
-              </ul>
-            </div>
-          </div>
+            {entry.image ? (
+              <div className="collection-detail-entry-cover">
+                <img
+                  src={entry.image}
+                  alt={entry.title}
+                />
+              </div>
+            ) : (
+              <div className="collection-detail-entry-cover collection-detail-entry-cover--empty" />
+            )}
 
-          {/* FEATURED ENTRY */}
-          <Link href={`/journal/${featured.slug}`} className="journal-featured">
-            <div className="journal-featured-labels">
-              <span className="journal-label">Featured Entry</span>
-              {featured.published_at && new Date(featured.published_at).toLocaleDateString('en-US', {
-                month: 'long', year: 'numeric'
-              })}
-            </div>
-            <h1 className="journal-title">{featured.title}</h1>
-            <p className="journal-intro">{featured.excerpt}</p>
-            <div className="journal-publication-meta">
-              <span>Volume 01</span>
-              <span>{featured.entry_type || 'Essay'}</span>
-              <span>Living Archive</span>
+            <div className="collection-detail-entry-content">
+              <div className="collection-detail-entry-meta">
+                <span>
+                  {entry.type || 'Essay'}
+                </span>
+
+                {entry.reading_time && (
+                  <span>
+                    {entry.reading_time} min read
+                  </span>
+                )}
+
+                {entry.published_at && (
+                  <span>
+                    {new Date(
+                      entry.published_at
+                    ).toLocaleDateString(
+                      'en-US',
+                      {
+                        month: 'long',
+                        year: 'numeric',
+                      }
+                    )}
+                  </span>
+                )}
+              </div>
+
+              <h2 className="collection-detail-entry-title">
+                {entry.title}
+              </h2>
+
+              <p className="collection-detail-entry-excerpt">
+                {entry.intro}
+              </p>
+
+              <span className="collection-detail-entry-cta">
+                Read Entry →
+              </span>
             </div>
           </Link>
+        ))}
+      </div>
+    )}
+  </section>
 
-        </section>
+  <section className="collection-detail-back">
+    <Link
+      href="/collections"
+      className="collection-detail-back-link"
+    >
+      ← All Collections
+    </Link>
+  </section>
+</main>
 
-        <div className="journal-divider" />
 
-        {/* COLLECTIONS */}
-        {collections.length > 0 && (
-          <section className="journal-collections">
-            <div className="journal-collections-header">
-              <p className="journal-feed-label">Curated Collections</p>
-              <div className="journal-collections-grid">
-                {collections.map((collection, index) => (
-                  <Link
-                    key={collection.id}
-                    href={`/collections/${collection.slug}`}
-                    className="journal-collection-card"
-                  >
-                    <span className="journal-collection-number">
-                      {(index + 1).toString().padStart(3, '0')}
-                    </span>
-                    <h3>The {collection.name} Collection</h3>
-                    <p>
-                      {collection.description ||
-                        `Entries, research, and observations related to ${collection.name}.`}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* CONNECTED WORLDS */}
-        <section className="library-worlds">
-          <div className="library-worlds-header">
-            <p className="journal-feed-label">Connected Worlds</p>
-            <h2 className="journal-feed-heading">Where These Ideas Live</h2>
-            <p className="library-worlds-intro">
-              Every entry eventually finds its way into something larger.
-              These are the worlds where research becomes reality.
-            </p>
-          </div>
-          <div className="library-worlds-grid">
-            <Link href="/worlds/muse-studios" className="library-world-card">
-              <span>001</span>
-              <h3>Muse Studios</h3>
-              <p>Creative ecosystems, brand strategy, and community architecture.</p>
-            </Link>
-            <Link href="/worlds/roadwise" className="library-world-card">
-              <span>002</span>
-              <h3>Roadwise</h3>
-              <p>Freight technology, owner-operator culture, and logistics built human.</p>
-            </Link>
-            <Link href="/worlds/twisted-stars" className="library-world-card">
-              <span>003</span>
-              <h3>Twisted Stars</h3>
-              <p>Psychological fantasy exploring identity, memory, and power.</p>
-            </Link>
-          </div>
-        </section>
-
-        {/* ARCHIVE STATS */}
-        <section className="journal-archive-bar">
-          <div className="journal-stat">
-            <span className="journal-stat-number">{entries.length}</span>
-            <span className="journal-stat-label">Published Entries</span>
-          </div>
-          <div className="journal-stat">
-            <span className="journal-stat-number">{collections.length}</span>
-            <span className="journal-stat-label">Collections</span>
-          </div>
-          <div className="journal-stat">
-            <span className="journal-stat-number">{totalWords.toLocaleString()}</span>
-            <span className="journal-stat-label">Words Written</span>
-          </div>
-          <div className="journal-stat">
-            <span className="journal-stat-number">Living</span>
-            <span className="journal-stat-label">Archive Status</span>
-          </div>
-          <div className="journal-stat">
-            <span className="journal-stat-number">2026</span>
-            <span className="journal-stat-label">Current Volume</span>
-          </div>
-        </section>
-
-        {/* FEED */}
-        <section className="journal-feed">
-          <div className="journal-feed-header">
-            <p className="journal-feed-label">The Archive</p>
-            <h2 className="journal-feed-heading">Recently Added</h2>
-          </div>
-          <div className="journal-feed-inner">
-            {entries.slice(1).map((entry) => (
-              <Link key={entry.id} href={`/journal/${entry.slug}`} className="journal-feed-card">
-                <div className="journal-feed-image">
-                  {entry.cover_image
-                    ? <img src={entry.cover_image} alt={entry.title} />
-                    : <div className="journal-feed-image-placeholder" />
-                  }
-                </div>
-                <div className="journal-feed-content">
-                  <div className="journal-entry-meta">
-                    <span className="journal-entry-type">{entry.entry_type || 'Essay'}</span>
-                    {entry.reading_time && <span>{entry.reading_time} min read</span>}
-                    <span>Archive Entry</span>
-                  </div>
-                  <h3 className="journal-feed-title">{entry.title}</h3>
-                  <p className="journal-feed-intro">{entry.excerpt}</p>
-                  <div className="journal-feed-footer">
-                    <span>Continue Reading →</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* TIMELINE */}
-        <section className="archive-timeline">
-          <Link href="/journal/search" className="journal-search-link">
-            Search The Archive →
-          </Link>
-          <div className="archive-timeline-header">
-            <p className="journal-feed-label">Archive Timeline</p>
-            <h2 className="journal-feed-heading">Explore By Date</h2>
-          </div>
-          <div className="archive-years">
-            {Object.entries(timeline).reverse().map(([year, months]) => (
-              <div key={year} className="archive-year">
-                <h3>{year}</h3>
-                <div className="archive-months">
-                  {Object.entries(months).map(([month, count]) => (
-                    <Link
-                      key={month}
-                      href={`/journal?year=${year}&month=${month.toLowerCase()}`}
-                      className="archive-month"
-                    >
-                      <span>{month}</span>
-                      <span>{count} {count === 1 ? 'Entry' : 'Entries'}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* PHILOSOPHY */}
-        <section className="library-philosophy">
-          <blockquote>
-            Every world begins as an observation.
-            Every observation becomes an idea.
-            Every idea has the potential to become
-            an experience worth belonging to.
-          </blockquote>
-        </section>
-
-        {/* SIGNATURE */}
-        <section className="journal-signature">
-          <p className="journal-signature-label">From The Editor</p>
-          <p className="journal-signature-copy">
-            This archive exists as a record of curiosity — a place to
-            document strategy, explore questions, preserve discoveries, and
-            trace the evolution of the worlds being built along the way.
-            Nothing here is finished. Everything here is alive.
-          </p>
-          <div className="journal-editor-signoff">
-            <span className="journal-signoff-line" />
-            <p className="journal-editor-name">Jessica Francois</p>
-          </div>
-        </section>
-
-      </section>
-
-    </main>
-  )
+)
 }

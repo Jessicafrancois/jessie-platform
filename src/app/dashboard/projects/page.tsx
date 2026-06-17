@@ -2,18 +2,32 @@ import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import DashboardHeader from '@/components/dashboard/DashboardHeader'
 
+export const dynamic = 'force-dynamic'
+
 import '../dashboard.css'
 
 export default async function ProjectsDashboardPage() {
 const {
-data: projects,
-error,
+  data: projects,
+  error,
 } = await supabase
-.from('projects')
-.select('*')
-.order('created_at', {
-ascending: false,
-})
+  .from('projects')
+  .select(`
+    id,
+    title,
+    short_description,
+    cover_image,
+    category,
+    year,
+    status,
+    created_at
+  `)
+  .order('created_at', {
+    ascending: false,
+  })
+
+console.log('PROJECTS ERROR:', error)
+console.log('PROJECTS COUNT:', projects?.length)
 
 if (error) {
 return ( <pre>

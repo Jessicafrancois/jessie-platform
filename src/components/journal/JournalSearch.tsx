@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import './journal-search.css'
 
 export default function JournalSearch() {
 
