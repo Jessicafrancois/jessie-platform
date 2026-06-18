@@ -54,3 +54,7 @@ export type WorldSlide = {
   created_at:       string
   updated_at:       string
 }
+
+export type WorldWithSlideCount = World & {
+  slide_count: number
+}

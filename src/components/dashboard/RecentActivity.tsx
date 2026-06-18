@@ -1,28 +1,51 @@
 'use client'
 
-export default function RecentActivity() {
+type Entry = {
+  title: string
+  updated_at: string
+}
+
+type Project = {
+  id: string
+  title: string
+  created_at: string
+}
+
+type Props = {
+  entries: Entry[]
+  projects: Project[]
+}
+
+export default function RecentActivity({
+  entries,
+  projects,
+}: Props) {
 
   const activity = [
 
-    {
+    ...entries.map((entry) => ({
       type: 'Entry',
       action: 'Edited',
-      title: 'The Psychology of Curiosity',
-    },
+      title: entry.title,
+      date: entry.updated_at,
+    })),
 
-    {
+    ...projects.map((project) => ({
       type: 'Project',
       action: 'Updated',
-      title: 'Roadwise',
-    },
-
-    {
-      type: 'Asset',
-      action: 'Uploaded',
-      title: 'Muse Moodboard',
-    },
+      title: project.title,
+      date: project.created_at,
+    })),
 
   ]
+    .sort(
+      (a, b) =>
+        new Date(b.date).getTime() -
+        new Date(a.date).getTime()
+    )
+    .slice(0, 5)
+
+    
 
   return (
 

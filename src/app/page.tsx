@@ -2,11 +2,52 @@
 
 import Link from 'next/link'
 import './home.css'
+import { supabase } from '@/lib/supabase'
 import PageBackLink from '@/components/navigation/PageBackLink'
-
 import PublicLayout from '@/components/public/PublicLayout'
 
-export default function HomePage() {
+const [
+  featuredProjectRes,
+  featuredWorldRes,
+  latestJournalRes,
+  recentEntriesRes,
+] = await Promise.all([
+  supabase
+    .from('projects')
+    .select('*')
+    .eq('featured_homepage', true)
+    .limit(1)
+    .single(),
+
+  supabase
+    .from('worlds')
+    .select('*')
+    .eq('featured_homepage', true)
+    .limit(1)
+    .single(),
+
+  supabase
+    .from('journal_entries')
+    .select('*')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+    .limit(1)
+    .single(),
+
+  supabase
+    .from('journal_entries')
+    .select('*')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+    .limit(3),
+])
+
+const featuredProject = featuredProjectRes.data
+const featuredWorld = featuredWorldRes.data
+const latestEntry = latestJournalRes.data
+const discoveries = recentEntriesRes.data ?? []
+
+export default async function HomePage() {
   return (
     <PublicLayout>
       <PageBackLink />
@@ -51,7 +92,13 @@ export default function HomePage() {
 
     <span>Currently Building</span>
 
-    <strong>Muse Studios</strong>
+    <h2>
+        {featuredProject?.title ?? 'Current Focus'}
+    </h2>
+
+    <p>
+     {featuredProject?.description ?? ''}
+    </p>
 
   </div>
 
@@ -230,29 +277,21 @@ export default function HomePage() {
 <section className="home-featured">
 
   <p className="home-label">
-    From The Archive
+    Featured World
   </p>
 
   <h2>
-
-    Why Great Campaigns
-    Become Cultural Moments
-
+    {featuredWorld?.title}
   </h2>
 
   <p>
-
-    A framework for understanding
-    how campaigns move beyond
-    marketing and become part
-    of culture.
-
+    {featuredWorld?.description}
   </p>
 
   <Link
-    href="/library/thoughts/campaign-framework"
+    href={`/worlds/${featuredWorld?.slug}`}
   >
-    Open Case File
+    Explore World
   </Link>
 
 </section>
@@ -273,78 +312,35 @@ export default function HomePage() {
 
   <div className="discoveries-list">
 
+  {discoveries.map((entry, index) => (
+
     <Link
-      href="/library/thoughts/barbie"
+      key={entry.id}
+      href={`/journal/${entry.slug}`}
       className="discovery-row"
     >
 
       <span className="discovery-number">
-        001
+        {String(index + 1).padStart(3, '0')}
       </span>
 
       <div className="discovery-content">
 
         <h3>
-          Barbie
+          {entry.title}
         </h3>
 
         <p>
-          Cultural movement disguised
-          as a movie launch.
+          {entry.short_description}
         </p>
 
       </div>
 
     </Link>
 
-    <Link
-      href="/library/thoughts/duolingo"
-      className="discovery-row"
-    >
+  ))}
 
-      <span className="discovery-number">
-        002
-      </span>
-
-      <div className="discovery-content">
-
-        <h3>
-          Duolingo
-        </h3>
-
-        <p>
-          Turning a mascot into media.
-        </p>
-
-      </div>
-
-    </Link>
-
-    <Link
-      href="/library/thoughts/liquid-death"
-      className="discovery-row"
-    >
-
-      <span className="discovery-number">
-        003
-      </span>
-
-      <div className="discovery-content">
-
-        <h3>
-          Liquid Death
-        </h3>
-
-        <p>
-          Narrative as a competitive
-          advantage.
-        </p>
-
-      </div>
-
-    </Link>
-
-  </div>
+</div>
 
 </section>
 

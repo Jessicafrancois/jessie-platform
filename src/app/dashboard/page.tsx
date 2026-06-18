@@ -41,6 +41,7 @@ type Project = {
   status: string
   progress: number
   created_at: string
+  updated_at: string
 }
 
 type Entry = {
@@ -50,6 +51,8 @@ type Entry = {
   type: string
   updated_at: string
 }
+
+
 
 export default function DashboardPage() {
 
@@ -110,9 +113,10 @@ setEntries(entryData || [])
   short_description,
   status,
   progress,
-  created_at
+  created_at,
+  updated_at
 `)
-.order('created_at', {
+.order('updated_at', {
   ascending: false,
 })
   setProjects(projectData || [])
@@ -178,7 +182,10 @@ if (loading) return <div style={{ color: 'white', padding: '2rem' }}>Loading...<
 
             <QuickCreate />
 
-          <RecentActivity />
+          <RecentActivity
+            entries={entries}
+            projects={projects}
+          />
 
 
         <div className="dashboard-module-grid">
@@ -268,7 +275,13 @@ if (loading) return <div style={{ color: 'white', padding: '2rem' }}>Loading...<
             <p className="dashboard-label">Creative Queue</p>
             <h2>Waiting For Attention</h2>
             <div className="queue-list">
-              {projects.slice(0, 3).map((project) => (
+              {projects
+              .filter(
+                (project) =>
+                  project.status?.toLowerCase() !== 'completed'
+              )
+              .slice(0, 3)
+              .map((project) => (
                 <a
                   key={project.id}
                   href={`/dashboard/projects/${project.id}`}
@@ -298,9 +311,10 @@ if (loading) return <div style={{ color: 'white', padding: '2rem' }}>Loading...<
     <h2>Continue {projects[0].title}</h2>
     <p>
       Last updated{' '}
-      {new Date(projects[0].created_at).toLocaleDateString('en-US', {
-        month: 'long', day: 'numeric'
-      })}.
+    {new Date(projects[0].updated_at).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric'
+    })}
       {projects[0].progress > 0 && ` Progress at ${projects[0].progress}%.`}
     </p>
     <a href={`/dashboard/projects/${projects[0].id}`} className="action-button">

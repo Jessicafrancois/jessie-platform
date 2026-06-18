@@ -1,75 +1,362 @@
 Folder PATH listing for volume Windows
-Volume serial number is 0000026E 24D7:5C13
+Volume serial number is 0000026F 24D7:5C13
 C:\USERS\JESSI\JESSIE-PLATFORM\SRC
+¦   proxy.ts
+¦   
 +---app
-¦   +---admin
-¦   ¦   +---Analytics
-¦   ¦   +---cms
-¦   ¦   +---Navigation
-¦   ¦   +---Sections
-¦   ¦   +---Site Settings
+¦   ¦   BackNavigation.tsx
+¦   ¦   ClientLayout.tsx
+¦   ¦   favicon.ico
+¦   ¦   globals.css
+¦   ¦   home.css
+¦   ¦   layout.tsx
+¦   ¦   page.tsx
+¦   ¦   
 ¦   +---collections
+¦   ¦   ¦   collections.css
+¦   ¦   ¦   page.tsx
+¦   ¦   ¦   
+¦   ¦   +---[slug]
+¦   ¦           collection-detail.css
+¦   ¦           page.tsx
+¦   ¦           
 ¦   +---connect
+¦   ¦       connect.css
+¦   ¦       page.tsx
+¦   ¦       
 ¦   +---content
+¦   ¦       home.ts
+¦   ¦       journal.ts
+¦   ¦       
 ¦   +---dashboard
+¦   ¦   ¦   dashboard.css
+¦   ¦   ¦   layout.tsx
+¦   ¦   ¦   page.tsx
+¦   ¦   ¦   
 ¦   ¦   +---fonts
+¦   ¦   ¦       page.tsx
+¦   ¦   ¦       
 ¦   ¦   +---inquiries
+¦   ¦   ¦       inquiries.css
+¦   ¦   ¦       page.tsx
+¦   ¦   ¦       
 ¦   ¦   +---journal
+¦   ¦   ¦   ¦   cms.css
+¦   ¦   ¦   ¦   journal.css
+¦   ¦   ¦   ¦   page.tsx
+¦   ¦   ¦   ¦   
 ¦   ¦   ¦   +---archive
+¦   ¦   ¦   ¦       archive.css
+¦   ¦   ¦   ¦       ArchiveActions.tsx
+¦   ¦   ¦   ¦       page.tsx
+¦   ¦   ¦   ¦       
 ¦   ¦   ¦   +---collections
+¦   ¦   ¦   ¦   ¦   page.tsx
+¦   ¦   ¦   ¦   ¦   
 ¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   ¦           page.tsx
+¦   ¦   ¦   ¦           
 ¦   ¦   ¦   +---drafts
+¦   ¦   ¦   ¦       page.tsx
+¦   ¦   ¦   ¦       
 ¦   ¦   ¦   +---edit
 ¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   ¦           page.tsx
+¦   ¦   ¦   ¦           
 ¦   ¦   ¦   +---history
+¦   ¦   ¦   ¦       page.tsx
+¦   ¦   ¦   ¦       
 ¦   ¦   ¦   +---ideas
+¦   ¦   ¦   ¦       ideas.css
+¦   ¦   ¦   ¦       page.tsx
+¦   ¦   ¦   ¦       
 ¦   ¦   ¦   +---new
+¦   ¦   ¦   ¦   ¦   layout.tsx
+¦   ¦   ¦   ¦   ¦   page.tsx
+¦   ¦   ¦   ¦   ¦   types.ts
+¦   ¦   ¦   ¦   ¦   
 ¦   ¦   ¦   ¦   +---components
+¦   ¦   ¦   ¦   ¦       ThemeSelector.tsx
+¦   ¦   ¦   ¦   ¦       Topbar.tsx
+¦   ¦   ¦   ¦   ¦       ViewSelector.tsx
+¦   ¦   ¦   ¦   ¦       
 ¦   ¦   ¦   ¦   +---editor
+¦   ¦   ¦   ¦   ¦   ¦   CoverSelector.tsx
+¦   ¦   ¦   ¦   ¦   ¦   editor.css
+¦   ¦   ¦   ¦   ¦   ¦   EditorHeader.tsx
+¦   ¦   ¦   ¦   ¦   ¦   EditorMetaBar.tsx
+¦   ¦   ¦   ¦   ¦   ¦   EditorSidebar.tsx
+¦   ¦   ¦   ¦   ¦   ¦   EntrySettings.tsx
+¦   ¦   ¦   ¦   ¦   ¦   SettingsMenu.tsx
+¦   ¦   ¦   ¦   ¦   ¦   TagInput.tsx
+¦   ¦   ¦   ¦   ¦   ¦   TiptapEditor.tsx
+¦   ¦   ¦   ¦   ¦   ¦   Toolbar.tsx
+¦   ¦   ¦   ¦   ¦   ¦   
 ¦   ¦   ¦   ¦   ¦   +---extensions
+¦   ¦   ¦   ¦   ¦           Typography.ts
+¦   ¦   ¦   ¦   ¦           
 ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦           autoResize.ts
+¦   ¦   ¦   ¦           createBlock.ts
+¦   ¦   ¦   ¦           
 ¦   ¦   ¦   +---publish
 ¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   ¦           page.tsx
+¦   ¦   ¦   ¦           
 ¦   ¦   ¦   +---publishing
+¦   ¦   ¦   ¦       page.tsx
+¦   ¦   ¦   ¦       publishing.css
+¦   ¦   ¦   ¦       
 ¦   ¦   ¦   +---series
+¦   ¦   ¦   ¦   ¦   page.tsx
+¦   ¦   ¦   ¦   ¦   
 ¦   ¦   ¦   ¦   +---[id]
+¦   ¦   ¦   ¦           page.tsx
+¦   ¦   ¦   ¦           
 ¦   ¦   ¦   +---tags
+¦   ¦   ¦   ¦       page.tsx
+¦   ¦   ¦   ¦       
 ¦   ¦   ¦   +---[id]
+¦   ¦   ¦           page.tsx
+¦   ¦   ¦           
 ¦   ¦   +---media
-¦   ¦   +---projects
+¦   ¦   ¦       media.css
+¦   ¦   ¦       page.tsx
+¦   ¦   ¦       
+¦   ¦   +---moodboards
+¦   ¦   ¦   ¦   moodboards.css
+¦   ¦   ¦   ¦   page.tsx
+¦   ¦   ¦   ¦   
 ¦   ¦   ¦   +---[id]
+¦   ¦   ¦           moodboard-editor.css
+¦   ¦   ¦           page.tsx
+¦   ¦   ¦           
+¦   ¦   +---projects
+¦   ¦   ¦   ¦   page.tsx
+¦   ¦   ¦   ¦   
+¦   ¦   ¦   +---[id]
+¦   ¦   ¦       ¦   page.tsx
+¦   ¦   ¦       ¦   project-edit.css
+¦   ¦   ¦       ¦   
+¦   ¦   ¦       +---web
+¦   ¦   ¦               page.tsx
+¦   ¦   ¦               
+¦   ¦   +---site
+¦   ¦   ¦       page.tsx
+¦   ¦   ¦       site.css
+¦   ¦   ¦       
 ¦   ¦   +---worlds
+¦   ¦       ¦   page.tsx
+¦   ¦       ¦   worlds-dashboard.css
+¦   ¦       ¦   
 ¦   ¦       +---new
+¦   ¦       ¦       new-form.css
+¦   ¦       ¦       page.tsx
+¦   ¦       ¦       
 ¦   ¦       +---[id]
+¦   ¦           ¦   page.tsx
+¦   ¦           ¦   
+¦   ¦           +---editor
+¦   ¦                   page.tsx
+¦   ¦                   world-editor.css
+¦   ¦                   
 ¦   +---journal
+¦   ¦   ¦   journal.css
+¦   ¦   ¦   page.tsx
+¦   ¦   ¦   
 ¦   ¦   +---search
+¦   ¦   ¦       page.tsx
+¦   ¦   ¦       
 ¦   ¦   +---[slug]
+¦   ¦           page.tsx
+¦   ¦           
 ¦   +---library
+¦   ¦   ¦   library.css
+¦   ¦   ¦   page.tsx
+¦   ¦   ¦   
 ¦   ¦   +---thoughts
+¦   ¦   ¦   ¦   page.tsx
+¦   ¦   ¦   ¦   
 ¦   ¦   ¦   +---[slug]
+¦   ¦   ¦           page.tsx
+¦   ¦   ¦           
 ¦   ¦   +---[collection]
+¦   ¦           collection.css
+¦   ¦           page.tsx
+¦   ¦           
 ¦   +---login
+¦   ¦       login.css
+¦   ¦       page.tsx
+¦   ¦       
 ¦   +---meet-the-mind
+¦   ¦       meet-the-mind.css
+¦   ¦       page.tsx
+¦   ¦       
+¦   +---moodboards
+¦   ¦   +---[slug]
+¦   ¦           page.tsx
+¦   ¦           
 ¦   +---our-world
+¦   ¦       our-world.css
+¦   ¦       page.tsx
+¦   ¦       
 ¦   +---projects
+¦   ¦   ¦   new-form.css
+¦   ¦   ¦   page.tsx
+¦   ¦   ¦   projects.css
+¦   ¦   ¦   
+¦   ¦   +---[slug]
+¦   ¦           page.tsx
+¦   ¦           project-detail.css
+¦   ¦           
 ¦   +---start-here
+¦   ¦       page.tsx
+¦   ¦       start-here.css
+¦   ¦       
 ¦   +---worlds
 ¦       +---new
+¦       ¦       new-form.css
+¦       ¦       new-form.tsx
+¦       ¦       page.tsx
+¦       ¦       
+¦       +---[slug]
+¦               page.tsx
+¦               world-detail.css
+¦               world-viewer.css
+¦               
 +---components
+¦   ¦   Navbar.tsx
+¦   ¦   SmoothScroll.tsx
+¦   ¦   
 ¦   +---admin
 ¦   ¦   +---cms
 ¦   +---dashboard
+¦   ¦       DashboardDock.tsx
+¦   ¦       DashboardEssays.tsx
+¦   ¦       DashboardHeader.tsx
+¦   ¦       DashboardHero.tsx
+¦   ¦       DashboardProjects.tsx
+¦   ¦       DashboardRail.tsx
+¦   ¦       DashboardSidebar.tsx
+¦   ¦       QuickCreate.tsx
+¦   ¦       RecentActivity.tsx
+¦   ¦       
 ¦   +---editors
+¦   ¦       HeroSectionEditor.tsx
+¦   ¦       SectionCard.tsx
+¦   ¦       TextSectionEditor.tsx
+¦   ¦       
 ¦   +---essay
+¦   ¦       essay-blocks.css
+¦   ¦       EssayRenderer.tsx
+¦   ¦       
 ¦   +---journal
+¦   ¦       journal-search.css
+¦   ¦       JournalCarousel.tsx
+¦   ¦       JournalDock.tsx
+¦   ¦       JournalNavigation.tsx
+¦   ¦       JournalPreview.tsx
+¦   ¦       JournalSearch.tsx
+¦   ¦       JournalSearchClient.tsx
+¦   ¦       
 ¦   +---layout
+¦   ¦       PageContainer.tsx
+¦   ¦       PageHero.tsx
+¦   ¦       PagePhilosophy.tsx
+¦   ¦       PageSignature.tsx
+¦   ¦       Sidebar.tsx
+¦   ¦       
 ¦   +---media
+¦   ¦       ImageUpload.tsx
+¦   ¦       MediaCard.tsx
+¦   ¦       MediaDrawer.tsx
+¦   ¦       MediaLibrary.tsx
+¦   ¦       MediaPicker.tsx
+¦   ¦       MediaUploader.tsx
+¦   ¦       page.tsx
+¦   ¦       
+¦   +---moodboard
+¦   ¦       moodboard-viewer.css
+¦   ¦       MoodboardViewer.tsx
+¦   ¦       
 ¦   +---navigation
+¦   ¦       Breadcrumbs.tsx
+¦   ¦       PageBackLink.tsx
+¦   ¦       world-navigation.css
+¦   ¦       WorldNavigation.tsx
+¦   ¦       
 ¦   +---public
+¦   ¦       PrincipleCard.tsx
+¦   ¦       public.css
+¦   ¦       PublicFooter.tsx
+¦   ¦       PublicLayout.tsx
+¦   ¦       PublicNavbar.tsx
+¦   ¦       TimelineItem.tsx
+¦   ¦       VentureCard.tsx
+¦   ¦       
+¦   +---web
+¦   ¦       AddNodeToolbar.tsx
+¦   ¦       ProjectWebCanvas.tsx
+¦   ¦       web-canvas.css
+¦   ¦       web-node.css
+¦   ¦       WebNode.tsx
+¦   ¦       
 ¦   +---worlds
+¦       ¦   stacked-carousel.css
+¦       ¦   StackedCarousel.tsx
+¦       ¦   WorldEditor.tsx
+¦       ¦   worlds-slider.css
+¦       ¦   WorldSlider.tsx
+¦       ¦   WorldViewer.tsx
+¦       ¦   
+¦       +---editor
+¦       ¦       SlideCanvas.tsx
+¦       ¦       SlideNavigator.tsx
+¦       ¦       SlideSettings.tsx
+¦       ¦       
+¦       +---slides
+¦               CTASlide.tsx
+¦               GallerySlide.tsx
+¦               GenericSlide.tsx
+¦               HeroSlide.tsx
+¦               NarrativeSlide.tsx
+¦               PhilosophySlide.tsx
+¦               QuoteSlide.tsx
+¦               
 +---constants
+¦       collections.ts
+¦       entryTypes.ts
+¦       
 +---data
+¦       entries.ts
+¦       
 +---lib
+¦       blockRegistry.ts
+¦       essays.ts
+¦       fonts.ts
+¦       getFonts.ts
+¦       loadFonts.ts
+¦       sections.ts
+¦       sectionTypes.ts
+¦       site-settings.ts
+¦       supabase.ts
+¦       syncFonts.ts
+¦       uploadImage.ts
+¦       
 +---providers
+¦       ThemeProvider.tsx
+¦       ThemeSwitcher.tsx
+¦       
 +---styles
+¦       cinematic.css
+¦       shared-pages.css
+¦       
 +---types
+        cms.ts
+        entry.ts
+        entryTypes.ts
+        essay.ts
+        journal.ts
+        section.ts
+        worlds.ts
+        

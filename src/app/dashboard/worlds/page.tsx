@@ -1,48 +1,22 @@
 import { supabase } from '@/lib/supabase'
+import WorldsDashboardClient from '../../../components/worlds/WorldsDashboardClient'
+import './worlds-dashboard.css'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
-export default async function ProjectsDashboardPage() {
-  const { data: projects, error } = await supabase
-    .from('projects')
-    .select(`
-      id,
-      title,
-      short_description,
-      cover_image,
-      category,
-      year,
-      status
-    `)
+export default async function WorldsDashboardPage() {
+  const { data: worlds, error } = await supabase
+    .from('worlds')
+    .select('*, world_slides(count)')
+    .is('deleted_at', null)
+    .order('updated_at', { ascending: false })
 
-  if (error) {
-    return (
-      <pre>
-        {JSON.stringify(error, null, 2)}
-      </pre>
-    )
-  }
+  if (error) console.error('WORLDS DASHBOARD ERROR:', error)
 
-  return (
-    <main style={{ padding: '40px' }}>
-      <h1>Projects</h1>
+  const worldsList = (worlds ?? []).map(w => ({
+    ...w,
+    slide_count: w.world_slides?.[0]?.count ?? 0,
+  }))
 
-      {projects?.map(project => (
-        <div
-          key={project.id}
-          style={{
-            border: '1px solid #333',
-            padding: '16px',
-            marginBottom: '16px',
-          }}
-        >
-          <h2>{project.title}</h2>
-
-          <p>{project.short_description}</p>
-
-          <p>{project.status}</p>
-        </div>
-      ))}
-    </main>
-  )
+  return <WorldsDashboardClient initialWorlds={worldsList} />
 }

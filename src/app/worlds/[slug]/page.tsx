@@ -6,59 +6,101 @@ import WorldViewer from '@/components/worlds/WorldViewer'
 
 import './world-viewer.css'
 
-
 export const revalidate = 60
 
-type Props = { params: Promise<{ slug: string }> }
-
-export async function generateMetadata(
-  { params }: Props
-): Promise<Metadata> {
-  const { slug } = await params
-  const { data: world } = await supabase
-    .from('worlds')
-    .select('title, description, hero_poster')
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .single()
-
-  if (!world) return {}
-  return {
-    title: world.title,
-    description: world.description,
-    openGraph: {
-      title: world.title,
-      description: world.description ?? undefined,
-      images: world.hero_poster ? [world.hero_poster] : [],
-    },
-  }
+type Props = {
+params: Promise<{
+slug: string
+}>
 }
 
-export default async function WorldPage({ params }: Props) {
-  const { slug } = await params
+export async function generateMetadata(
+{ params }: Props
+): Promise<Metadata> {
 
-  const { data: world, error: worldError } = await supabase
-    .from('worlds')
-    .select('*')
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .single()
+const { slug } = await params
 
-  if (worldError) console.error('world error:', worldError)
-  if (!world) notFound()
+const { data: world, error } = await supabase
+.from('worlds')
+.select(`       title,
+      description
+    `)
+.eq('slug', slug)
+.maybeSingle()
 
-  const { data: slides, error: slidesError } = await supabase
-    .from('world_slides')
-    .select('*')
-    .eq('world_id', world.id)
-    .order('sort_order', { ascending: true })
+if (error) {
+console.error(
+'metadata world error:',
+JSON.stringify(error, null, 2)
+)
+return {}
+}
 
-  if (slidesError) console.error('slides error:', slidesError)
+if (!world) return {}
 
-  return (
-    <WorldViewer
-      world={world}
-      slides={slides ?? []}
-    />
-  )
+return {
+title: world.title,
+description: world.description ?? undefined,
+openGraph: {
+title: world.title,
+description: world.description ?? undefined,
+},
+}
+}
+
+export default async function WorldPage({
+params,
+}: Props) {
+
+const { slug } = await params
+
+console.log('WORLD SLUG:', slug)
+
+const {
+data: world,
+error: worldError,
+} = await supabase
+.from('worlds')
+.select('*')
+.eq('slug', slug)
+.maybeSingle()
+
+if (worldError) {
+console.error(
+'world error:',
+JSON.stringify(worldError, null, 2)
+)
+}
+
+if (!world) {
+console.warn(
+`No world found for slug: ${slug}`
+)
+notFound()
+}
+
+const {
+data: slides,
+error: slidesError,
+} = await supabase
+.from('world_slides')
+.select('*')
+.eq('world_id', world.id)
+.order('sort_order', {
+ascending: true,
+})
+
+if (slidesError) {
+console.error(
+'slides error:',
+JSON.stringify(slidesError, null, 2)
+)
+}
+
+return (
+<WorldViewer
+world={world}
+slides={slides ?? []}
+/>
+)
 }

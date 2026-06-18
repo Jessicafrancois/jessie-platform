@@ -780,3 +780,43 @@ a {
 .dashboard-nav-item:hover {
   background: rgba(255,255,255,.05);
 }
+.dashboard-nav-section {
+margin-bottom: 0.75rem;
+}
+
+.dashboard-section-header {
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: transparent;
+border: none;
+color: white;
+padding: 0.75rem 1rem;
+cursor: pointer;
+font-size: 0.8rem;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+}
+
+.dashboard-section-items {
+display: flex;
+flex-direction: column;
+gap: 0.15rem;
+}
+
+.dashboard-nav-item--nested {
+padding-left: 2rem;
+font-size: 0.9rem;
+opacity: 0.8;
+}
+
+.dashboard-home-link {
+margin-bottom: 1rem;
+}
+
+.dashboard-sidebar-footer {
+margin-top: auto;
+padding-top: 1rem;
+border-top: 1px solid rgba(255,255,255,0.08);
+}
