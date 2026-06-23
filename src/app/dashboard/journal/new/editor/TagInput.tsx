@@ -5,14 +5,14 @@ import { useState } from 'react'
 type TagInputProps = {
   tags: string[]
 
-  setTags: (
+  setTagsAction: (
     tags: string[]
   ) => void
 }
 
 export default function TagInput({
   tags,
-  setTags,
+  setTagsAction,
 }: TagInputProps) {
 
   const [input, setInput] =
@@ -28,7 +28,7 @@ export default function TagInput({
     if (tags.includes(value))
       return
 
-    setTags([
+    setTagsAction([
       ...tags,
       value,
     ])
@@ -40,7 +40,7 @@ export default function TagInput({
     tag: string
   ) {
 
-    setTags(
+    setTagsAction(
       tags.filter(
         (t) => t !== tag
       )

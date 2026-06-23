@@ -1,0 +1,190 @@
+.fonts-page {
+min-height: 100vh;
+padding: 40px;
+background: #0a0a0a;
+color: #f5f5f5;
+}
+
+.fonts-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 32px;
+}
+
+.fonts-title {
+font-size: 2rem;
+font-weight: 600;
+margin: 0;
+}
+
+.fonts-subtitle {
+margin-top: 8px;
+color: #8b8b8b;
+font-size: 0.9rem;
+}
+
+.fonts-actions {
+display: flex;
+gap: 12px;
+}
+
+.fonts-btn {
+border: 1px solid #2d2d2d;
+background: #111111;
+color: #f5f5f5;
+padding: 12px 18px;
+border-radius: 12px;
+cursor: pointer;
+transition: all 0.2s ease;
+}
+
+.fonts-btn:hover {
+border-color: #c8a97e;
+transform: translateY(-1px);
+}
+
+.fonts-btn:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+}
+
+.fonts-search {
+width: 100%;
+margin-bottom: 24px;
+}
+
+.fonts-search input {
+width: 100%;
+background: #111111;
+border: 1px solid #2d2d2d;
+color: white;
+border-radius: 12px;
+padding: 14px 16px;
+font-size: 14px;
+}
+
+.fonts-search input:focus {
+outline: none;
+border-color: #c8a97e;
+}
+
+.fonts-stats {
+margin-bottom: 24px;
+color: #8b8b8b;
+font-size: 14px;
+}
+
+.fonts-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+gap: 16px;
+}
+
+.font-card {
+background: #111111;
+border: 1px solid #2d2d2d;
+border-radius: 16px;
+padding: 20px;
+transition: all 0.2s ease;
+}
+
+.font-card:hover {
+border-color: #c8a97e;
+transform: translateY(-2px);
+}
+
+.font-name {
+font-size: 1.1rem;
+font-weight: 600;
+margin-bottom: 6px;
+}
+
+.font-family {
+color: #b3b3b3;
+font-size: 14px;
+margin-bottom: 10px;
+}
+
+.font-meta {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin-bottom: 12px;
+}
+
+.font-tag {
+font-size: 12px;
+padding: 4px 10px;
+border-radius: 999px;
+background: rgba(200, 169, 126, 0.1);
+border: 1px solid rgba(200, 169, 126, 0.3);
+color: #c8a97e;
+}
+
+.font-path {
+font-size: 12px;
+color: #777;
+word-break: break-all;
+margin-top: 8px;
+}
+
+.font-actions {
+display: flex;
+justify-content: flex-end;
+margin-top: 16px;
+}
+
+.font-delete {
+background: transparent;
+border: 1px solid #3a3a3a;
+color: #ff7b7b;
+padding: 8px 14px;
+border-radius: 8px;
+cursor: pointer;
+}
+
+.font-delete:hover {
+border-color: #ff7b7b;
+}
+
+.font-empty {
+padding: 60px;
+text-align: center;
+border: 1px dashed #2d2d2d;
+border-radius: 16px;
+background: #111111;
+}
+
+.font-empty-title {
+font-size: 1.2rem;
+margin-bottom: 10px;
+}
+
+.font-empty-text {
+color: #8b8b8b;
+}
+
+@media (max-width: 768px) {
+.fonts-page {
+padding: 20px;
+}
+
+.fonts-header {
+flex-direction: column;
+align-items: flex-start;
+gap: 20px;
+}
+
+.fonts-actions {
+width: 100%;
+}
+
+.fonts-btn {
+flex: 1;
+}
+
+.fonts-grid {
+grid-template-columns: 1fr;
+}
+}

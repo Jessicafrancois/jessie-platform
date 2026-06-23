@@ -58,7 +58,7 @@ export default function PublicNavbar() {
     >
       {/* Wordmark acts as Home link — left anchor */}
       <Link href="/" className="public-navbar-wordmark">
-        Jessie
+        Jessica Francois
       </Link>
 
       <nav className="public-nav-links">

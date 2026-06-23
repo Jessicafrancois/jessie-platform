@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import type { ComponentType } from 'react'
-import TiptapEditor from '../../new/editor/TiptapEditor'
+import TiptapEditor from '../../new/editor/tiptap/TiptapEditor'
 
 const TiptapEditorWithInitialData = TiptapEditor as ComponentType<{
   initialData: unknown

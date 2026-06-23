@@ -14,8 +14,8 @@ export default function OurWorldPage() {
           <span className="world-label">World Index</span>
           <h1>Our World</h1>
           <p>
-            Not one brand. Not one story. A collection of ventures,
-            universes, and ideas — built with intention, connected by
+           A collection of ventures,
+            universes, and ideas, built with intention, connected by
             purpose.
           </p>
         </div>

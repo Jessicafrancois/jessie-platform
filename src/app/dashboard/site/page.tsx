@@ -1,18 +1,25 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
+import {
+  DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent,
+} from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable'
+
+import { PageBlock, BlockType, BlockContent } from '@/lib/blocks/types'
+import {
+  getBlocksForPage, insertBlock, duplicateBlockRow, deleteBlockRow, saveBlocksBatch,
+} from '@/lib/blocks/queries'
+import { flushOfflineQueue, getOfflineQueue } from '@/lib/offlineSync'
 import { supabase } from '@/lib/supabase'
-import './site.css'
 
-type Setting = {
-  id: string
-  page: string
-  section: string
-  key: string
-  value: string | null
-}
+import BlockList from './BlockList'
+import PreviewCanvas from './PreviewCanvas'
+import SettingsPanel from './SettingsPanel'
+import GlobalSettingsPanel from './GlobalSettingsPanel'
+import './block-builder.css'
 
-type PageTab = 'home' | 'journal' | 'collections' | 'projects' | 'worlds' | 'about' | 'start' | 'navigation' | 'seo'
+type PageTab = 'home' | 'journal' | 'collections' | 'projects' | 'worlds' | 'about' | 'start'
 
 const PAGE_TABS: { id: PageTab; label: string }[] = [
   { id: 'home', label: 'Home' },
@@ -22,207 +29,196 @@ const PAGE_TABS: { id: PageTab; label: string }[] = [
   { id: 'worlds', label: 'Worlds' },
   { id: 'about', label: 'About' },
   { id: 'start', label: 'Start Here' },
-  { id: 'seo', label: 'SEO Defaults' },
 ]
 
-// Field definitions per page — what you can edit
-const PAGE_FIELDS: Record<PageTab, { section: string; key: string; label: string; type: string }[]> = {
-    home: [
-        { section: 'hero', key: 'headline', label: 'Hero Headline', type: 'text' },
-        { section: 'hero', key: 'subheadline', label: 'Hero Subheadline', type: 'textarea' },
-        { section: 'status', key: 'currently_building', label: 'Currently Building', type: 'text' },
-        { section: 'status', key: 'research_focus', label: 'Research Focus', type: 'text' },
-        { section: 'focus', key: 'title', label: 'Focus Section Title', type: 'text' },
-        { section: 'focus', key: 'body', label: 'Focus Section Body', type: 'textarea' },
-        { section: 'manifesto', key: 'headline', label: 'Manifesto Headline', type: 'text' },
-        { section: 'manifesto', key: 'body', label: 'Manifesto Body', type: 'textarea' },
-        { section: 'closing', key: 'line1', label: 'Closing Line 1', type: 'text' },
-        { section: 'closing', key: 'line2', label: 'Closing Line 2', type: 'text' },
-    ],
-    journal: [
-        { section: 'hero', key: 'headline', label: 'Headline', type: 'text' },
-        { section: 'hero', key: 'subheadline', label: 'Subheadline', type: 'textarea' },
-        { section: 'sidebar', key: 'kicker', label: 'Sidebar Kicker', type: 'text' },
-        { section: 'sidebar', key: 'description', label: 'Sidebar Description', type: 'textarea' },
-        { section: 'signature', key: 'copy', label: 'Signature Copy', type: 'textarea' },
-    ],
-    collections: [
-        { section: 'hero', key: 'headline', label: 'Headline', type: 'text' },
-        { section: 'hero', key: 'subheadline', label: 'Subheadline', type: 'text' },
-        { section: 'hero', key: 'hero_image', label: 'Hero Image URL', type: 'text' },
-    ],
-    projects: [
-        { section: 'hero', key: 'headline', label: 'Headline', type: 'text' },
-        { section: 'hero', key: 'subheadline', label: 'Subheadline', type: 'text' },
-    ],
-    worlds: [
-        { section: 'hero', key: 'headline', label: 'Headline', type: 'text' },
-        { section: 'hero', key: 'subheadline', label: 'Subheadline', type: 'text' },
-        { section: 'signature', key: 'copy', label: 'Signature Quote', type: 'text' },
-    ],
-    about: [
-        { section: 'hero', key: 'headline', label: 'Headline', type: 'text' },
-        { section: 'hero', key: 'note', label: 'Hero Note', type: 'textarea' },
-        { section: 'intro', key: 'paragraph_1', label: 'Intro Paragraph 1', type: 'textarea' },
-        { section: 'intro', key: 'paragraph_2', label: 'Intro Paragraph 2', type: 'textarea' },
-        { section: 'intro', key: 'photo', label: 'Profile Photo URL', type: 'text' },
-        { section: 'ending', key: 'script_line', label: 'Ending Quote', type: 'text' },
-        { section: 'top_left', key: 'title', label: 'Page Title (top-left)', type: 'text' },
-        { section: 'top_left', key: 'role', label: 'Role (top-left)', type: 'text' },
-    ],
-    start: [
-        { section: 'hero', key: 'headline', label: 'Hero Headline', type: 'text' },
-        { section: 'hero', key: 'subheadline', label: 'Hero Subheadline', type: 'textarea' },
-        { section: 'hero', key: 'hero_image', label: 'Hero Background Image URL', type: 'text' },
-        { section: 'audience', key: 'headline', label: 'Audience Headline', type: 'text' },
-        { section: 'philosophy', key: 'quote', label: 'Philosophy Quote', type: 'textarea' },
-        { section: 'recommended', key: 'headline', label: 'Recommended Starting Point Headline', type: 'text' },
-        { section: 'recommended', key: 'body', label: 'Recommended Starting Point Body', type: 'textarea' },
-        { section: 'signature', key: 'script', label: 'Signature Script', type: 'text' },
-    ],
-    seo: [
-        { section: 'default', key: 'title', label: 'Default Site Title', type: 'text' },
-        { section: 'default', key: 'description', label: 'Default Meta Description', type: 'textarea' },
-        { section: 'default', key: 'og_image', label: 'Default Open Graph Image URL', type: 'text' },
-        { section: 'default', key: 'twitter_image', label: 'Default Twitter Image URL', type: 'text' },
-        { section: 'brand', key: 'name', label: 'Brand Name', type: 'text' },
-        { section: 'brand', key: 'tagline', label: 'Tagline', type: 'text' },
-        { section: 'social', key: 'instagram', label: 'Instagram URL', type: 'text' },
-        { section: 'social', key: 'twitter', label: 'Twitter/X URL', type: 'text' },
-        { section: 'social', key: 'linkedin', label: 'LinkedIn URL', type: 'text' },
-    ],
-    navigation: []
-}
-
-export default function SiteEditorPage() {
-  const [activeTab, setActiveTab] = useState<PageTab>('home')
-  const [settings, setSettings] = useState<Setting[]>([])
-  const [values, setValues] = useState<Record<string, string>>({})
+export default function SiteBuilderPage() {
+  const [activeTab, setActiveTab] = useState<PageTab | 'global'>('home')
+  const [blocks, setBlocks] = useState<PageBlock[]>([])
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [queuedCount, setQueuedCount] = useState(0)
+
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }))
 
   useEffect(() => {
-    loadSettings()
+    if (activeTab === 'global') return
+    loadBlocks(activeTab)
   }, [activeTab])
 
-  async function loadSettings() {
-    setLoading(true)
-    const { data } = await supabase
-      .from('site_settings')
-      .select('*')
-      .eq('page', activeTab)
-    const data2 = data || []
-    setSettings(data2)
+  useEffect(() => {
+    function refreshQueueCount() {
+      setQueuedCount(getOfflineQueue().length)
+    }
 
-    // Build values map: `section.key` → value
-    const map: Record<string, string> = {}
-    data2.forEach(s => {
-      map[`${s.section}.${s.key}`] = s.value || ''
-    })
-    setValues(map)
+    function flushQueuedChanges() {
+      flushOfflineQueue(supabase).then(refreshQueueCount)
+    }
+
+    refreshQueueCount()
+    window.addEventListener('online', flushQueuedChanges)
+    window.addEventListener('storage', refreshQueueCount)
+
+    return () => {
+      window.removeEventListener('online', flushQueuedChanges)
+      window.removeEventListener('storage', refreshQueueCount)
+    }
+  }, [])
+
+  async function loadBlocks(page: PageTab) {
+    setLoading(true)
+    const data = await getBlocksForPage(page)
+    setBlocks(data)
+    setSelectedId(data[0]?.id ?? null)
     setLoading(false)
   }
 
-  function getValue(section: string, key: string) {
-    return values[`${section}.${key}`] || ''
-  }
-
-  function setValue(section: string, key: string, value: string) {
-    setValues(prev => ({ ...prev, [`${section}.${key}`]: value }))
-  }
-
-  async function saveAll() {
-    setSaving(true)
-    const fields = PAGE_FIELDS[activeTab] || []
-
-    for (const field of fields) {
-      const value = getValue(field.section, field.key)
-      await supabase
-        .from('site_settings')
-        .upsert({
-          page: activeTab,
-          section: field.section,
-          key: field.key,
-          value,
-          updated_at: new Date().toISOString(),
-        }, { onConflict: 'page,section,key' })
+  async function handleAddBlock(type: BlockType) {
+    if (activeTab === 'global') return
+    const block = await insertBlock(activeTab, type, blocks.length)
+    if (block) {
+      setBlocks(prev => [...prev, block])
+      setSelectedId(block.id)
     }
+  }
 
+  async function handleDuplicate(block: PageBlock) {
+    const copy = await duplicateBlockRow(block, blocks.length)
+    if (!copy) return
+    const idx = blocks.findIndex(b => b.id === block.id)
+    const next = [...blocks]
+    next.splice(idx + 1, 0, copy)
+    setBlocks(next)
+    setSelectedId(copy.id)
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm('Delete this block?')) return
+    if (activeTab === 'global') return
+    await deleteBlockRow(id)
+    setBlocks(prev => prev.filter(b => b.id !== id))
+    if (selectedId === id) setSelectedId(null)
+    setQueuedCount(getOfflineQueue().length)
+  }
+
+  function handleContentChange(id: string, content: BlockContent) {
+    setBlocks(prev => prev.map(b => (b.id === id ? { ...b, content } : b)))
+    setSaved(false)
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+    setBlocks(prev => {
+      const oldIndex = prev.findIndex(b => b.id === active.id)
+      const newIndex = prev.findIndex(b => b.id === over.id)
+      return arrayMove(prev, oldIndex, newIndex)
+    })
+  }
+
+  const saveAll = useCallback(async () => {
+    setSaving(true)
+    await saveBlocksBatch(blocks)
+    setSaving(false)
+    setSaved(true)
+    setQueuedCount(getOfflineQueue().length)
+    setTimeout(() => setSaved(false), 2000)
+  }, [blocks])
+
+  async function syncNow() {
+    setSaving(true)
+    await saveBlocksBatch(blocks)
+    await flushOfflineQueue(supabase)
+    setQueuedCount(getOfflineQueue().length)
     setSaving(false)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
 
-  const fields = PAGE_FIELDS[activeTab] || []
+  const selectedBlock = blocks.find(b => b.id === selectedId) ?? null
 
   return (
-    <div className="site-editor">
+    <div className="bb-shell">
 
-      <div className="site-editor-header">
-        <div>
-          <h1>Site Editor</h1>
-          <p>
-            Control every public page from here. Changes go live within
-            60 seconds without a redeploy.
-          </p>
-        </div>
-        <button
-          className="site-save-btn"
-          onClick={saveAll}
-          disabled={saving}
-        >
-          {saving ? 'Saving...' : saved ? 'Saved ✓' : 'Save Changes'}
-        </button>
-      </div>
-
-      <div className="site-editor-tabs">
-        {PAGE_TABS.map(tab => (
-          <button
-            key={tab.id}
-            className={`site-editor-tab ${activeTab === tab.id ? 'is-active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {loading ? (
-        <div className="site-editor-loading">Loading settings...</div>
-      ) : (
-        <div className="site-editor-fields">
-          {fields.map(field => (
-            <div key={`${field.section}.${field.key}`} className="site-editor-field">
-              <label className="site-editor-label">
-                <span className="site-editor-label-section">{field.section}</span>
-                {field.label}
-              </label>
-              {field.type === 'textarea' ? (
-                <textarea
-                  className="site-editor-textarea"
-                  value={getValue(field.section, field.key)}
-                  onChange={e => setValue(field.section, field.key, e.target.value)}
-                  rows={3}
-                />
-              ) : (
-                <input
-                  className="site-editor-input"
-                  type="text"
-                  value={getValue(field.section, field.key)}
-                  onChange={e => setValue(field.section, field.key, e.target.value)}
-                />
-              )}
-            </div>
-          ))}
-
-          <div className="site-editor-note">
-            <span>Changes apply to public pages within 60 seconds.</span>
-            <span>Images must be Supabase Storage public URLs.</span>
+      <div className="bb-topbar">
+        <div className="bb-topbar-left">
+          <h1>Site Builder</h1>
+          <div className="bb-page-tabs">
+            {PAGE_TABS.map(tab => (
+              <button
+                key={tab.id}
+                className={`bb-page-tab ${activeTab === tab.id ? 'is-active' : ''}`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+            <button
+              className={`bb-page-tab bb-page-tab--global ${activeTab === 'global' ? 'is-active' : ''}`}
+              onClick={() => setActiveTab('global')}
+            >
+              Global Settings
+            </button>
           </div>
         </div>
-      )}
 
+        {activeTab !== 'global' && (
+          <div className="bb-save-cluster">
+            {queuedCount > 0 && (
+              <span className="bb-sync-pill">{queuedCount} queued</span>
+            )}
+            <button className="bb-secondary-btn" onClick={syncNow} disabled={saving}>
+              Sync
+            </button>
+            <button className="bb-save-btn" onClick={saveAll} disabled={saving}>
+            {saving ? 'Saving...' : saved ? 'Saved ✓' : 'Save Changes'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {activeTab === 'global' ? (
+        <GlobalSettingsPanel />
+      ) : loading ? (
+        <div className="bb-loading">Loading blocks...</div>
+      ) : (
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <div className="bb-body">
+
+            <div className="bb-left">
+              <SortableContext items={blocks.map(b => b.id)} strategy={verticalListSortingStrategy}>
+                <BlockList
+              blocks={blocks}
+              selectedId={selectedId}
+              onSelectAction={setSelectedId}
+              onAddAction={handleAddBlock}
+              onDuplicateAction={handleDuplicate}
+              onDeleteAction={handleDelete}
+            />
+              </SortableContext>
+            </div>
+
+            <div className="bb-center">
+              <PreviewCanvas blocks={blocks} selectedId={selectedId} onSelectAction={setSelectedId} />
+            </div>
+
+            <div className="bb-right">
+              {selectedBlock ? (
+                <SettingsPanel
+                  block={selectedBlock}
+                  onChangeAction={content => handleContentChange(selectedBlock.id, content)}
+                />
+              ) : (
+                <div className="bb-right-empty">
+                  <p>Select a block to edit its settings.</p>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </DndContext>
+      )}
     </div>
   )
 }

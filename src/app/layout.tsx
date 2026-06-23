@@ -3,6 +3,10 @@ import './globals.css'
 import WorldNavigation from '@/components/navigation/WorldNavigation'
 import { Inter, Playfair_Display } from 'next/font/google'
 
+
+
+
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -13,16 +17,18 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
 })
 
-export default function RootLayout({
+
+export default function Layout({
   children,
 }: {
   children: React.ReactNode
 }) {
 
   
-  return (
-    <html lang="en">
+  return (<html lang="en">
+
       <body
+
         className={`
           ${inter.variable}
           ${playfair.variable}
@@ -30,6 +36,7 @@ export default function RootLayout({
       >
         {children}
       </body>
-    </html>
-  )
+       </html>
+   )
+  
 }

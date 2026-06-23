@@ -1,4 +1,4 @@
-// components/journal/JournalCarousel.tsx
+// JournalCarousel.tsx  (full replacement)
 'use client'
 
 import { useState, useCallback } from 'react'
@@ -7,6 +7,9 @@ import type { JournalEntry } from '@/app/dashboard/journal/page'
 import JournalNavigation from './JournalNavigation'
 import JournalPreview from './JournalPreview'
 import JournalDock from './JournalDock'
+import CollaboratorAvatars from '../collaboration/CollaboratorAvatars'
+import FavoriteButton from '../favorites/FavoriteButton'
+import { useFavorites } from '@/hooks/useFavorites'
 
 interface Props {
   entries: JournalEntry[]
@@ -16,31 +19,39 @@ const FADE_DURATION = 0.7
 const TRANSITION: any = { duration: FADE_DURATION, ease: [0.16, 1, 0.3, 1] }
 
 const mediaVariants = {
-  enter: { opacity: 0, scale: 1.03 },
-  center: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.98 },
+  enter:  { opacity: 0, scale: 1.03 },
+  center: { opacity: 1, scale: 1    },
+  exit:   { opacity: 0, scale: 0.98 },
 }
 
 const textVariants = {
-  enter: { opacity: 0, y: 18 },
-  center: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -12 },
+  enter:  { opacity: 0, y:  18 },
+  center: { opacity: 1, y:   0 },
+  exit:   { opacity: 0, y: -12 },
 }
 
 export default function JournalCarousel({ entries }: Props) {
   const [index, setIndex] = useState(0)
   const [direction, setDirection] = useState<'next' | 'prev'>('next')
+  const { isFavorited, toggleFavorite } = useFavorites()
+
+  // Sort: favorited entries appear first
+  const sortedEntries = [...entries].sort((a, b) => {
+    const af = isFavorited(a.id) ? 0 : 1
+    const bf = isFavorited(b.id) ? 0 : 1
+    return af - bf
+  })
 
   const navigate = useCallback((dir: 'next' | 'prev') => {
     setDirection(dir)
     setIndex(i => {
-      if (dir === 'next') return Math.min(i + 1, entries.length - 1)
+      if (dir === 'next') return Math.min(i + 1, sortedEntries.length - 1)
       return Math.max(i - 1, 0)
     })
-  }, [entries.length])
+  }, [sortedEntries.length])
 
-  const current = entries[index]
-  const previous = index > 0 ? entries[index - 1] : null
+  const current  = sortedEntries[index]
+  const previous = index > 0 ? sortedEntries[index - 1] : null
 
   if (!current) {
     return (
@@ -70,6 +81,7 @@ export default function JournalCarousel({ entries }: Props) {
 
       {/* Three-Column Layout */}
       <div className="journal-layout">
+
         {/* Left: Previous entry preview */}
         <div className="journal-col-left">
           <AnimatePresence mode="wait">
@@ -81,7 +93,16 @@ export default function JournalCarousel({ entries }: Props) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <JournalPreview entry={previous} onClick={() => navigate('prev')} />
+                <div className="journal-card-wrapper">
+                  {/* Favorite star on preview card */}
+                  <FavoriteButton
+                    entryId={previous.id}
+                    isFavorited={isFavorited(previous.id)}
+                    onToggle={toggleFavorite}
+                    size="sm"
+                  />
+                  <JournalPreview entry={previous} onClick={() => navigate('prev')} />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -104,28 +125,19 @@ export default function JournalCarousel({ entries }: Props) {
                   <video
                     className="journal-cover-video"
                     src={current.cover_video}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
+                    autoPlay muted loop playsInline
                   />
                 ) : current.cover_image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    className="journal-cover-img"
-                    src={current.cover_image}
-                    alt={current.title}
-                  />
+                  <img className="journal-cover-img" src={current.cover_image} alt={current.title} />
                 ) : (
-                  <div className="journal-cover-placeholder">
-                    <span>No Cover</span>
-                  </div>
+                  <div className="journal-cover-placeholder"><span>No Cover</span></div>
                 )}
               </motion.div>
             </AnimatePresence>
 
             <span className="journal-cover-counter">
-              {String(index + 1).padStart(2, '0')} / {String(entries.length).padStart(2, '0')}
+              {String(index + 1).padStart(2, '0')} / {String(sortedEntries.length).padStart(2, '0')}
             </span>
           </div>
         </div>
@@ -141,6 +153,16 @@ export default function JournalCarousel({ entries }: Props) {
               exit="exit"
               transition={{ ...TRANSITION, duration: 0.6 }}
             >
+              {/* Favorite + Collaborators row */}
+              <div className="journal-entry-top-row">
+                <FavoriteButton
+                  entryId={current.id}
+                  isFavorited={isFavorited(current.id)}
+                  onToggle={toggleFavorite}
+                />
+                <CollaboratorAvatars entryId={current.id} max={4} />
+              </div>
+
               {current.entry_type && (
                 <p className="journal-entry-type">{current.entry_type}</p>
               )}
@@ -156,20 +178,19 @@ export default function JournalCarousel({ entries }: Props) {
                 {formattedDate && current.reading_time && (
                   <div className="journal-entry-meta__divider" />
                 )}
-                {current.reading_time && (
-                  <span>{current.reading_time} min read</span>
-                )}
+                {current.reading_time && <span>{current.reading_time} min read</span>}
               </div>
 
               <JournalNavigation
                 onPrev={() => navigate('prev')}
                 onNext={() => navigate('next')}
                 hasPrev={index > 0}
-                hasNext={index < entries.length - 1}
+                hasNext={index < sortedEntries.length - 1}
               />
             </motion.div>
           </AnimatePresence>
         </div>
+
       </div>
 
       {/* Bottom Dock */}

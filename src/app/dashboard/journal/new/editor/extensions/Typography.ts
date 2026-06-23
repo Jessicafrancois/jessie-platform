@@ -29,6 +29,38 @@ export const Typography =
 
     name: 'typography',
 
+    addCommands() {
+
+      return {
+
+        setFontSize:
+          (size: string) =>
+          ({ commands }) =>
+            commands.setMark(
+              'textStyle',
+              { fontSize: size },
+            ),
+
+        setFontFamily:
+          (family: string) =>
+          ({ commands }) =>
+            commands.setMark(
+              'textStyle',
+              { fontFamily: family },
+            ),
+
+        setFontWeight:
+          (weight: string) =>
+          ({ commands }) =>
+            commands.setMark(
+              'textStyle',
+              { fontWeight: weight },
+            ),
+
+      }
+
+    },
+
     addGlobalAttributes() {
 
       return [

@@ -1,16 +1,18 @@
-import PublicNavbar from './PublicNavbar'
-import PublicFooter from './PublicFooter'
+import { ReactNode } from 'react'
+import PublicNavbar from '@/components/public/PublicNavbar'
 
 export default function PublicLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <>
       <PublicNavbar />
-      {children}
-      <PublicFooter />
+
+      <main>
+        {children}
+      </main>
     </>
   )
 }

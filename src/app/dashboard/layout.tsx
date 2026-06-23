@@ -1,7 +1,4 @@
-'use client'
-
-import DashboardSidebar from '../../components/dashboard/DashboardSidebar'
-
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar'
 import './dashboard.css'
 
 export default function DashboardLayout({
@@ -11,13 +8,10 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="dashboard-shell">
-
       <DashboardSidebar />
-
       <div className="dashboard-page">
         {children}
       </div>
-
     </div>
   )
 }

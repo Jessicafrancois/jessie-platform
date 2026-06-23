@@ -49,36 +49,35 @@ description: world.description ?? undefined,
 }
 
 export default async function WorldPage({
-params,
+  params,
 }: Props) {
 
-const { slug } = await params
+  const { slug } = await params
 
-console.log('WORLD SLUG:', slug)
+  console.log('WORLD SLUG:', slug)
 
-const {
-data: world,
-error: worldError,
-} = await supabase
-.from('worlds')
-.select('*')
-.eq('slug', slug)
-.maybeSingle()
+  const {
+    data: world,
+    error: worldError,
+  } = await supabase
+    .from('worlds')
+    .select('*')
+    .eq('slug', slug)
+    .maybeSingle()
 
-if (worldError) {
-console.error(
-'world error:',
-JSON.stringify(worldError, null, 2)
-)
-}
+  if (worldError) {
+    console.error(
+      'world error:',
+      JSON.stringify(worldError, null, 2)
+    )
+  }
 
-if (!world) {
-console.warn(
-`No world found for slug: ${slug}`
-)
-notFound()
-}
-
+  if (!world) {
+    console.warn(
+      `No world found for slug: ${slug}`
+    )
+    notFound()
+  }
 const {
 data: slides,
 error: slidesError,

@@ -1,61 +1,55 @@
 import { supabase } from '@/lib/supabase'
 
-function formatFontName(filename: string) {
-  const withoutExtension = filename.replace(/\.[^/.]+$/, '')
+export async function syncFonts() {
+const { data: files, error } = await supabase.storage
+.from('fonts')
+.list('', {
+limit: 1000,
+sortBy: {
+column: 'name',
+order: 'asc',
+},
+})
 
-  const family = withoutExtension
-    .replace(/-(Regular|Bold|Italic|Light|Medium|SemiBold|ExtraBold|Black).*$/i, '')
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .trim()
-
-  const name = withoutExtension
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/-/g, ' ')
-    .trim()
-
-  return {
-    name,
-    family,
-  }
+if (error) {
+throw error
 }
 
-export async function syncFonts() {
-  const { data: files, error } = await supabase.storage
-    .from('fonts')
-    .list('', {
-      limit: 1000,
-    })
+let imported = 0
 
-  if (error) throw error
+for (const file of files || []) {
+if (
+!file.name.endsWith('.ttf') &&
+!file.name.endsWith('.otf') &&
+!file.name.endsWith('.woff') &&
+!file.name.endsWith('.woff2')
+) {
+continue
+}
 
-  let imported = 0
 
-  for (const file of files || []) {
-    if (!file.name.match(/\.(ttf|otf|woff|woff2)$/i)) continue
+const fontName = file.name.replace(/\.[^/.]+$/, '')
 
-    const bucketPath = `fonts/${file.name}`
+const { error: upsertError } = await supabase
+  .from('fonts')
+  .upsert(
+    {
+      name: fontName,
+      family: fontName,
+      bucket_path: file.name,
+      category: 'Custom',
+    },
+    {
+      onConflict: 'bucket_path',
+    }
+  )
 
-    const { data: existing } = await supabase
-      .from('font_library')
-      .select('id')
-      .eq('bucket_path', bucketPath)
-      .maybeSingle()
+if (!upsertError) {
+  imported++
+}
 
-    if (existing) continue
 
-    const { name, family } = formatFontName(file.name)
+}
 
-    const { error: insertError } = await supabase
-      .from('font_library')
-      .insert({
-        name,
-        family,
-        bucket_path: bucketPath,
-        category: 'Uncategorized',
-      })
-
-    if (!insertError) imported++
-  }
-
-  return imported
+return imported
 }

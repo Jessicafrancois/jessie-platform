@@ -1,87 +1,97 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import './projects-dashboard.css'
 
-// Local fallback for StackedCardCarousel and CarouselProject type to avoid
-// module resolution errors. Kept simple and self-contained so this page
-// continues to work if the original component can't be resolved.
-export type CarouselProject = {
+type Project = {
   id: string
-  number: string
-  year: string
-  category: string
-  type: string
   title: string
-  description: string
-  slug: string
-  image?: string | null
+  description: string | null
+  status: string | null
+  progress: number | null
+  updated_at: string | null
 }
 
-function StackedCardCarousel({
-  projects,
-  headline,
-  section,
-}: {
-  projects: CarouselProject[]
-  headline: string
-  section?: string
-}) {
-  return (
-    <main className="stacked-card-carousel">
-      {section && <div className="section">{section}</div>}
-      <h2 className="headline">{headline}</h2>
-      <div className="cards">
-        {projects.map((p) => (
-          <article key={p.id} className="card">
-            {p.image && <img src={p.image} alt={p.title} />}
-            <div className="meta">
-              <div className="number">{p.number}</div>
-              <h3>{p.title}</h3>
-              <p className="desc">{p.description}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </main>
-  )
-}
+export default function ProjectsDashboardPage() {
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
 
-export const revalidate = 0
+  useEffect(() => {
+    loadProjects()
+  }, [])
 
-export default async function ProjectsDashboardPage() {
-  const { data: projects, error } = await supabase
-    .from('projects')
-    .select('id, title, slug, description, category, year, cover_image')
-    .order('sort_order', { ascending: true })
+  async function loadProjects() {
+    setLoading(true)
+    const { data, error } = await supabase
+      .from('projects')
+      .select('id, title, description, status, progress, updated_at')
+      .order('updated_at', { ascending: false })
 
-  if (error) console.error('PROJECTS DASHBOARD ERROR:', error)
-
-  const projectsList = projects ?? []
-
-  if (projectsList.length === 0) {
-    return (
-      <main className="projects-dashboard-empty">
-        <h1>No projects yet</h1>
-        <p>Create a project to see it appear here as a card.</p>
-      </main>
-    )
+    if (error) console.error('PROJECTS LOAD ERROR:', error)
+    setProjects((data as Project[]) || [])
+    setLoading(false)
   }
 
-  const cards: CarouselProject[] = projectsList.map((p, i) => ({
-    id: p.id,
-    number: String(i + 1).padStart(2, '0'),
-    year: p.year || '2026',
-    category: p.category || 'Brand',
-    type: 'Case Study',
-    title: p.title,
-    description: p.description || '',
-    slug: p.slug || p.id,
-    image: p.cover_image ?? undefined,
-  }))
-
   return (
-    <StackedCardCarousel
-      projects={cards}
-      headline={'Designs That Blend\nCreativity & Functionality'}
-      section="PROJECTS"
-    />
+    <main className="dashboard-page">
+      <div className="projects-dashboard-actions">
+        <Link href="/dashboard/projects/new">Create Project</Link>
+      </div>
+
+      <section className="dashboard-hero">
+        <div>
+          <p className="dashboard-eyebrow">Projects</p>
+          <h1>Project Dashboard</h1>
+          <p className="dashboard-hero-copy">
+            Track creative work, progress, and archive finished builds.
+          </p>
+        </div>
+      </section>
+
+      {loading && (
+        <div className="projects-dashboard-empty">
+          <p>Loading projects...</p>
+        </div>
+      )}
+
+      {!loading && projects.length === 0 && (
+        <div className="projects-dashboard-empty">
+          <h2>No projects yet.</h2>
+          <p>Create the first project to start building the portfolio.</p>
+          <Link href="/dashboard/projects/new">Create Project</Link>
+        </div>
+      )}
+
+      {!loading && projects.length > 0 && (
+        <div className="dashboard-grid">
+          {projects.map(project => {
+            const progress = project.progress ?? 0
+
+            return (
+              <Link
+                key={project.id}
+                href={`/dashboard/projects/${project.id}`}
+                className="dashboard-card project-dashboard-card"
+              >
+                <div className="project-top">
+                  <h3>{project.title}</h3>
+                  <span>{project.status || 'Planning'}</span>
+                </div>
+                <p>{project.description || 'No description yet.'}</p>
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <small>{progress}% complete</small>
+              </Link>
+            )
+          })}
+        </div>
+      )}
+    </main>
   )
 }

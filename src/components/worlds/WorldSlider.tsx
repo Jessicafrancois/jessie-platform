@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import useEmblaCarousel from 'embla-carousel-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 
 type World = {
@@ -18,23 +18,32 @@ type World = {
 export default function WorldSlider() {
   const [worlds, setWorlds] = useState<World[]>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
     loop: true,
   })
 
-  useEffect(() => {
-    async function loadWorlds() {
-      const { data } = await supabase
-        .from('worlds')
-        .select('id, title, description, type, cover_image, status, slug')
-        .eq('status', 'Active')
-        .order('created_at', { ascending: true })
-      setWorlds(data || [])
-    }
-    loadWorlds()
-  }, [])
+  const [loading, setLoading] = useState(true)
+
+useEffect(() => {
+  async function loadWorlds() {
+    const { data, error } = await supabase
+      .from('worlds')
+      .select('id, title, description, type, cover_image, status, slug')
+      .eq('status', 'Published')
+
+    if (error) console.error('World slider load error:', error)
+
+    setWorlds(data || [])
+    setLoading(false)
+  }
+
+  loadWorlds()
+}, [])
+
 
   useEffect(() => {
     if (!emblaApi) return
@@ -44,8 +53,32 @@ export default function WorldSlider() {
     return () => { emblaApi.off('select', onSelect) }
   }, [emblaApi])
 
-  const prev = () => emblaApi?.scrollPrev()
-  const next = () => emblaApi?.scrollNext()
+  useEffect(() => {
+    if (!emblaApi || isPaused || worlds.length <= 1) return
+
+    autoplayRef.current = setInterval(() => {
+      emblaApi.scrollNext()
+    }, 5000)
+
+    return () => {
+      if (autoplayRef.current) clearInterval(autoplayRef.current)
+    }
+  }, [emblaApi, isPaused, worlds.length])
+
+  const prev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
+  const next = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      prev()
+    }
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      next()
+    }
+  }
 
   if (worlds.length === 0) {
     return (
@@ -55,8 +88,25 @@ export default function WorldSlider() {
     )
   }
 
+  if (loading) {
+  return <div>Loading worlds...</div>
+}
+
+if (!worlds.length) {
+  return <div>No published worlds found.</div>
+}
+
   return (
-    <section className="worlds-section">
+    <section
+      className="worlds-section"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={() => setIsPaused(false)}
+      aria-label="Our Worlds carousel"
+    >
 
       <div className="worlds-slider-header">
         <div className="worlds-slider-meta">
@@ -89,7 +139,7 @@ export default function WorldSlider() {
               className={`world-slide ${selectedIndex === index ? 'is-active' : ''}`}
             >
               <Link
-                href={`/worlds/${world.slug || world.id}`}
+               href={`/worlds/${world.slug}`}
                 className="world-card"
               >
                 {world.cover_image ? (

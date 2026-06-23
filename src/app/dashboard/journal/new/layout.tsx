@@ -3,9 +3,5 @@ export default function EditorLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <main className="editor-layout">
-      {children}
-    </main>
-  )
+  return <>{children}</>
 }

@@ -1,19 +1,43 @@
-import { supabase }
-from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
-export async function getFonts() {
+export async function syncFonts() {
+const { data: files, error } =
+await supabase.storage
+.from('fonts')
+.list('', { limit: 1000 })
 
-  const { data, error } =
-    await supabase
-      .from('font_library')
-      .select('*')
-      .eq('active', true)
-      .order('name')
+if (error) {
+throw error
+}
 
-  if (error) {
-    console.error(error)
-    return []
-  }
+let imported = 0
 
-  return data
+for (const file of files || []) {
+const fontName = file.name.replace(/.[^/.]+$/, '')
+
+
+const { error: insertError } =
+  await supabase
+    .from('fonts')
+    .upsert(
+      {
+        name: fontName,
+        family: fontName,
+        bucket_path: file.name,
+        category: 'Custom',
+        active: true,
+      },
+      {
+        onConflict: 'bucket_path',
+      }
+    )
+
+if (!insertError) {
+  imported++
+}
+
+
+}
+
+return imported
 }

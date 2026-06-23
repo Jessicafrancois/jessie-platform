@@ -6,7 +6,7 @@ export default function Navbar() {
     <nav className="home-nav">
 
       <p className="home-logo">
-        Jessie
+        Jessica Francois
       </p>
 
       <div className="home-links">

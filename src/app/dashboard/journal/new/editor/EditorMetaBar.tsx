@@ -193,7 +193,7 @@ return (
 
     <TagInput
       tags={tags}
-      setTags={setTagsAction}
+      setTagsAction={setTagsAction}
     />
   </div>
 

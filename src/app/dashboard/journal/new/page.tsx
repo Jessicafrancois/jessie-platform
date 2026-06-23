@@ -1,10 +1,5 @@
-'use client'
-
-import { useState } from 'react'
-
 import EditorSidebar from './editor/EditorSidebar'
-import Topbar from './components/Topbar'
-import TiptapEditor from './editor/TiptapEditor'
+import TiptapEditor from './editor/tiptap/TiptapEditor'
 
 import './editor/editor.css'
 
@@ -20,17 +15,6 @@ import './editor/editor.css'
 
 export default function NewJournalPage() {
 
-  const [theme, setTheme] = useState('system')
-  const [viewMode, setViewMode] = useState('create')
-
-  function handleSaveDraft() {
-    console.log('save draft')
-  }
-
-  function handlePublish() {
-    console.log('publish')
-  }
-
   return (
     <div className="editor-layout">
 
@@ -39,18 +23,7 @@ export default function NewJournalPage() {
 
       <main className="editor-main">
 
-        <Topbar
-          saveDraftAction={handleSaveDraft}
-          publishEntryAction={handlePublish}
-          theme={theme}
-          setThemeAction={setTheme}
-          viewMode={viewMode}
-          setViewModeAction={setViewMode}
-        />
-
-        <TiptapEditor
-          viewMode={viewMode}
-        />
+        <TiptapEditor viewMode="create" />
 
       </main>
 

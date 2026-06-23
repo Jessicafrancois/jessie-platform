@@ -17,6 +17,7 @@ items: [
 { href: '/dashboard/journal/series', label: 'Series' },
 { href: '/dashboard/journal/tags', label: 'Tags' },
 { href: '/worlds', label: 'Worlds Dashboard' },],
+
 },
 
 {
@@ -35,6 +36,10 @@ items: [
 { href: '/dashboard/fonts', label: 'Fonts' },
 { href: '/dashboard/site', label: 'Site Editor' },
 { href: '/dashboard/inquiries', label: 'Inquiries' },
+{ href: '/dashboard/business', label: 'Overview' },
+{ href: '/dashboard/business/clients', label: 'Clients' },
+{ href: '/dashboard/business/proposals', label: 'Proposals' },
+
 ],
 },
 ]
