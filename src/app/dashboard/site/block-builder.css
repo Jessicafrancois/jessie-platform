@@ -229,3 +229,201 @@
   border-radius: 8px; padding: 12px 14px;
   margin-top: 4px;
 }
+/* ── Viewport Switcher ─────────────────────────────────── */
+
+.bb-canvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 0;
+}
+
+.bb-canvas-outer {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.bb-viewport-switcher {
+  display: flex;
+  gap: 4px;
+}
+
+.bb-viewport-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bb-viewport-btn:hover {
+  border-color: rgba(255,255,255,.18);
+  background: rgba(255,255,255,.04);
+}
+
+.bb-viewport-btn.is-active {
+  border-color: rgba(216,188,110,.35);
+  background: rgba(216,188,110,.08);
+}
+
+/* ── Animation Classes ─────────────────────────────────── */
+
+@keyframes bbFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bbFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes bbSlideLeft {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes bbSlideRight {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes bbZoomIn {
+  from { opacity: 0; transform: scale(.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.bb-canvas-block.anim-fade-up    { animation: bbFadeUp    0.55s ease both; }
+.bb-canvas-block.anim-fade-in    { animation: bbFadeIn    0.45s ease both; }
+.bb-canvas-block.anim-slide-left { animation: bbSlideLeft 0.5s  ease both; }
+.bb-canvas-block.anim-slide-right{ animation: bbSlideRight 0.5s ease both; }
+.bb-canvas-block.anim-zoom-in    { animation: bbZoomIn    0.45s ease both; }
+
+/* ── Settings Group ────────────────────────────────────── */
+
+.bb-settings-group {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.bb-panel-label--section {
+  margin-bottom: 14px;
+}
+
+.bb-color-input {
+  width: 48px;
+  height: 34px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: transparent;
+  padding: 3px;
+  cursor: pointer;
+}
+/* ── Version History Panel ─────────────────────────────── */
+
+.bb-history-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: #0b0b0b;
+  border-left: 1px solid rgba(255,255,255,.08);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+}
+
+.bb-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.4);
+}
+
+.bb-history-header button {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,.4);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.bb-history-header button:hover { color: white; }
+
+.bb-history-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: rgba(255,255,255,.25);
+  font-size: .85rem;
+}
+
+.bb-history-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bb-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+}
+
+.bb-history-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.bb-history-item strong {
+  font-size: .82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bb-history-item span {
+  font-size: .7rem;
+  color: rgba(255,255,255,.3);
+}
+
+.bb-history-item button {
+  flex-shrink: 0;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: transparent;
+  color: rgba(255,255,255,.6);
+  font-size: .72rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+}
+
+.bb-history-item button:hover {
+  border-color: rgba(255,255,255,.2);
+  color: white;
+}

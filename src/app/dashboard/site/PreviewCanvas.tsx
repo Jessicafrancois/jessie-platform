@@ -32,13 +32,35 @@ function DynamicBlockPreview({ label }: { label: string }) {
   )
 }
 
+export type Viewport = 'desktop' | 'tablet' | 'mobile'
+
+const VIEWPORT_WIDTHS: Record<Viewport, number> = {
+  desktop: 1200,
+  tablet:  768,
+  mobile:  390,
+}
+
+const VIEWPORT_ICONS: Record<Viewport, string> = {
+  desktop: '🖥',
+  tablet:  '⬜',
+  mobile:  '📱',
+}
+
 export default function PreviewCanvas({
-  blocks, selectedId, onSelectAction,
+  blocks,
+  selectedId,
+  onSelectAction,
+  viewport = 'desktop',
+  onViewportChangeAction,
 }: {
   blocks: PageBlock[]
   selectedId: string | null
   onSelectAction: (id: string) => void
+  viewport?: Viewport
+  onViewportChangeAction?: (v: Viewport) => void
 }) {
+  const maxW = VIEWPORT_WIDTHS[viewport]
+
   return (
     <div className="bb-canvas">
       <p className="bb-panel-label">Preview</p>

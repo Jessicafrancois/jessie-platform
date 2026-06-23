@@ -14,10 +14,11 @@ import { flushOfflineQueue, getOfflineQueue } from '@/lib/offlineSync'
 import { supabase } from '@/lib/supabase'
 
 import BlockList from './BlockList'
-import PreviewCanvas from './PreviewCanvas'
+import PreviewCanvas, { type Viewport } from './PreviewCanvas'
 import SettingsPanel from './SettingsPanel'
 import GlobalSettingsPanel from './GlobalSettingsPanel'
 import './block-builder.css'
+import { saveVersion, listVersions, restoreVersion, type Version } from '@/lib/versionHistory'
 
 type PageTab = 'home' | 'journal' | 'collections' | 'projects' | 'worlds' | 'about' | 'start'
 
@@ -39,6 +40,9 @@ export default function SiteBuilderPage() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [queuedCount, setQueuedCount] = useState(0)
+
+  const [showHistory, setShowHistory] = useState(false)
+const [versions, setVersions] = useState<Version[]>([])
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }))
 
@@ -105,7 +109,34 @@ export default function SiteBuilderPage() {
   function handleContentChange(id: string, content: BlockContent) {
     setBlocks(prev => prev.map(b => (b.id === id ? { ...b, content } : b)))
     setSaved(false)
+
+  function handleBlockMeta(id: string, updates: Partial<Pick<PageBlock, 'variant' | 'animation' | 'styleOverrides'>>) {
+  setBlocks(prev => prev.map(b => b.id === id ? { ...b, ...updates } : b))
+  setSaved(false)
+}
   }
+
+  function handleSaveVersion() {
+  const v = saveVersion(activeTab as string, blocks)
+  setVersions(listVersions(activeTab as string))
+  alert(`Saved: ${v.label}`)
+}
+
+function handleRestoreVersion(versionId: string) {
+  if (!confirm('Restore this version? Current blocks will be overwritten.')) return
+  const restored = restoreVersion(activeTab as string, versionId)
+  if (restored) {
+    setBlocks(restored)
+    setShowHistory(false)
+    setSaved(false)
+  }
+}
+
+useEffect(() => {
+  if (activeTab !== 'global') {
+    setVersions(listVersions(activeTab as string))
+  }
+}, [activeTab])
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -137,6 +168,7 @@ export default function SiteBuilderPage() {
   }
 
   const selectedBlock = blocks.find(b => b.id === selectedId) ?? null
+  const [viewport, setViewport] = useState<Viewport>('desktop')
 
   return (
     <div className="bb-shell">
@@ -174,6 +206,16 @@ export default function SiteBuilderPage() {
             <button className="bb-save-btn" onClick={saveAll} disabled={saving}>
             {saving ? 'Saving...' : saved ? 'Saved ✓' : 'Save Changes'}
             </button>
+
+            <button className="bb-secondary-btn" onClick={handleSaveVersion}>
+                Save Version
+              </button>
+              <button
+                className="bb-secondary-btn"
+                onClick={() => setShowHistory(v => !v)}
+              >
+                History ({versions.length})
+            </button>
           </div>
         )}
       </div>
@@ -196,12 +238,42 @@ export default function SiteBuilderPage() {
               onDuplicateAction={handleDuplicate}
               onDeleteAction={handleDelete}
             />
+
+          {showHistory && (
+                <div className="bb-history-panel">
+                  <div className="bb-history-header">
+                    <span>Version History</span>
+                    <button onClick={() => setShowHistory(false)}>×</button>
+                  </div>
+                  {versions.length === 0 ? (
+                    <p className="bb-history-empty">No saved versions yet.</p>
+                  ) : (
+        <div className="bb-history-list">
+          {versions.map(v => (
+            <div key={v.id} className="bb-history-item">
+              <div>
+                <strong>{v.label}</strong>
+                <span>{new Date(v.savedAt).toLocaleString()}</span>
+              </div>
+              <button onClick={() => handleRestoreVersion(v.id)}>Restore</button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )}
               </SortableContext>
             </div>
 
             <div className="bb-center">
-              <PreviewCanvas blocks={blocks} selectedId={selectedId} onSelectAction={setSelectedId} />
-            </div>
+              <PreviewCanvas
+                blocks={blocks}
+                selectedId={selectedId}
+                onSelectAction={setSelectedId}
+                viewport={viewport}
+                onViewportChangeAction={setViewport}
+            />            
+</div>
 
             <div className="bb-right">
               {selectedBlock ? (

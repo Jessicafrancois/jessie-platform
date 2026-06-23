@@ -10,20 +10,80 @@ import { PageBlock, BlockContent } from '@/lib/blocks/types'
 import ImageUploadField from '@/lib/blocks/ImageUploadField'
 
 export default function SettingsPanel({
-  block, onChangeAction,
+  block,
+  onChangeAction,
+  onMetaChangeAction,
 }: {
   block: PageBlock
   onChangeAction: (content: BlockContent) => void
+  onMetaChangeAction?: (
+    updates: Partial<
+      Pick<PageBlock, 'variant' | 'animation' | 'styleOverrides'>
+    >
+  ) => void
 }) {
-  const content = block.content as any
+  const content = block.content
 
-  function set(partial: Record<string, unknown>) {
-    onChangeAction({ ...content, ...partial })
+  const set = (updates: Partial<BlockContent>) => {
+    // Merge updates and cast to BlockContent to satisfy discriminator
+    onChangeAction(({
+      ...content,
+      ...updates,
+    } as unknown) as BlockContent)
   }
 
   return (
-    <div className="bb-settings">
-      <p className="bb-panel-label">Settings — {block.type.replace('_', ' ')}</p>
+<>
+  {block.type === 'hero' && (
+    <>
+      <Field label="Headline">
+        <input
+          className="bb-input"
+          value={content.headline ?? ''}
+          onChange={e => set({ headline: e.target.value })}
+        />
+      </Field>
+
+      <Field label="Subheadline">
+        <textarea
+          className="bb-textarea"
+          rows={3}
+          value={content.subheadline ?? ''}
+          onChange={e => set({ subheadline: e.target.value })}
+        />
+      </Field>
+    </>
+  )}
+
+  {block.type === 'image' && (
+    <ImageUploadField
+      value={content.image ?? ''}
+      onChange={image => set({ image })}
+    />
+  )}
+
+  {block.type === 'quote' && (
+    <>
+      <Field label="Quote">
+        <textarea
+          className="bb-textarea"
+          rows={4}
+          value={content.quote ?? ''}
+          onChange={e => set({ quote: e.target.value })}
+        />
+      </Field>
+
+      <Field label="Author">
+        <input
+          className="bb-input"
+          value={content.author ?? ''}
+          onChange={e => set({ author: e.target.value })}
+        />
+      </Field>
+    </>
+  )}
+
+
 
       {block.type === 'hero' && (
         <>
@@ -221,6 +281,136 @@ export default function SettingsPanel({
           </select>
         </Field>
       )}
+
+      {/* ── STYLE OVERRIDES ──────────────────────────────────────── */}
+<div className="bb-settings-group">
+  <p className="bb-panel-label bb-panel-label--section">Style Overrides</p>
+
+  <Field label="Variant">
+  <select
+    className="bb-select"
+    value={block.variant ?? ''}
+    onChange={e =>
+      onMetaChangeAction?.({
+        variant: e.target.value || undefined,
+      })
+    }
+  >
+    <option value="">Default</option>
+    {block.type === 'hero' && <option value="split">Split</option>}
+    {block.type === 'hero' && <option value="light">Light</option>}
+    {block.type === 'hero' && <option value="gradient">Gradient</option>}
+    {block.type === 'quote' && <option value="bordered">Bordered</option>}
+    {block.type === 'quote' && <option value="full">Full Width</option>}
+  </select>
+</Field>
+
+  <Field label="Animation">
+  <select
+    className="bb-select"
+    value={block.animation ?? ''}
+    onChange={e =>
+      onMetaChangeAction?.({
+        animation: e.target.value || undefined,
+      })
+    }
+  >
+    <option value="">None</option>
+    <option value="fade-up">Fade Up</option>
+    <option value="fade-in">Fade In</option>
+    <option value="slide-left">Slide Left</option>
+    <option value="slide-right">Slide Right</option>
+    <option value="zoom-in">Zoom In</option>
+  </select>
+</Field>
+
+  <Field label="Background Color">
+    <input
+      type="color"
+      className="bb-color-input"
+      value={(block.styleOverrides as any)?.background ?? '#050505'}
+      onChange={e => {
+        /* Wire via onStyleOverrideChange */
+      }}
+    />
+  </Field>
+
+  <Field label="Padding Top (px)">
+    <input
+      type="number"
+      className="bb-input"
+      min={0}
+      max={240}
+      value={(block.styleOverrides as any)?.paddingTop ?? ''}
+      placeholder="inherit"
+      onChange={e => {
+        /* Wire via onStyleOverrideChange */
+      }}
+    />
+  </Field>
+
+  <Field label="Padding Bottom (px)">
+    <input
+      type="number"
+      className="bb-input"
+      min={0}
+      max={240}
+      value={(block.styleOverrides as any)?.paddingBottom ?? ''}
+      placeholder="inherit"
+      onChange={e => {
+        /* Wire via onStyleOverrideChange */
+      }}
+    />
+  </Field>
+
+  <Field label="Shadow">
+    <select
+      className="bb-select"
+      value={(block.styleOverrides as any)?.shadow ?? 'none'}
+      onChange={e => {
+        /* Wire via onStyleOverrideChange */
+      }}
+    >
+      <option value="none">None</option>
+      <option value="sm">Small</option>
+      <option value="md">Medium</option>
+      <option value="lg">Large</option>
+    </select>
+  </Field>
+</div>
+
+{/* ── TYPOGRAPHY ───────────────────────────────────────────── */}
+<div className="bb-settings-group">
+  <p className="bb-panel-label bb-panel-label--section">Typography</p>
+
+  <Field label="Font Family">
+    <select
+      className="bb-select"
+      value={(block.styleOverrides as any)?.fontFamily ?? ''}
+      onChange={e => {}}
+    >
+      <option value="">Default (DM Sans)</option>
+      <option value="Lora, serif">Lora — editorial serif</option>
+      <option value="Playfair Display, serif">Playfair — display serif</option>
+      <option value="Cormorant Garamond, serif">Cormorant — luxury serif</option>
+      <option value="monospace">Monospace</option>
+    </select>
+  </Field>
+
+  <Field label="Text Size">
+    <select
+      className="bb-select"
+      value={(block.styleOverrides as any)?.fontSize ?? ''}
+      onChange={e => {}}
+    >
+      <option value="">Default</option>
+      <option value="sm">Small</option>
+      <option value="md">Medium</option>
+      <option value="lg">Large</option>
+      <option value="xl">X-Large</option>
+    </select>
+  </Field>
+</div>
     </div>
   )
 }
@@ -611,6 +801,8 @@ function RichTextEditorField({
     if (editor && html !== editor.getHTML()) editor.commands.setContent(html)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  
 
   return (
     <div className="bb-field">

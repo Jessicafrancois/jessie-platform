@@ -1,0 +1,142 @@
+/* ── Export Panel ────────────────────────────────────────── */
+
+.we-export-panel {
+  position: absolute;
+  top: 68px;
+  right: 16px;
+  width: 280px;
+  background: #0e0e0e;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  z-index: 200;
+  padding: 0;
+  overflow: hidden;
+}
+
+.we-export-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.4);
+}
+
+.we-export-header button {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,.4);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .15s;
+}
+
+.we-export-header button:hover { color: white; }
+
+.we-export-status {
+  padding: 10px 16px;
+  font-size: .78rem;
+  color: #d8bc6e;
+  background: rgba(216,188,110,.06);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.we-export-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255,255,255,.06);
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.we-export-progress div {
+  height: 100%;
+  background: #d8bc6e;
+  border-radius: 2px;
+  transition: width .1s linear;
+}
+
+.we-export-options {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.we-export-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.03);
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+  width: 100%;
+}
+
+.we-export-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.12);
+}
+
+.we-export-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.we-export-icon {
+  font-size: 1.2rem;
+  color: rgba(255,255,255,.4);
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
+
+.we-export-btn div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.we-export-btn strong {
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+.we-export-btn span {
+  font-size: .72rem;
+  color: rgba(255,255,255,.4);
+}
+
+.we-export-note {
+  padding: 10px 16px 14px;
+  font-size: .7rem;
+  color: rgba(255,255,255,.25);
+  line-height: 1.55;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+
+.we-export-note code {
+  font-family: monospace;
+  font-size: .72rem;
+  color: rgba(255,255,255,.4);
+  background: rgba(255,255,255,.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+}

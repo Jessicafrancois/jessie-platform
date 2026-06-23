@@ -5,6 +5,10 @@ import type { ComponentType } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { World, WorldSlide } from '@/types/worlds'
 
+import { useRef } from 'react'  // update existing import
+import ExportPanel from './editor/ExportPanel'
+import './editor/export-panel.css'
+
 import SlideNavigator from './editor/SlideNavigator'
 import SlideCanvas from './editor/SlideCanvas'
 import SlideSettings from './editor/SlideSettings'
@@ -25,6 +29,9 @@ const SlideNavigatorComponent = SlideNavigator as unknown as ComponentType<{
   onReorder: (from: number, to: number) => Promise<void>
 }>
 
+
+const [showExport, setShowExport] = useState(false)
+const stageRef = useRef<HTMLElement | null>(null)
 
 type Props = {
   world: World
@@ -149,6 +156,13 @@ export default function WorldEditor({ world, initialSlides }: Props) {
           >
             Preview ↗
           </a>
+
+          <button
+            className="we-export-trigger"
+            onClick={() => setShowExport(v => !v)}
+          >
+            Export ↓
+          </button>
           <button
             className="we-publish-btn"
             onClick={async () => {
@@ -162,6 +176,18 @@ export default function WorldEditor({ world, initialSlides }: Props) {
           </button>
         </div>
       </header>
+
+      {showExport && (
+  <ExportPanel
+    worldTitle={world.title}
+    slides={slides}
+    activeIndex={activeIndex}
+    stageRef={stageRef}
+    allStageRefs={{ current: [] }}
+    onCloseAction={() => setShowExport(false)}
+  />
+)}
+
 
       {/* THREE-COLUMN LAYOUT */}
       <div className="we-body">
@@ -184,6 +210,10 @@ export default function WorldEditor({ world, initialSlides }: Props) {
             slide={activeSlide}
             world={world}
           />
+        </main>
+
+        <main className="we-center" 
+        ref={stageRef as React.RefObject<HTMLDivElement>}>
         </main>
 
         {/* RIGHT: Settings */}

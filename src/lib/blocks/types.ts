@@ -386,3 +386,27 @@ export const BLOCK_DEFINITIONS: {
   { type: 'spacer', label: 'Spacer', icon: '↕', group: 'Layout' },
   { type: 'divider', label: 'Divider', icon: '—', group: 'Layout' },
 ]
+
+export interface BlockStyleOverrides {
+  fontFamily?:    string
+  fontSize?:      string   // e.g. "1.2rem", "sm", "lg"
+  paddingTop?:    number   // px
+  paddingBottom?: number
+  background?:    string   // hex / rgba
+  borderRadius?:  number
+  shadow?:        'none' | 'sm' | 'md' | 'lg'
+  textColor?:     string
+}
+
+export interface PageBlock {
+  id:              string
+  page:            string
+  type:            BlockType
+  content:         BlockContent
+  sort_order:      number
+  variant?:        string
+  animation?:      string
+  styleOverrides?: BlockStyleOverrides
+  created_at?:     string
+  updated_at?:     string
+}
